@@ -89,7 +89,7 @@ export const EuiTablePagination: FunctionComponent<EuiTablePaginationProps> = ({
         <>
           <EuiI18n
             token="euiTablePagination.rowsPerPage"
-            default="Rows per page"
+            default="Linhas por página"
           />
           : {itemsPerPage}
         </>

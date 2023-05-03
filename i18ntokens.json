@@ -833,7 +833,7 @@
   },
   {
     "token": "euiDataGridCellActions.expandButtonTitle",
-    "defString": "Click or hit enter to interact with cell content",
+    "defString": "Click para interagir com o conteúdo da célula",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -913,7 +913,7 @@
   },
   {
     "token": "euiColumnActions.sort",
-    "defString": "Sort {schemaLabel}",
+    "defString": "Ordem {schemaLabel}",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -929,7 +929,7 @@
   },
   {
     "token": "euiColumnActions.sort",
-    "defString": "Sort {schemaLabel}",
+    "defString": "Ordem {schemaLabel}",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1073,7 +1073,7 @@
   },
   {
     "token": "euiColumnSelector.button",
-    "defString": "Columns",
+    "defString": "Colunas",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1089,7 +1089,7 @@
   },
   {
     "token": "euiColumnSelector.buttonActiveSingular",
-    "defString": "{numberOfHiddenFields} column hidden",
+    "defString": "{numberOfHiddenFields} coluna escondida",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1105,7 +1105,7 @@
   },
   {
     "token": "euiColumnSelector.buttonActivePlural",
-    "defString": "{numberOfHiddenFields} columns hidden",
+    "defString": "{numberOfHiddenFields} colunas escondidas",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1121,7 +1121,7 @@
   },
   {
     "token": "euiColumnSelector.search",
-    "defString": "Search",
+    "defString": "Localizar",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1137,7 +1137,7 @@
   },
   {
     "token": "euiColumnSelector.searchcolumns",
-    "defString": "Search columns",
+    "defString": "Localizar colunas",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1153,7 +1153,7 @@
   },
   {
     "token": "euiColumnSelector.selectAll",
-    "defString": "Show all",
+    "defString": "Mostrar tudo",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1169,7 +1169,7 @@
   },
   {
     "token": "euiColumnSelector.hideAll",
-    "defString": "Hide all",
+    "defString": "Esconder tudo",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1281,7 +1281,7 @@
   },
   {
     "token": "euiColumnSorting.button",
-    "defString": "Sort fields",
+    "defString": "Ordenar pelas colunas",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1297,7 +1297,7 @@
   },
   {
     "token": "euiColumnSorting.buttonActive",
-    "defString": "({\n  numberOfSortedFields\n}) => `${numberOfSortedFields} field${numberOfSortedFields === 1 ? '' : 's'} sorted`;",
+    "defString": "({\n  numberOfSortedFields\n}) => `${numberOfSortedFields} coluna${numberOfSortedFields === 1 ? '' : 's'} ordenado`;",
     "highlighting": "code",
     "loc": {
       "start": {
@@ -1313,7 +1313,7 @@
   },
   {
     "token": "euiColumnSorting.emptySorting",
-    "defString": "Currently no fields are sorted",
+    "defString": "Nenhuma coluna está ordenada",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1329,7 +1329,7 @@
   },
   {
     "token": "euiColumnSorting.pickFields",
-    "defString": "Pick fields to sort by",
+    "defString": "Escolha a coluna para ordenar",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1345,7 +1345,7 @@
   },
   {
     "token": "euiColumnSorting.sortFieldAriaLabel",
-    "defString": "Sort by: ",
+    "defString": "Ordenar por: ",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1361,7 +1361,7 @@
   },
   {
     "token": "euiColumnSorting.clearAll",
-    "defString": "Clear sorting",
+    "defString": "Remover ordenação",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1377,7 +1377,7 @@
   },
   {
     "token": "euiDisplaySelector.buttonText",
-    "defString": "Display options",
+    "defString": "Opções de visualização",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1393,7 +1393,7 @@
   },
   {
     "token": "euiDisplaySelector.resetButtonText",
-    "defString": "Reset to default",
+    "defString": "Restaurar o padrão",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1409,7 +1409,7 @@
   },
   {
     "token": "euiDisplaySelector.densityLabel",
-    "defString": "Density",
+    "defString": "Densidade",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1425,7 +1425,7 @@
   },
   {
     "token": "euiDisplaySelector.labelCompact",
-    "defString": "Compact",
+    "defString": "Compacto",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1457,7 +1457,7 @@
   },
   {
     "token": "euiDisplaySelector.labelExpanded",
-    "defString": "Expanded",
+    "defString": "Expandido",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1473,7 +1473,7 @@
   },
   {
     "token": "euiDisplaySelector.rowHeightLabel",
-    "defString": "Row height",
+    "defString": "Altura da linha",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1489,7 +1489,7 @@
   },
   {
     "token": "euiDisplaySelector.labelSingle",
-    "defString": "Single",
+    "defString": "Simples",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1505,7 +1505,7 @@
   },
   {
     "token": "euiDisplaySelector.labelAuto",
-    "defString": "Auto fit",
+    "defString": "Auto ajuste",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1521,7 +1521,7 @@
   },
   {
     "token": "euiDisplaySelector.labelCustom",
-    "defString": "Custom",
+    "defString": "Customizado",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1537,7 +1537,7 @@
   },
   {
     "token": "euiDisplaySelector.lineCountLabel",
-    "defString": "Lines per row",
+    "defString": "linhas por registro",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1553,7 +1553,7 @@
   },
   {
     "token": "euiFullscreenSelector.fullscreenButton",
-    "defString": "Enter fullscreen",
+    "defString": "Entrar em tela cheia",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1569,7 +1569,7 @@
   },
   {
     "token": "euiFullscreenSelector.fullscreenButtonActive",
-    "defString": "Exit fullscreen",
+    "defString": "Sair da tela cheia",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1665,7 +1665,7 @@
   },
   {
     "token": "euiDataGridSchema.booleanSortTextAsc",
-    "defString": "False-True",
+    "defString": "Falso-Verdadeiro",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1681,7 +1681,7 @@
   },
   {
     "token": "euiDataGridSchema.booleanSortTextDesc",
-    "defString": "True-False",
+    "defString": "Verdadeiro-Falso",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1697,7 +1697,7 @@
   },
   {
     "token": "euiDataGridSchema.currencySortTextAsc",
-    "defString": "Low-High",
+    "defString": "Menor-Maior",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1713,7 +1713,7 @@
   },
   {
     "token": "euiDataGridSchema.currencySortTextDesc",
-    "defString": "High-Low",
+    "defString": "Maior-Menor",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1729,7 +1729,7 @@
   },
   {
     "token": "euiDataGridSchema.dateSortTextAsc",
-    "defString": "Old-New",
+    "defString": "Velho-Novo",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1738,46 +1738,46 @@
       },
       "end": {
         "line": 135,
-        "column": 77
-      }
-    },
-    "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
-  },
-  {
-    "token": "euiDataGridSchema.dateSortTextDesc",
-    "defString": "New-Old",
-    "highlighting": "string",
-    "loc": {
-      "start": {
-        "line": 138,
-        "column": 6
-      },
-      "end": {
-        "line": 138,
-        "column": 78
-      }
-    },
-    "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
-  },
-  {
-    "token": "euiDataGridSchema.numberSortTextAsc",
-    "defString": "Low-High",
-    "highlighting": "string",
-    "loc": {
-      "start": {
-        "line": 172,
-        "column": 6
-      },
-      "end": {
-        "line": 172,
         "column": 80
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
+    "token": "euiDataGridSchema.dateSortTextDesc",
+    "defString": "Novo-Velho",
+    "highlighting": "string",
+    "loc": {
+      "start": {
+        "line": 138,
+        "column": 6
+      },
+      "end": {
+        "line": 138,
+        "column": 81
+      }
+    },
+    "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
+  },
+  {
+    "token": "euiDataGridSchema.numberSortTextAsc",
+    "defString": "Menor-Maior",
+    "highlighting": "string",
+    "loc": {
+      "start": {
+        "line": 172,
+        "column": 6
+      },
+      "end": {
+        "line": 172,
+        "column": 83
+      }
+    },
+    "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
+  },
+  {
     "token": "euiDataGridSchema.numberSortTextDesc",
-    "defString": "High-Low",
+    "defString": "Menor-Maior",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1793,7 +1793,7 @@
   },
   {
     "token": "euiDataGridSchema.jsonSortTextAsc",
-    "defString": "Small-Large",
+    "defString": "Pequeno-Grande",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1809,7 +1809,7 @@
   },
   {
     "token": "euiDataGridSchema.jsonSortTextDesc",
-    "defString": "Large-Small",
+    "defString": "Grande-Pequeno",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -5441,7 +5441,7 @@
   },
   {
     "token": "euiTablePagination.rowsPerPage",
-    "defString": "Rows per page",
+    "defString": "Linhas por página",
     "highlighting": "string",
     "loc": {
       "start": {

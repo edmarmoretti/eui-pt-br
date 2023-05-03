@@ -118,14 +118,14 @@ export const useDataGridColumnSelector = (
   const isDragEnabled = allowColumnReorder && columnSearchText.length === 0; // only allow drag-and-drop when not filtering columns
 
   let buttonText = (
-    <EuiI18n token="euiColumnSelector.button" default="Columns" />
+    <EuiI18n token="euiColumnSelector.button" default="Colunas" />
   );
 
   if (numberOfHiddenFields === 1) {
     buttonText = (
       <EuiI18n
         token="euiColumnSelector.buttonActiveSingular"
-        default="{numberOfHiddenFields} column hidden"
+        default="{numberOfHiddenFields} coluna escondida"
         values={{ numberOfHiddenFields }}
       />
     );
@@ -133,7 +133,7 @@ export const useDataGridColumnSelector = (
     buttonText = (
       <EuiI18n
         token="euiColumnSelector.buttonActivePlural"
-        default="{numberOfHiddenFields} columns hidden"
+        default="{numberOfHiddenFields} colunas escondidas"
         values={{ numberOfHiddenFields }}
       />
     );
@@ -169,7 +169,7 @@ export const useDataGridColumnSelector = (
                   'euiColumnSelector.search',
                   'euiColumnSelector.searchcolumns',
                 ]}
-                defaults={['Search', 'Search columns']}
+                defaults={['Localizar', 'Localizar colunas']}
               >
                 {([search, searchcolumns]: string[]) => (
                   <EuiFieldText
@@ -274,7 +274,7 @@ export const useDataGridColumnSelector = (
                 >
                   <EuiI18n
                     token="euiColumnSelector.selectAll"
-                    default="Show all"
+                    default="Mostrar tudo"
                   />
                 </EuiButtonEmpty>
               </EuiFlexItem>
@@ -287,7 +287,7 @@ export const useDataGridColumnSelector = (
                 >
                   <EuiI18n
                     token="euiColumnSelector.hideAll"
-                    default="Hide all"
+                    default="Esconder tudo"
                   />
                 </EuiButtonEmpty>
               </EuiFlexItem>

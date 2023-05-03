@@ -262,7 +262,7 @@ export const getSortColumnActions = ({
       label: (
         <EuiI18n
           token="euiColumnActions.sort"
-          default="Sort {schemaLabel}"
+          default="Ordem {schemaLabel}"
           values={{ schemaLabel: label }}
         />
       ),
@@ -293,7 +293,7 @@ export const getSortColumnActions = ({
       label: (
         <EuiI18n
           token="euiColumnActions.sort"
-          default="Sort {schemaLabel}"
+          default="Ordem {schemaLabel}"
           values={{ schemaLabel: label }}
         />
       ),

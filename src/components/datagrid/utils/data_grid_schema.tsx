@@ -55,13 +55,13 @@ export const schemaDetectors: EuiDataGridSchemaDetector[] = [
     sortTextAsc: (
       <EuiI18n
         token="euiDataGridSchema.booleanSortTextAsc"
-        default="False-True"
+        default="Falso-Verdadeiro"
       />
     ),
     sortTextDesc: (
       <EuiI18n
         token="euiDataGridSchema.booleanSortTextDesc"
-        default="True-False"
+        default="Verdadeiro-Falso"
       />
     ),
   },
@@ -96,13 +96,13 @@ export const schemaDetectors: EuiDataGridSchemaDetector[] = [
     sortTextAsc: (
       <EuiI18n
         token="euiDataGridSchema.currencySortTextAsc"
-        default="Low-High"
+        default="Menor-Maior"
       />
     ),
     sortTextDesc: (
       <EuiI18n
         token="euiDataGridSchema.currencySortTextDesc"
-        default="High-Low"
+        default="Maior-Menor"
       />
     ),
   },
@@ -132,10 +132,10 @@ export const schemaDetectors: EuiDataGridSchemaDetector[] = [
     },
     icon: 'tokenDate',
     sortTextAsc: (
-      <EuiI18n token="euiDataGridSchema.dateSortTextAsc" default="Old-New" />
+      <EuiI18n token="euiDataGridSchema.dateSortTextAsc" default="Velho-Novo" />
     ),
     sortTextDesc: (
-      <EuiI18n token="euiDataGridSchema.dateSortTextDesc" default="New-Old" />
+      <EuiI18n token="euiDataGridSchema.dateSortTextDesc" default="Novo-Velho" />
     ),
   },
   {
@@ -169,12 +169,12 @@ export const schemaDetectors: EuiDataGridSchemaDetector[] = [
     },
     icon: 'tokenNumber',
     sortTextAsc: (
-      <EuiI18n token="euiDataGridSchema.numberSortTextAsc" default="Low-High" />
+      <EuiI18n token="euiDataGridSchema.numberSortTextAsc" default="Menor-Maior" />
     ),
     sortTextDesc: (
       <EuiI18n
         token="euiDataGridSchema.numberSortTextDesc"
-        default="High-Low"
+        default="Menor-Maior"
       />
     ),
   },
@@ -202,13 +202,13 @@ export const schemaDetectors: EuiDataGridSchemaDetector[] = [
     sortTextAsc: (
       <EuiI18n
         token="euiDataGridSchema.jsonSortTextAsc"
-        default="Small-Large"
+        default="Pequeno-Grande"
       />
     ),
     sortTextDesc: (
       <EuiI18n
         token="euiDataGridSchema.jsonSortTextDesc"
-        default="Large-Small"
+        default="Grande-Pequeno"
       />
     ),
   },
