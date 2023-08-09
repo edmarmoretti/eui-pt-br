@@ -9,7 +9,7 @@ import {
 } from '../../../../src/components';
 
 import { ColorPaletteFlexItem, ColorPaletteCopyCode } from './shared';
-
+//Edmar Moretti - nova palete
 import {
   euiPaletteComplimentary,
   euiPaletteForStatus,
@@ -17,6 +17,7 @@ import {
   euiPaletteCool,
   euiPaletteWarm,
   euiPaletteNegative,
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteGray,
 } from '../../../../src/services';
@@ -25,6 +26,7 @@ const paletteData = {
   euiPaletteForTemperature,
   euiPaletteComplimentary,
   euiPaletteNegative,
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteCool,
   euiPaletteWarm,

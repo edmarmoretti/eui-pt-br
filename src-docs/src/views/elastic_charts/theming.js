@@ -20,7 +20,7 @@ import {
   EUI_CHARTS_THEME_DARK,
   EUI_CHARTS_THEME_LIGHT,
 } from '../../../../src/themes/charts/themes';
-
+//Edmar MOretti - nova palete
 import {
   euiPaletteColorBlind,
   euiPaletteComplimentary,
@@ -29,6 +29,7 @@ import {
   euiPaletteCool,
   euiPaletteWarm,
   euiPaletteNegative,
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteGray,
   useEuiTheme,
@@ -40,6 +41,7 @@ const paletteData = {
   euiPaletteForTemperature,
   euiPaletteComplimentary,
   euiPaletteNegative,
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteCool,
   euiPaletteWarm,

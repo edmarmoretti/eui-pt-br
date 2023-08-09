@@ -21,7 +21,7 @@ export const useDataGridKeyboardShortcuts = (): {
 } => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const title = useEuiI18n('euiKeyboardShortcuts.title', 'Keyboard shortcuts');
+  const title = useEuiI18n('euiKeyboardShortcuts.title', 'Teclas de atalho');
   const titleId = useGeneratedHtmlId();
 
   const keyboardShortcuts = useMemo(

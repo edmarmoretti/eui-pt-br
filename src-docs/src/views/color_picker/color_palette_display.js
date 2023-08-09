@@ -1,3 +1,4 @@
+//Edmar Moretti - nova palete
 import React, { useState } from 'react';
 import {
   euiPaletteColorBlind,
@@ -5,6 +6,7 @@ import {
   euiPaletteForTemperature,
   euiPaletteComplimentary,
   euiPaletteNegative,
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteCool,
   euiPaletteWarm,
@@ -51,6 +53,7 @@ const paletteData = {
   euiPaletteForTemperature,
   euiPaletteComplimentary,
   euiPaletteNegative,
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteCool,
   euiPaletteWarm,
