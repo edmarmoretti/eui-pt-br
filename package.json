@@ -21,32 +21,8 @@
     "build-pack": "yarn build && npm pack",
     "compile-icons": "node ./scripts/compile-icons.js && prettier --write --loglevel=warn \"./src/components/icon/assets/**/*.tsx\"",
     "compile-scss": "node ./scripts/compile-scss.js",
-    "extract-i18n-strings": "node ./scripts/babel/fetch-i18n-strings",
-    "lint": "yarn tsc --noEmit && yarn lint-es && yarn lint-sass",
-    "lint-fix": "yarn lint-es-fix",
-    "lint-es": "eslint --cache \"{src,src-docs}/**/*.{ts,tsx,js}\" --max-warnings 0",
-    "lint-es-fix": "yarn lint-es --fix",
-    "lint-sass": "yarn stylelint \"**/*.scss\"",
-    "lint-sass-fix": "yarn stylelint \"**/*.scss\" --fix",
-    "test": "yarn lint && yarn test-unit",
-    "test-ci": "yarn test && yarn test-cypress",
-    "test-unit": "cross-env NODE_ENV=test jest --config ./scripts/jest/config.json",
-    "test-a11y": "node ./scripts/a11y-testing",
-    "test-staged": "yarn lint && node scripts/test-staged.js",
-    "test-cypress": "node ./scripts/cypress",
-    "test-cypress-dev": "node ./scripts/cypress --dev",
-    "test-cypress-a11y": "node ./scripts/cypress --a11y",
-    "combine-test-coverage": "sh ./scripts/combine-coverage.sh",
-    "start-test-server": "BABEL_MODULES=false NODE_ENV=puppeteer NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config src-docs/webpack.config.js --port 9999",
-    "yo-component": "yo ./generator-eui/app/component.js",
-    "update-token-changelog": "node ./scripts/update-token-changelog.js",
-    "update-changelog-manual": "node -e \"require('./scripts/update-changelog').manualChangelog('${npm_config_release}')\"",
-    "start-test-server-and-a11y-test": "cross-env WAIT_ON_TIMEOUT=600000 start-server-and-test start-test-server http-get://localhost:9999 test-a11y",
-    "yo-doc": "yo ./generator-eui/app/documentation.js",
-    "yo-changelog": "yo ./generator-eui/changelog/index.js",
-    "release": "node ./scripts/release.js",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "extract-i18n-strings": "node ./scripts/babel/fetch-i18n-strings"
+
   },
   "repository": {
     "type": "git",
@@ -56,9 +32,6 @@
     "**/prismjs": "1.27.0",
     "**/react": "^17.0.0"
   },
-  "pre-commit": [
-    "test-staged"
-  ],
   "dependencies": {
     "@types/chroma-js": "^2.0.0",
     "@types/lodash": "^4.14.194",
