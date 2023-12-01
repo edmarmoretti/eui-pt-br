@@ -45,6 +45,8 @@ export {
   euiPaletteForTemperature,
   euiPaletteGray,
   euiPaletteNegative,
+  //Edmar Moretti - nova palete
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteWarm,
   getSteppedGradient,

@@ -33,6 +33,8 @@ export {
   euiPaletteComplimentary,
   euiPaletteComplementary,
   euiPaletteNegative,
+  //Edmar Moretti - nova palete
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteCool,
   euiPaletteWarm,

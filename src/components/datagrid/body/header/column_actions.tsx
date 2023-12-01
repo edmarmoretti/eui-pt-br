@@ -116,7 +116,7 @@ export const getHideColumnAction = ({
 
   const action = {
     label: (
-      <EuiI18n token="euiColumnActions.hideColumn" default="Hide column" />
+      <EuiI18n token="euiColumnActions.hideColumn" default="Esconde a coluna" />
     ),
     onClick: onClickHideColumn,
     iconType: 'eyeClosed',
@@ -158,7 +158,12 @@ const getMoveColumnActions = ({
       }
     };
     const action = {
-      label: <EuiI18n token="euiColumnActions.moveLeft" default="Move left" />,
+      label: (
+        <EuiI18n
+          token="euiColumnActions.moveLeft"
+          default="Move para a esquerda"
+        />
+      ),
       iconType: 'sortLeft',
       size: 'xs',
       color: 'text',
@@ -179,7 +184,10 @@ const getMoveColumnActions = ({
     };
     const action = {
       label: (
-        <EuiI18n token="euiColumnActions.moveRight" default="Move right" />
+        <EuiI18n
+          token="euiColumnActions.moveRight"
+          default="Move para a direita"
+        />
       ),
       iconType: 'sortRight',
       size: 'xs',
@@ -262,7 +270,7 @@ export const getSortColumnActions = ({
       label: (
         <EuiI18n
           token="euiColumnActions.sort"
-          default="Sort {schemaLabel}"
+          default="Ordem {schemaLabel}"
           values={{ schemaLabel: label }}
         />
       ),
@@ -293,7 +301,7 @@ export const getSortColumnActions = ({
       label: (
         <EuiI18n
           token="euiColumnActions.sort"
-          default="Sort {schemaLabel}"
+          default="Ordem {schemaLabel}"
           values={{ schemaLabel: label }}
         />
       ),

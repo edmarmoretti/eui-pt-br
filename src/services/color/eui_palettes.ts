@@ -210,6 +210,14 @@ export const euiPaletteNegative = function (steps: number): EuiPalette {
   return euiPalette(['white', negativeColor], steps);
 };
 
+//Edmar Moretti - nova palete
+export const euiPaletteNegativeR = function (steps: number): EuiPalette {
+  if (steps === 1) {
+    return [lightNegativeColor];
+  }
+  return euiPalette(['white', negativeColor], steps).reverse();
+};
+
 export const euiPalettePositive = function (steps: number): EuiPalette {
   if (steps === 1) {
     return [euiPaletteColorBlind()[0]];
