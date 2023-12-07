@@ -35,7 +35,7 @@ export default () => {
       iconSide="right"
       onClick={onButtonClick}
     >
-      Rows per page: {rowSize}
+      Linhas por página: {rowSize}
     </EuiButtonEmpty>
   );
 
@@ -48,7 +48,7 @@ export default () => {
         setRowSize(10);
       }}
     >
-      10 rows
+      10 linhas
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="20 rows"
@@ -58,7 +58,7 @@ export default () => {
         setRowSize(20);
       }}
     >
-      20 rows
+      20 linhas
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       key="50 rows"
@@ -68,7 +68,7 @@ export default () => {
         setRowSize(50);
       }}
     >
-      50 rows
+      50 linhas
     </EuiContextMenuItem>,
   ];
 

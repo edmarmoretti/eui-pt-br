@@ -60,15 +60,15 @@ export const useDataGridColumnSorting = (
 
   const sortingButtonText = useEuiI18n(
     'euiColumnSorting.button',
-    'Sort fields'
+    'Ordenar pelas colunas'
   );
 
   const sortingButtonTextActive = useEuiI18n(
     'euiColumnSorting.buttonActive',
     ({ numberOfSortedFields }) =>
-      `${numberOfSortedFields} field${
+      `${numberOfSortedFields} coluna${
         numberOfSortedFields === 1 ? '' : 's'
-      } sorted`,
+      } ordenado`,
     {
       numberOfSortedFields: sorting != null ? sorting.columns.length : 0,
     }
@@ -189,7 +189,7 @@ export const useDataGridColumnSorting = (
           <p role="alert">
             <EuiI18n
               token="euiColumnSorting.emptySorting"
-              default="Currently no fields are sorted"
+              default="Nenhuma coluna está ordenada"
             />
           </p>
         </EuiText>
@@ -222,14 +222,14 @@ export const useDataGridColumnSorting = (
                     >
                       <EuiI18n
                         token="euiColumnSorting.pickFields"
-                        default="Pick fields to sort by"
+                        default="Escolha a coluna para ordenar"
                       />
                     </EuiButtonEmpty>
                   }
                 >
                   <EuiI18n
                     token="euiColumnSorting.sortFieldAriaLabel"
-                    default="Sort by: "
+                    default="Ordenar por: "
                   >
                     {(sortFieldAriaLabel: string) => (
                       <div
@@ -310,7 +310,7 @@ export const useDataGridColumnSorting = (
                 >
                   <EuiI18n
                     token="euiColumnSorting.clearAll"
-                    default="Clear sorting"
+                    default="Remover ordenação"
                   />
                 </EuiButtonEmpty>
               </EuiFlexItem>

@@ -1730,12 +1730,12 @@
       {
         "token": "euiDataGridSchema.dateSortTextAsc",
         "changeType": "modified",
-        "value": "Old-New"
+        "value": "Velho-Novo"
       },
       {
         "token": "euiDataGridSchema.dateSortTextDesc",
         "changeType": "modified",
-        "value": "New-Old"
+        "value": "Novo-Velho"
       }
     ]
   },
@@ -1799,22 +1799,22 @@
       {
         "token": "euiDataGridSchema.booleanSortTextAsc",
         "changeType": "modified",
-        "value": "False-True"
+        "value": "Falso-Verdadeiro"
       },
       {
         "token": "euiDataGridSchema.booleanSortTextDesc",
         "changeType": "modified",
-        "value": "True-False"
+        "value": "Verdadeiro-False"
       },
       {
         "token": "euiCodeBlock.fullscreenCollapse",
         "changeType": "added",
-        "value": "Collapse"
+        "value": "Recolhe"
       },
       {
         "token": "euiCodeBlock.fullscreenExpand",
         "changeType": "added",
-        "value": "Expand"
+        "value": "Expande"
       },
       {
         "token": "euiColorPicker.colorLabel",
@@ -2759,62 +2759,62 @@
       {
         "token": "euiDataGridSchema.booleanSortTextAsc",
         "changeType": "added",
-        "value": "True-False"
+        "value": "Verdadeiro-Falso"
       },
       {
         "token": "euiDataGridSchema.booleanSortTextDesc",
         "changeType": "added",
-        "value": "False-True"
+        "value": "Falso-Verdadeiro"
       },
       {
         "token": "euiDataGridSchema.currencySortTextAsc",
         "changeType": "added",
-        "value": "Low-High"
+        "value": "Baixo-Alto"
       },
       {
         "token": "euiDataGridSchema.currencySortTextDesc",
         "changeType": "added",
-        "value": "High-Low"
+        "value": "Alto-Baixo"
       },
       {
         "token": "euiDataGridSchema.dateSortTextAsc",
         "changeType": "added",
-        "value": "New-Old"
+        "value": "Novo-Velho"
       },
       {
         "token": "euiDataGridSchema.dateSortTextDesc",
         "changeType": "added",
-        "value": "Old-New"
+        "value": "Velho-Novo"
       },
       {
         "token": "euiDataGridSchema.numberSortTextAsc",
         "changeType": "added",
-        "value": "Low-High"
+        "value": "Baixo-Alto"
       },
       {
         "token": "euiDataGridSchema.numberSortTextDesc",
         "changeType": "added",
-        "value": "High-Low"
+        "value": "Alto-Baixo"
       },
       {
         "token": "euiDataGridSchema.jsonSortTextAsc",
         "changeType": "added",
-        "value": "Small-Large"
+        "value": "Pequeno-Grande"
       },
       {
         "token": "euiDataGridSchema.jsonSortTextDesc",
         "changeType": "added",
-        "value": "Large-Small"
+        "value": "Grande-Pequeno"
       },
       {
         "token": "euiDataGrid.screenReaderNotice",
         "changeType": "added",
-        "value": "Cell contains interactive content."
+        "value": "A célula contém conteúdo interativo."
       },
       {
         "token": "euiStyleSelector.buttonText",
         "changeType": "added",
-        "value": "Density"
+        "value": "Densidade"
       }
     ]
   },

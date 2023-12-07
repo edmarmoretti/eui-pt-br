@@ -2103,12 +2103,11 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
-"@elastic/charts@^59.1.0":
-  version "59.1.0"
-  resolved "https://registry.yarnpkg.com/@elastic/charts/-/charts-59.1.0.tgz#d6b70501f8eec95cc981966713ce5a89028f8fcb"
-  integrity sha512-qQyDaGEbo/2p+K/hnlobfADmit055kLJbWEkf+rK+uezloNvyBuHETvsoUnrWYG+O5QznHU+wzjSpz7tj1GL3w==
+"@elastic/charts@../elastic-charts/packages/charts/elastic-charts-60.0.0-ms-3.tgz":
+  version "60.0.0-ms-3"
+  resolved "../elastic-charts/packages/charts/elastic-charts-60.0.0-ms-3.tgz#56ac7ff7b08c6cfd15baa7c22e78b3ad0a1b63e8"
   dependencies:
-    "@popperjs/core" "^2.4.0"
+    "@popperjs/core" "^2.11.8"
     bezier-easing "^2.1.0"
     chroma-js "^2.1.0"
     classnames "^2.2.6"
@@ -3169,10 +3168,10 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@popperjs/core@^2.4.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.6.0.tgz#f022195afdfc942e088ee2101285a1d31c7d727f"
-  integrity sha512-cPqjjzuFWNK3BSKLm0abspP0sp/IGOli4p5I5fKFAzdS8fvjdOwDCfZqAaIiXd9lPkOWi3SUUfZof3hEb7J/uw==
+"@popperjs/core@^2.11.8":
+  version "2.11.8"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
 "@radix-ui/number@1.0.1":
   version "1.0.1"
