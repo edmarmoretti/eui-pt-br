@@ -38,7 +38,8 @@ export const formatAuto = (value: any): string => {
   }
 
   if (isNumber(value)) {
-    return formatNumber(value);
+    //Edmar Moretti: formata 0.00
+    return value == 0.00 ? '0' : formatNumber(value);
   }
 
   if (isArray(value)) {

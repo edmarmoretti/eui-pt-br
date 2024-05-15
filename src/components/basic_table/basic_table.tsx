@@ -89,6 +89,11 @@ type DataTypeProfiles = Record<
   }
 >;
 
+//Edmar Moretti - formata 0.00
+const removeDec = function(value: number | null){
+  return value == 0.00 ? '0' : formatNumber(value);
+};
+
 const dataTypesProfiles: DataTypeProfiles = {
   auto: {
     align: LEFT_ALIGNMENT,
@@ -100,7 +105,7 @@ const dataTypesProfiles: DataTypeProfiles = {
   },
   number: {
     align: RIGHT_ALIGNMENT,
-    render: (value: number | null) => formatNumber(value),
+    render: (value: number | null) => removeDec(value),
   },
   boolean: {
     align: LEFT_ALIGNMENT,

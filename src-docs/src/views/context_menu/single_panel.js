@@ -37,7 +37,7 @@ export default () => {
       iconSide="right"
       onClick={onButtonClick}
     >
-      Rows per page: {rowSize}
+      Linhas por página: {rowSize}
     </EuiButtonEmpty>
   );
 
@@ -50,7 +50,7 @@ export default () => {
         setRowSize(10);
       }}
     >
-      10 rows
+      10 linhas
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       {...isSelectedProps(20)}
@@ -60,7 +60,7 @@ export default () => {
         setRowSize(20);
       }}
     >
-      20 rows
+      20 linhas
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       {...isSelectedProps(50)}
@@ -70,7 +70,7 @@ export default () => {
         setRowSize(50);
       }}
     >
-      50 rows
+      50 linhas
     </EuiContextMenuItem>,
     <EuiContextMenuItem
       {...isSelectedProps(100)}
@@ -80,7 +80,7 @@ export default () => {
         setRowSize(100);
       }}
     >
-      100 rows
+      100 linhas
     </EuiContextMenuItem>,
   ];
 

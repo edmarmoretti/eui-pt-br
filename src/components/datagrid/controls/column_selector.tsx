@@ -119,8 +119,8 @@ export const useDataGridColumnSelector = (
     'Drag handle'
   );
 
-  const buttonText = (
-    <EuiI18n token="euiColumnSelector.button" default="Columns" />
+  let buttonText = (
+    <EuiI18n token="euiColumnSelector.button" default="Colunas" />
   );
 
   const orderedVisibleColumns = useMemo(
@@ -167,7 +167,7 @@ export const useDataGridColumnSelector = (
                 'euiColumnSelector.search',
                 'euiColumnSelector.searchcolumns',
               ]}
-              defaults={['Search', 'Search columns']}
+              defaults={['Localizar', 'Localizar colunas']}
             >
               {([search, searchcolumns]: string[]) => (
                 <EuiFieldText
@@ -284,7 +284,7 @@ export const useDataGridColumnSelector = (
                 >
                   <EuiI18n
                     token="euiColumnSelector.selectAll"
-                    default="Show all"
+                    default="Mostrar tudo"
                   />
                 </EuiButtonEmpty>
               </EuiFlexItem>
@@ -297,7 +297,7 @@ export const useDataGridColumnSelector = (
                 >
                   <EuiI18n
                     token="euiColumnSelector.hideAll"
-                    default="Hide all"
+                    default="Esconder tudo"
                   />
                 </EuiButtonEmpty>
               </EuiFlexItem>

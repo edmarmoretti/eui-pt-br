@@ -225,11 +225,11 @@ export const useDataGridDisplaySelector = (
 
   const buttonLabel = useEuiI18n(
     'euiDisplaySelector.buttonText',
-    'Display options'
+    'Opções de visualização'
   );
   const resetButtonLabel = useEuiI18n(
     'euiDisplaySelector.resetButtonText',
-    'Reset to default'
+    'Restaurar o padrão'
   );
 
   const displaySelector =
@@ -264,7 +264,7 @@ export const useDataGridDisplaySelector = (
               'euiDisplaySelector.labelNormal',
               'euiDisplaySelector.labelExpanded',
             ]}
-            defaults={['Density', 'Compact', 'Normal', 'Expanded']}
+            defaults={['Densidade', 'Compacto', 'Normal', 'Expandido']}
           >
             {([
               densityLabel,
@@ -309,11 +309,11 @@ export const useDataGridDisplaySelector = (
               'euiDisplaySelector.lineCountLabel',
             ]}
             defaults={[
-              'Row height',
-              'Single',
-              'Auto fit',
-              'Custom',
-              'Lines per row',
+              'Altura da linha',
+              'Simples',
+              'Auto ajuste',
+              'Customizado',
+              'linhas por registro',
             ]}
           >
             {([
