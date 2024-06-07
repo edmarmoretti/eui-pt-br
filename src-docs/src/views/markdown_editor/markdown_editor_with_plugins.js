@@ -31,7 +31,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from '../../../../src/components';
-
+//Edmar Moretti - nova palete
 import {
   useEuiTheme,
   euiPaletteComplementary,
@@ -41,6 +41,7 @@ import {
   euiPaletteGray,
   euiPaletteRed,
   euiPaletteGreen,
+  euiPaletteNegativeR,
   euiPaletteWarm,
 } from '../../../../src/services';
 import { getDefaultEuiMarkdownUiPlugins } from '../../../../src/components/markdown_editor';
@@ -51,6 +52,7 @@ const paletteData = {
   euiPaletteComplementary,
   euiPaletteRed,
   euiPaletteGreen,
+  euiPaletteNegativeR,
   euiPaletteCool,
   euiPaletteWarm,
   euiPaletteGray,

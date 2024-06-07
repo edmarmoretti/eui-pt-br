@@ -203,6 +203,15 @@ export const euiPaletteRed = function (steps: number): EuiPalette {
 
   return euiPalette(['white', redColor], steps);
 };
+
+//Edmar Moretti - nova palete
+export const euiPaletteNegativeR = function (steps: number): EuiPalette {
+  if (steps === 1) {
+    return [lightRedColor];
+  }
+  return euiPalette(['white', redColor], steps).reverse();
+};
+
 /**
  * @deprecated - use `euiPaletteRed` instead
  */

@@ -96,13 +96,13 @@ export const EuiTablePagination: FunctionComponent<EuiTablePaginationProps> = (
       {itemsPerPage === 0 ? (
         <EuiI18n
           token="euiTablePagination.allRows"
-          default="Showing all rows"
+          default="Mostrando todas as linhas"
         />
       ) : (
         <>
           <EuiI18n
             token="euiTablePagination.rowsPerPage"
-            default="Rows per page"
+            default="Linhas por página"
           />
           : {itemsPerPage}
         </>
@@ -128,13 +128,13 @@ export const EuiTablePagination: FunctionComponent<EuiTablePaginationProps> = (
           {itemsPerPageOption === 0 ? (
             <EuiI18n
               token="euiTablePagination.rowsPerPageOptionShowAllRows"
-              default="Show all rows"
+              default="Mostrar todas as linhas"
             />
           ) : (
             <EuiI18n
               token="euiTablePagination.rowsPerPageOption"
               values={{ rowsPerPage: itemsPerPageOption }}
-              default="{rowsPerPage} rows"
+              default="{rowsPerPage} linhas"
             />
           )}
         </EuiContextMenuItem>

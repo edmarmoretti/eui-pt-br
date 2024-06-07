@@ -34,6 +34,8 @@ export {
   euiPaletteRed,
   euiPaletteGreen,
   euiPaletteNegative,
+  //Edmar Moretti - nova palete
+  euiPaletteNegativeR,
   euiPalettePositive,
   euiPaletteCool,
   euiPaletteWarm,
