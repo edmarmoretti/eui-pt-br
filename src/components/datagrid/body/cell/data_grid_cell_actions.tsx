@@ -44,7 +44,7 @@ export const EuiDataGridCellActions = ({
       <EuiI18n
         key={'expand'}
         token="euiDataGridCellActions.expandButtonTitle"
-        default="Click or hit enter to interact with cell content"
+        default="Click para interagir com o conteúdo da célula"
       >
         {(expandButtonTitle: string) => (
           <EuiButtonIcon

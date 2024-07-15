@@ -919,7 +919,7 @@
   },
   {
     "token": "euiDataGridCellActions.expandButtonTitle",
-    "defString": "Click or hit enter to interact with cell content",
+    "defString": "Click para interagir com o conteúdo da célula",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -930,7 +930,7 @@
       "end": {
         "line": 48,
         "column": 7,
-        "index": 1619
+        "index": 1616
       }
     },
     "filepath": "src/components/datagrid/body/cell/data_grid_cell_actions.tsx"
