@@ -315,7 +315,7 @@ export class EuiBasicTable<T extends object = any> extends Component<
   static defaultProps = {
     tableLayout: 'fixed',
     noItemsMessage: (
-      <EuiI18n token="euiBasicTable.noItemsMessage" default="No items found" />
+      <EuiI18n token="euiBasicTable.noItemsMessage" default="Nenhum item encontrado" />
     ),
   };
 

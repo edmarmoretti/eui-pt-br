@@ -88,7 +88,7 @@ export default () => {
       truncateText: true,
       textOnly: true,
       render: (location: User['location']) => {
-        return `${location.city}, ${location.country}`;
+        return `0.00`;
       },
     },
     {

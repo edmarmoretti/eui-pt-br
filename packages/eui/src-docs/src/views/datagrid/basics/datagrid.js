@@ -60,7 +60,7 @@ for (let i = 1; i < 100; i++) {
     ),
     date: `${faker.date.past()}`,
     account: faker.finance.accountNumber(),
-    amount: faker.commerce.price(),
+    amount: faker.commerce.price(0,0),
     phone: faker.phone.number(),
     version: faker.system.semver(),
   });

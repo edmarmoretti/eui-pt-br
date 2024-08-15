@@ -7,7 +7,7 @@
  */
 
 import numeral from 'numeral';
-import { isNil, isString } from '../predicate';
+import { isNil, isString, isNumber } from '../predicate';
 
 const numberFormatAliases: { [alias: string]: string } = {
   decimal1: '0,0.0',
