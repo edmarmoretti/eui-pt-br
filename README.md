@@ -1,3 +1,7 @@
+# Tradução para PT-BR
+
+Tradução do EUI, utilizado no KIBANA, para o português. Tradução apenas do que é utilizado no KIBANA e que não pode ser traduzido no código desse software.
+
 <img src="https://repository-images.githubusercontent.com/107422373/b6180480-a1d7-11eb-8a3c-902086232aa7" alt="" />
 
 # Elastic UI Framework
