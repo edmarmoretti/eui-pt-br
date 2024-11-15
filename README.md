@@ -1,6 +1,8 @@
 # Tradução para PT-BR
 
-Tradução do EUI, utilizado no KIBANA, para o português. Tradução apenas do que é utilizado no KIBANA e que não pode ser traduzido no código desse software.
+Para utilizar essa tradução no Kibana utilize o arquivo abaixo. Edite o arquivo package.json do Kibana antes de gerar o arquivo de distribuição.
+
+https://github.com/edmarmoretti/eui-pt-br/blob/v97.0.0-backport.2-pt-br/packages/eui/elastic-eui-97.0.0-backport.2-pt-br-1.tgz
 
 <img src="https://repository-images.githubusercontent.com/107422373/b6180480-a1d7-11eb-8a3c-902086232aa7" alt="" />
 
