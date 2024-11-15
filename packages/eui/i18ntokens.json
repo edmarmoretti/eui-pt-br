@@ -19,18 +19,18 @@
   },
   {
     "token": "euiBasicTable.noItemsMessage",
-    "defString": "No items found",
+    "defString": "Nenhum item encontrado",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 320,
         "column": 6,
-        "index": 8131
+        "index": 8159
       },
       "end": {
         "line": 320,
-        "column": 79,
-        "index": 8204
+        "column": 87,
+        "index": 8240
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -43,12 +43,12 @@
       "start": {
         "line": 630,
         "column": 10,
-        "index": 16300
+        "index": 16336
       },
       "end": {
         "line": 634,
         "column": 12,
-        "index": 16503
+        "index": 16539
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -61,12 +61,12 @@
       "start": {
         "line": 643,
         "column": 12,
-        "index": 16700
+        "index": 16736
       },
       "end": {
         "line": 647,
         "column": 14,
-        "index": 16979
+        "index": 17015
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -79,12 +79,12 @@
       "start": {
         "line": 651,
         "column": 12,
-        "index": 17051
+        "index": 17087
       },
       "end": {
         "line": 655,
         "column": 14,
-        "index": 17291
+        "index": 17327
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -97,12 +97,12 @@
       "start": {
         "line": 660,
         "column": 10,
-        "index": 17367
+        "index": 17403
       },
       "end": {
         "line": 664,
         "column": 12,
-        "index": 17551
+        "index": 17587
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -115,12 +115,12 @@
       "start": {
         "line": 714,
         "column": 6,
-        "index": 18849
+        "index": 18885
       },
       "end": {
         "line": 717,
         "column": 7,
-        "index": 19000
+        "index": 19036
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -133,12 +133,12 @@
       "start": {
         "line": 714,
         "column": 6,
-        "index": 18849
+        "index": 18885
       },
       "end": {
         "line": 717,
         "column": 7,
-        "index": 19000
+        "index": 19036
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -151,12 +151,12 @@
       "start": {
         "line": 1132,
         "column": 8,
-        "index": 31375
+        "index": 31411
       },
       "end": {
         "line": 1136,
         "column": 9,
-        "index": 31530
+        "index": 31566
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -169,12 +169,12 @@
       "start": {
         "line": 1379,
         "column": 8,
-        "index": 38636
+        "index": 38672
       },
       "end": {
         "line": 1383,
         "column": 9,
-        "index": 38795
+        "index": 38831
       }
     },
     "filepath": "src/components/basic_table/basic_table.tsx"
@@ -1009,7 +1009,7 @@
   },
   {
     "token": "euiDataGridCellActions.expandButtonTitle",
-    "defString": "Click or hit enter to interact with cell content",
+    "defString": "Click para interagir com o conteúdo da célula",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1020,7 +1020,7 @@
       "end": {
         "line": 53,
         "column": 7,
-        "index": 1831
+        "index": 1828
       }
     },
     "filepath": "src/components/datagrid/body/cell/data_grid_cell_actions.tsx"
@@ -1099,54 +1099,54 @@
   },
   {
     "token": "euiColumnActions.hideColumn",
-    "defString": "Hide column",
+    "defString": "Esconde a coluna",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 122,
         "column": 6,
-        "index": 3246
+        "index": 3274
       },
       "end": {
         "line": 122,
-        "column": 75,
-        "index": 3315
+        "column": 80,
+        "index": 3348
       }
     },
     "filepath": "src/components/datagrid/body/header/column_actions.tsx"
   },
   {
     "token": "euiColumnActions.moveLeft",
-    "defString": "Move left",
+    "defString": "Move para a esquerda",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 178,
-        "column": 13,
-        "index": 4719
+        "line": 179,
+        "column": 8,
+        "index": 4762
       },
       "end": {
-        "line": 178,
-        "column": 78,
-        "index": 4784
+        "line": 182,
+        "column": 10,
+        "index": 4866
       }
     },
     "filepath": "src/components/datagrid/body/header/column_actions.tsx"
   },
   {
     "token": "euiColumnActions.moveRight",
-    "defString": "Move right",
+    "defString": "Move para a direita",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 199,
+        "line": 204,
         "column": 8,
-        "index": 5340
+        "index": 5430
       },
       "end": {
-        "line": 199,
-        "column": 75,
-        "index": 5407
+        "line": 207,
+        "column": 10,
+        "index": 5534
       }
     },
     "filepath": "src/components/datagrid/body/header/column_actions.tsx"
@@ -1157,32 +1157,32 @@
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 283,
+        "line": 291,
         "column": 8,
-        "index": 7566
+        "index": 7693
       },
       "end": {
-        "line": 287,
+        "line": 295,
         "column": 10,
-        "index": 7710
+        "index": 7837
       }
     },
     "filepath": "src/components/datagrid/body/header/column_actions.tsx"
   },
   {
     "token": "euiColumnActions.sort",
-    "defString": "Sort {schemaLabel}",
+    "defString": "Ordem {schemaLabel}",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 289,
+        "line": 297,
         "column": 8,
-        "index": 7731
+        "index": 7858
       },
       "end": {
-        "line": 293,
+        "line": 301,
         "column": 10,
-        "index": 7871
+        "index": 7999
       }
     },
     "filepath": "src/components/datagrid/body/header/column_actions.tsx"
@@ -1193,32 +1193,32 @@
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 319,
+        "line": 327,
         "column": 8,
-        "index": 8519
+        "index": 8647
       },
       "end": {
-        "line": 323,
+        "line": 331,
         "column": 10,
-        "index": 8663
+        "index": 8791
       }
     },
     "filepath": "src/components/datagrid/body/header/column_actions.tsx"
   },
   {
     "token": "euiColumnActions.sort",
-    "defString": "Sort {schemaLabel}",
+    "defString": "Ordem {schemaLabel}",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 325,
+        "line": 333,
         "column": 8,
-        "index": 8684
+        "index": 8812
       },
       "end": {
-        "line": 329,
+        "line": 337,
         "column": 10,
-        "index": 8824
+        "index": 8953
       }
     },
     "filepath": "src/components/datagrid/body/header/column_actions.tsx"
@@ -1405,90 +1405,90 @@
   },
   {
     "token": "euiColumnSelector.button",
-    "defString": "Columns",
+    "defString": "Colunas",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 158,
         "column": 12,
-        "index": 4973
+        "index": 5001
       },
       "end": {
         "line": 158,
         "column": 74,
-        "index": 5035
+        "index": 5063
       }
     },
     "filepath": "src/components/datagrid/controls/column_selector.tsx"
   },
   {
     "token": "euiColumnSelector.search",
-    "defString": "Search",
+    "defString": "Localizar",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 164,
         "column": 12,
-        "index": 5181
+        "index": 5209
       },
       "end": {
         "line": 170,
         "column": 13,
-        "index": 5393
+        "index": 5427
       }
     },
     "filepath": "src/components/datagrid/controls/column_selector.tsx"
   },
   {
     "token": "euiColumnSelector.searchcolumns",
-    "defString": "Search columns",
+    "defString": "Localizar colunas",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 164,
         "column": 12,
-        "index": 5181
+        "index": 5209
       },
       "end": {
         "line": 170,
         "column": 13,
-        "index": 5393
+        "index": 5427
       }
     },
     "filepath": "src/components/datagrid/controls/column_selector.tsx"
   },
   {
     "token": "euiColumnSelector.selectAll",
-    "defString": "Show all",
+    "defString": "Mostrar tudo",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 288,
         "column": 18,
-        "index": 10386
+        "index": 10420
       },
       "end": {
         "line": 291,
         "column": 20,
-        "index": 10510
+        "index": 10548
       }
     },
     "filepath": "src/components/datagrid/controls/column_selector.tsx"
   },
   {
     "token": "euiColumnSelector.hideAll",
-    "defString": "Hide all",
+    "defString": "Esconder tudo",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 301,
         "column": 18,
-        "index": 10870
+        "index": 10908
       },
       "end": {
         "line": 304,
         "column": 20,
-        "index": 10992
+        "index": 11035
       }
     },
     "filepath": "src/components/datagrid/controls/column_selector.tsx"
@@ -1603,7 +1603,7 @@
   },
   {
     "token": "euiColumnSorting.button",
-    "defString": "Sort fields",
+    "defString": "Ordena as colunas",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1614,79 +1614,79 @@
       "end": {
         "line": 69,
         "column": 5,
-        "index": 2190
+        "index": 2196
       }
     },
     "filepath": "src/components/datagrid/controls/column_sorting.tsx"
   },
   {
     "token": "euiColumnSorting.sortFieldAriaLabel",
-    "defString": "Sort by: ",
+    "defString": "Ordena por: ",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 70,
         "column": 31,
-        "index": 2223
+        "index": 2229
       },
       "end": {
         "line": 73,
         "column": 5,
-        "index": 2303
+        "index": 2312
       }
     },
     "filepath": "src/components/datagrid/controls/column_sorting.tsx"
   },
   {
     "token": "euiColumnSorting.emptySorting",
-    "defString": "Currently no fields are sorted",
+    "defString": "Nenhuma coluna está ordenada",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 220,
         "column": 14,
-        "index": 6937
+        "index": 6946
       },
       "end": {
         "line": 223,
         "column": 16,
-        "index": 7073
+        "index": 7080
       }
     },
     "filepath": "src/components/datagrid/controls/column_sorting.tsx"
   },
   {
     "token": "euiColumnSorting.pickFields",
-    "defString": "Pick fields to sort by",
+    "defString": "Clique em uma coluna para ordenar",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 253,
         "column": 24,
-        "index": 8296
+        "index": 8303
       },
       "end": {
         "line": 256,
         "column": 26,
-        "index": 8452
+        "index": 8470
       }
     },
     "filepath": "src/components/datagrid/controls/column_sorting.tsx"
   },
   {
     "token": "euiColumnSorting.clearAll",
-    "defString": "Clear sorting",
+    "defString": "Limpa o ordenamento",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 328,
         "column": 20,
-        "index": 11806
+        "index": 11824
       },
       "end": {
         "line": 331,
         "column": 22,
-        "index": 11939
+        "index": 11963
       }
     },
     "filepath": "src/components/datagrid/controls/column_sorting.tsx"
@@ -1711,7 +1711,7 @@
   },
   {
     "token": "euiDisplaySelector.buttonText",
-    "defString": "Display options",
+    "defString": "Opções de visualização",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1722,61 +1722,61 @@
       "end": {
         "line": 231,
         "column": 3,
-        "index": 7486
+        "index": 7493
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.resetButtonText",
-    "defString": "Reset to default",
+    "defString": "Restaurar o padrão",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 232,
         "column": 27,
-        "index": 7515
+        "index": 7522
       },
       "end": {
         "line": 235,
         "column": 3,
-        "index": 7595
+        "index": 7604
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.densityLabel",
-    "defString": "Density",
+    "defString": "Densidade",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 272,
         "column": 10,
-        "index": 8779
+        "index": 8788
       },
       "end": {
         "line": 280,
         "column": 11,
-        "index": 9100
+        "index": 9113
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.labelCompact",
-    "defString": "Compact",
+    "defString": "Compacto",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 272,
         "column": 10,
-        "index": 8779
+        "index": 8788
       },
       "end": {
         "line": 280,
         "column": 11,
-        "index": 9100
+        "index": 9113
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
@@ -1789,127 +1789,127 @@
       "start": {
         "line": 272,
         "column": 10,
-        "index": 8779
+        "index": 8788
       },
       "end": {
         "line": 280,
         "column": 11,
-        "index": 9100
+        "index": 9113
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.labelExpanded",
-    "defString": "Expanded",
+    "defString": "Expandido",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 272,
         "column": 10,
-        "index": 8779
+        "index": 8788
       },
       "end": {
         "line": 280,
         "column": 11,
-        "index": 9100
+        "index": 9113
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.rowHeightLabel",
-    "defString": "Row height",
+    "defString": "Altura da linha",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 315,
         "column": 10,
-        "index": 10207
+        "index": 10220
       },
       "end": {
         "line": 330,
         "column": 11,
-        "index": 10680
+        "index": 10713
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.labelSingle",
-    "defString": "Single",
+    "defString": "Simples",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 315,
         "column": 10,
-        "index": 10207
+        "index": 10220
       },
       "end": {
         "line": 330,
         "column": 11,
-        "index": 10680
+        "index": 10713
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.labelAuto",
-    "defString": "Auto fit",
+    "defString": "Auto ajuste",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 315,
         "column": 10,
-        "index": 10207
+        "index": 10220
       },
       "end": {
         "line": 330,
         "column": 11,
-        "index": 10680
+        "index": 10713
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.labelCustom",
-    "defString": "Custom",
+    "defString": "Customizado",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 315,
         "column": 10,
-        "index": 10207
+        "index": 10220
       },
       "end": {
         "line": 330,
         "column": 11,
-        "index": 10680
+        "index": 10713
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiDisplaySelector.lineCountLabel",
-    "defString": "Lines per row",
+    "defString": "linhas por registro",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 315,
         "column": 10,
-        "index": 10207
+        "index": 10220
       },
       "end": {
         "line": 330,
         "column": 11,
-        "index": 10680
+        "index": 10713
       }
     },
     "filepath": "src/components/datagrid/controls/display_selector.tsx"
   },
   {
     "token": "euiFullscreenSelector.fullscreenButton",
-    "defString": "Enter fullscreen",
+    "defString": "Entrar em tela cheia",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1920,14 +1920,14 @@
       "end": {
         "line": 43,
         "column": 3,
-        "index": 1376
+        "index": 1383
       }
     },
     "filepath": "src/components/datagrid/controls/fullscreen_selector.tsx"
   },
   {
     "token": "euiFullscreenSelector.fullscreenButtonActive",
-    "defString": "Exit fullscreen",
+    "defString": "Sair da tela cheia",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1938,7 +1938,7 @@
       "end": {
         "line": 43,
         "column": 3,
-        "index": 1376
+        "index": 1383
       }
     },
     "filepath": "src/components/datagrid/controls/fullscreen_selector.tsx"
@@ -1963,7 +1963,7 @@
   },
   {
     "token": "euiKeyboardShortcuts.upArrowTitle",
-    "defString": "Up arrow",
+    "defString": "Seta para cima",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -1974,133 +1974,133 @@
       "end": {
         "line": 73,
         "column": 22,
-        "index": 2556
+        "index": 2562
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.upArrowDescription",
-    "defString": "Move one cell up",
+    "defString": "Move uma célula para cima",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 77,
         "column": 18,
-        "index": 2650
+        "index": 2656
       },
       "end": {
         "line": 80,
         "column": 20,
-        "index": 2794
+        "index": 2809
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.downArrowTitle",
-    "defString": "Down arrow",
+    "defString": "Seta para baixo",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 86,
         "column": 20,
-        "index": 2916
+        "index": 2931
       },
       "end": {
         "line": 89,
         "column": 22,
-        "index": 3056
+        "index": 3076
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.downArrowDescription",
-    "defString": "Move one cell down",
+    "defString": "Move uma célula para baixo",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 93,
         "column": 18,
-        "index": 3150
+        "index": 3170
       },
       "end": {
         "line": 96,
         "column": 20,
-        "index": 3298
+        "index": 3326
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.rightArrowTitle",
-    "defString": "Right arrow",
+    "defString": "Seta da direita",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 102,
         "column": 20,
-        "index": 3420
+        "index": 3448
       },
       "end": {
         "line": 105,
         "column": 22,
-        "index": 3562
+        "index": 3594
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.rightArrowDescription",
-    "defString": "Move one cell right",
+    "defString": "Move uma célula para a direita",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 109,
         "column": 18,
-        "index": 3656
+        "index": 3688
       },
       "end": {
         "line": 112,
         "column": 20,
-        "index": 3806
+        "index": 3849
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.leftArrowTitle",
-    "defString": "Left arrow",
+    "defString": "Seta para a esquerda",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 118,
         "column": 20,
-        "index": 3928
+        "index": 3971
       },
       "end": {
         "line": 121,
         "column": 22,
-        "index": 4068
+        "index": 4121
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.leftArrowDescription",
-    "defString": "Move one cell left",
+    "defString": "Move uma célula para a esquerda",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 125,
         "column": 18,
-        "index": 4162
+        "index": 4215
       },
       "end": {
         "line": 128,
         "column": 20,
-        "index": 4310
+        "index": 4376
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2113,30 +2113,30 @@
       "start": {
         "line": 134,
         "column": 20,
-        "index": 4432
+        "index": 4498
       },
       "end": {
         "line": 137,
         "column": 22,
-        "index": 4561
+        "index": 4627
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.homeDescription",
-    "defString": "Move to the first cell of the current row",
+    "defString": "Move para a primeira célula da linha atual",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 141,
         "column": 18,
-        "index": 4655
+        "index": 4721
       },
       "end": {
         "line": 144,
         "column": 20,
-        "index": 4821
+        "index": 4888
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2149,30 +2149,30 @@
       "start": {
         "line": 150,
         "column": 20,
-        "index": 4943
+        "index": 5010
       },
       "end": {
         "line": 153,
         "column": 22,
-        "index": 5070
+        "index": 5137
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.endDescription",
-    "defString": "Move to the last cell of the current row",
+    "defString": "Move para a última célula da linha atual",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 157,
         "column": 18,
-        "index": 5164
+        "index": 5231
       },
       "end": {
         "line": 160,
         "column": 20,
-        "index": 5328
+        "index": 5395
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2185,12 +2185,12 @@
       "start": {
         "line": 167,
         "column": 22,
-        "index": 5475
+        "index": 5542
       },
       "end": {
         "line": 170,
         "column": 24,
-        "index": 5605
+        "index": 5672
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2203,30 +2203,30 @@
       "start": {
         "line": 173,
         "column": 22,
-        "index": 5686
+        "index": 5753
       },
       "end": {
         "line": 176,
         "column": 24,
-        "index": 5821
+        "index": 5888
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.ctrlHomeDescription",
-    "defString": "Move to the first cell of the current page",
+    "defString": "Move para a primeira célula da página atual",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 181,
         "column": 18,
-        "index": 5939
+        "index": 6006
       },
       "end": {
         "line": 184,
         "column": 20,
-        "index": 6110
+        "index": 6178
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2239,12 +2239,12 @@
       "start": {
         "line": 191,
         "column": 22,
-        "index": 6257
+        "index": 6325
       },
       "end": {
         "line": 194,
         "column": 24,
-        "index": 6387
+        "index": 6455
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2257,30 +2257,30 @@
       "start": {
         "line": 197,
         "column": 22,
-        "index": 6468
+        "index": 6536
       },
       "end": {
         "line": 200,
         "column": 24,
-        "index": 6601
+        "index": 6669
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.ctrlEndDescription",
-    "defString": "Move to the last cell of the current page",
+    "defString": "Move para a última célula da página atual",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 205,
         "column": 18,
-        "index": 6719
+        "index": 6787
       },
       "end": {
         "line": 208,
         "column": 20,
-        "index": 6888
+        "index": 6956
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2293,30 +2293,30 @@
       "start": {
         "line": 214,
         "column": 20,
-        "index": 7010
+        "index": 7078
       },
       "end": {
         "line": 217,
         "column": 22,
-        "index": 7144
+        "index": 7212
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.pageUpDescription",
-    "defString": "Go to the last row of the previous page",
+    "defString": "Vai para a última linha da página anterior",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 221,
         "column": 18,
-        "index": 7238
+        "index": 7306
       },
       "end": {
         "line": 224,
         "column": 20,
-        "index": 7404
+        "index": 7475
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2329,30 +2329,30 @@
       "start": {
         "line": 230,
         "column": 20,
-        "index": 7526
+        "index": 7597
       },
       "end": {
         "line": 233,
         "column": 22,
-        "index": 7664
+        "index": 7735
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.pageDownDescription",
-    "defString": "Go to the first row of the next page",
+    "defString": "Vai para a primeira linha da pŕoxima página",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 237,
         "column": 18,
-        "index": 7758
+        "index": 7829
       },
       "end": {
         "line": 240,
         "column": 20,
-        "index": 7923
+        "index": 8001
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2365,30 +2365,30 @@
       "start": {
         "line": 246,
         "column": 20,
-        "index": 8045
+        "index": 8123
       },
       "end": {
         "line": 249,
         "column": 22,
-        "index": 8176
+        "index": 8254
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.enterDescription",
-    "defString": "Open cell details and actions",
+    "defString": "Abre os detalhes da célula",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 253,
         "column": 18,
-        "index": 8270
+        "index": 8348
       },
       "end": {
         "line": 256,
         "column": 20,
-        "index": 8425
+        "index": 8500
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2401,30 +2401,30 @@
       "start": {
         "line": 262,
         "column": 20,
-        "index": 8547
+        "index": 8622
       },
       "end": {
         "line": 265,
         "column": 22,
-        "index": 8680
+        "index": 8755
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
   },
   {
     "token": "euiKeyboardShortcuts.escapeDescription",
-    "defString": "Close cell details and actions",
+    "defString": "Fecha os detalhes da célula",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 269,
         "column": 18,
-        "index": 8774
+        "index": 8849
       },
       "end": {
         "line": 272,
         "column": 20,
-        "index": 8931
+        "index": 9003
       }
     },
     "filepath": "src/components/datagrid/controls/keyboard_shortcuts.tsx"
@@ -2521,7 +2521,7 @@
   },
   {
     "token": "euiDataGridSchema.booleanSortTextAsc",
-    "defString": "False-True",
+    "defString": "Falso-Verdadeiro",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -2532,169 +2532,169 @@
       "end": {
         "line": 59,
         "column": 8,
-        "index": 1485
+        "index": 1491
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.booleanSortTextDesc",
-    "defString": "True-False",
+    "defString": "Verdadeiro-Falso",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 62,
         "column": 6,
-        "index": 1519
+        "index": 1525
       },
       "end": {
         "line": 65,
         "column": 8,
-        "index": 1619
+        "index": 1631
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.currencySortTextAsc",
-    "defString": "Low-High",
+    "defString": "Menor-Maior",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 97,
         "column": 6,
-        "index": 2704
+        "index": 2716
       },
       "end": {
         "line": 100,
         "column": 8,
-        "index": 2802
+        "index": 2817
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.currencySortTextDesc",
-    "defString": "High-Low",
+    "defString": "Maior-Menor",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 103,
         "column": 6,
-        "index": 2836
+        "index": 2851
       },
       "end": {
         "line": 106,
         "column": 8,
-        "index": 2935
+        "index": 2953
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.dateSortTextAsc",
-    "defString": "Old-New",
+    "defString": "Velho-Novo",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 135,
         "column": 6,
-        "index": 3889
+        "index": 3907
       },
       "end": {
         "line": 135,
-        "column": 77,
-        "index": 3960
+        "column": 80,
+        "index": 3981
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.dateSortTextDesc",
-    "defString": "New-Old",
+    "defString": "Novo-Velho",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 138,
         "column": 6,
-        "index": 3994
+        "index": 4015
       },
       "end": {
-        "line": 138,
-        "column": 78,
-        "index": 4066
+        "line": 141,
+        "column": 8,
+        "index": 4112
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.numberSortTextAsc",
-    "defString": "Low-High",
+    "defString": "Menor-Maior",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 172,
+        "line": 175,
         "column": 6,
-        "index": 5163
+        "index": 5209
       },
       "end": {
-        "line": 172,
-        "column": 80,
-        "index": 5237
+        "line": 178,
+        "column": 8,
+        "index": 5308
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.numberSortTextDesc",
-    "defString": "High-Low",
+    "defString": "Maior-Menor",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 175,
+        "line": 181,
         "column": 6,
-        "index": 5271
+        "index": 5342
       },
       "end": {
-        "line": 178,
+        "line": 184,
         "column": 8,
-        "index": 5368
+        "index": 5442
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.jsonSortTextAsc",
-    "defString": "Small-Large",
+    "defString": "Pequeno-Grande",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 203,
+        "line": 209,
         "column": 6,
-        "index": 6054
+        "index": 6128
       },
       "end": {
-        "line": 206,
+        "line": 212,
         "column": 8,
-        "index": 6151
+        "index": 6228
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
   },
   {
     "token": "euiDataGridSchema.jsonSortTextDesc",
-    "defString": "Large-Small",
+    "defString": "Grande-Pequeno",
     "highlighting": "string",
     "loc": {
       "start": {
-        "line": 209,
+        "line": 215,
         "column": 6,
-        "index": 6185
+        "index": 6262
       },
       "end": {
-        "line": 212,
+        "line": 218,
         "column": 8,
-        "index": 6283
+        "index": 6363
       }
     },
     "filepath": "src/components/datagrid/utils/data_grid_schema.tsx"
@@ -6823,7 +6823,7 @@
   },
   {
     "token": "euiTablePagination.allRows",
-    "defString": "Showing all rows",
+    "defString": "Mostrando todas as linhas",
     "highlighting": "string",
     "loc": {
       "start": {
@@ -6834,61 +6834,61 @@
       "end": {
         "line": 100,
         "column": 10,
-        "index": 3019
+        "index": 3028
       }
     },
     "filepath": "src/components/table/table_pagination/table_pagination.tsx"
   },
   {
     "token": "euiTablePagination.rowsPerPage",
-    "defString": "Rows per page",
+    "defString": "Linhas por página",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 103,
         "column": 10,
-        "index": 3053
+        "index": 3062
       },
       "end": {
         "line": 106,
         "column": 12,
-        "index": 3161
+        "index": 3174
       }
     },
     "filepath": "src/components/table/table_pagination/table_pagination.tsx"
   },
   {
     "token": "euiTablePagination.rowsPerPageOptionShowAllRows",
-    "defString": "Show all rows",
+    "defString": "Mostrar todas as linhas",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 129,
         "column": 12,
-        "index": 3829
+        "index": 3842
       },
       "end": {
         "line": 132,
         "column": 14,
-        "index": 3960
+        "index": 3983
       }
     },
     "filepath": "src/components/table/table_pagination/table_pagination.tsx"
   },
   {
     "token": "euiTablePagination.rowsPerPageOption",
-    "defString": "{rowsPerPage} rows",
+    "defString": "{rowsPerPage} linhas",
     "highlighting": "string",
     "loc": {
       "start": {
         "line": 134,
         "column": 12,
-        "index": 3989
+        "index": 4012
       },
       "end": {
         "line": 138,
         "column": 14,
-        "index": 4173
+        "index": 4198
       }
     },
     "filepath": "src/components/table/table_pagination/table_pagination.tsx"
