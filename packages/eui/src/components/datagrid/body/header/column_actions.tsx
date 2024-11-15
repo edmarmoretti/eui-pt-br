@@ -116,10 +116,10 @@ export const getHideColumnAction = ({
     // Since we hid the current column, we need to manually set focus back onto the grid
     focusFirstVisibleInteractiveCell();
   };
-
+  //Edmar Moretti - tradução
   const action = {
     label: (
-      <EuiI18n token="euiColumnActions.hideColumn" default="Hide column" />
+      <EuiI18n token="euiColumnActions.hideColumn" default="Esconde a coluna" />
     ),
     onClick: onClickHideColumn,
     iconType: 'eyeClosed',
@@ -175,7 +175,12 @@ const getMoveColumnActions = ({
       }
     };
     const action = {
-      label: <EuiI18n token="euiColumnActions.moveLeft" default="Move left" />,
+      label: (
+        <EuiI18n
+          token="euiColumnActions.moveLeft"
+          default="Move para a esquerda"
+        />
+      ),
       iconType: 'sortLeft',
       size: 'xs',
       color: 'text',
@@ -196,7 +201,10 @@ const getMoveColumnActions = ({
     };
     const action = {
       label: (
-        <EuiI18n token="euiColumnActions.moveRight" default="Move right" />
+        <EuiI18n
+          token="euiColumnActions.moveRight"
+          default="Move para a direita"
+        />
       ),
       iconType: 'sortRight',
       size: 'xs',
@@ -288,7 +296,7 @@ export const getSortColumnActions = ({
       ) : (
         <EuiI18n
           token="euiColumnActions.sort"
-          default="Sort {schemaLabel}"
+          default="Ordem {schemaLabel}"
           values={{ schemaLabel: label }}
         />
       ),
@@ -324,7 +332,7 @@ export const getSortColumnActions = ({
       ) : (
         <EuiI18n
           token="euiColumnActions.sort"
-          default="Sort {schemaLabel}"
+          default="Ordem {schemaLabel}"
           values={{ schemaLabel: label }}
         />
       ),

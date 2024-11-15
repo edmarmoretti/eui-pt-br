@@ -135,7 +135,7 @@ export const useDataGridColumnSelector = (
   );
 
   const styles = useEuiMemoizedStyles(euiDataGridColumnSelectorStyles);
-
+  //Edmar Moretti - tradução
   const columnSelector = useMemo(() => {
     return allowColumnHiding || allowColumnReorder ? (
       <EuiPopover
@@ -155,7 +155,7 @@ export const useDataGridColumnSelector = (
             data-test-subj="dataGridColumnSelectorButton"
             onClick={() => setIsOpen(!isOpen)}
           >
-            <EuiI18n token="euiColumnSelector.button" default="Columns" />
+            <EuiI18n token="euiColumnSelector.button" default="Colunas" />
           </EuiDataGridToolbarControl>
         }
       >
@@ -166,7 +166,7 @@ export const useDataGridColumnSelector = (
                 'euiColumnSelector.search',
                 'euiColumnSelector.searchcolumns',
               ]}
-              defaults={['Search', 'Search columns']}
+              defaults={['Localizar', 'Localizar colunas']}
             >
               {([search, searchcolumns]: string[]) => (
                 <EuiFieldText
@@ -287,7 +287,7 @@ export const useDataGridColumnSelector = (
                 >
                   <EuiI18n
                     token="euiColumnSelector.selectAll"
-                    default="Show all"
+                    default="Mostrar tudo"
                   />
                 </EuiButtonEmpty>
               </EuiFlexItem>
@@ -300,7 +300,7 @@ export const useDataGridColumnSelector = (
                 >
                   <EuiI18n
                     token="euiColumnSelector.hideAll"
-                    default="Hide all"
+                    default="Esconder tudo"
                   />
                 </EuiButtonEmpty>
               </EuiFlexItem>

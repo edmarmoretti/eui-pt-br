@@ -65,11 +65,11 @@ export const DataGridSortingControl: FunctionComponent<ColumnSortingProps> =
     const [isOpen, setIsOpen] = useState(false);
     const sortingButtonText = useEuiI18n(
       'euiColumnSorting.button',
-      'Sort fields'
+      'Ordena as colunas'
     );
     const sortFieldAriaLabel = useEuiI18n(
       'euiColumnSorting.sortFieldAriaLabel',
-      'Sort by: '
+      'Ordena por: '
     );
 
     const styles = useEuiMemoizedStyles(euiDataGridColumnSortingStyles);
@@ -219,7 +219,7 @@ export const DataGridSortingControl: FunctionComponent<ColumnSortingProps> =
             <p role="alert">
               <EuiI18n
                 token="euiColumnSorting.emptySorting"
-                default="Currently no fields are sorted"
+                default="Nenhuma coluna está ordenada"
               />
             </p>
           </EuiText>
@@ -252,7 +252,7 @@ export const DataGridSortingControl: FunctionComponent<ColumnSortingProps> =
                       >
                         <EuiI18n
                           token="euiColumnSorting.pickFields"
-                          default="Pick fields to sort by"
+                          default="Clique em uma coluna para ordenar"
                         />
                       </EuiButtonEmpty>
                     }
@@ -327,7 +327,7 @@ export const DataGridSortingControl: FunctionComponent<ColumnSortingProps> =
                   >
                     <EuiI18n
                       token="euiColumnSorting.clearAll"
-                      default="Clear sorting"
+                      default="Limpa o ordenamento"
                     />
                   </EuiButtonEmpty>
                 </EuiFlexItem>

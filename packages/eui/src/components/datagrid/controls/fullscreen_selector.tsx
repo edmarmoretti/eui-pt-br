@@ -39,7 +39,7 @@ export const useDataGridFullScreenSelector = (): {
       'euiFullscreenSelector.fullscreenButton',
       'euiFullscreenSelector.fullscreenButtonActive',
     ],
-    ['Enter fullscreen', 'Exit fullscreen']
+    ['Entrar em tela cheia', 'Sair da tela cheia']
   );
   const fullScreenSelector = useMemo(
     () => (
