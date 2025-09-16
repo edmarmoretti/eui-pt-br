@@ -10,6 +10,7 @@ import React, {
   FunctionComponent,
   HTMLAttributes,
   ThHTMLAttributes,
+  ReactNode,
 } from 'react';
 import classNames from 'classnames';
 
@@ -23,8 +24,10 @@ import { EuiScreenReaderOnly } from '../accessibility';
 import { CommonProps, NoArgCallback } from '../common';
 import { EuiIcon } from '../icon';
 import { EuiInnerText } from '../inner_text';
+import { EuiIconTip, EuiToolTip } from '../tool_tip';
 
 import type { EuiTableRowCellMobileOptionsShape } from './table_row_cell';
+import type { EuiTableColumnNameTooltipProps } from '../basic_table/table_types';
 import { resolveWidthAsStyle } from './utils';
 import { useEuiTableIsResponsive } from './mobile/responsive_context';
 import { EuiTableCellContent } from './_table_cell_content';
@@ -34,7 +37,7 @@ import { HEADER_CELL_SCOPE } from './table_header_cell_shared';
 export type TableHeaderCellScope = (typeof HEADER_CELL_SCOPE)[number];
 
 export type EuiTableHeaderCellProps = CommonProps &
-  Omit<ThHTMLAttributes<HTMLTableHeaderCellElement>, 'align' | 'scope'> & {
+  Omit<ThHTMLAttributes<HTMLTableCellElement>, 'align' | 'scope'> & {
     align?: HorizontalAlignment;
     isSortAscending?: boolean;
     isSorted?: boolean;
@@ -42,16 +45,25 @@ export type EuiTableHeaderCellProps = CommonProps &
     onSort?: NoArgCallback<void>;
     scope?: TableHeaderCellScope;
     width?: string | number;
+    /** Allows adding an icon with a tooltip displayed next to the name */
+    tooltipProps?: EuiTableColumnNameTooltipProps;
     description?: string;
     /**
      * Shows the sort indicator but removes the button
      */
     readOnly?: boolean;
+    /**
+     * Content rendered outside the visible cell content wrapper. Useful for, e.g. screen reader text.
+     *
+     * Used by EuiBasicTable to render hidden copy markers
+     */
+    append?: ReactNode;
   };
 
 const CellContents = ({
   className,
   align,
+  tooltipProps,
   description,
   children,
   canSort,
@@ -60,12 +72,35 @@ const CellContents = ({
 }: {
   className?: string;
   align: HorizontalAlignment;
+  tooltipProps?: EuiTableColumnNameTooltipProps;
   description: EuiTableHeaderCellProps['description'];
   children: EuiTableHeaderCellProps['children'];
   canSort?: boolean;
   isSorted: EuiTableHeaderCellProps['isSorted'];
   isSortAscending?: EuiTableHeaderCellProps['isSortAscending'];
 }) => {
+  const tooltipIcon = tooltipProps ? (
+    canSort ? (
+      <EuiIcon
+        className="euiTableSortIcon"
+        type={tooltipProps.icon || 'question'}
+        size="m"
+        color="subdued"
+        {...tooltipProps.iconProps}
+      />
+    ) : (
+      <EuiIconTip
+        content={tooltipProps.content}
+        type={tooltipProps.icon || 'question'}
+        size="m"
+        color="subdued"
+        position="top"
+        iconProps={{ role: 'button', ...tooltipProps.iconProps }}
+        {...tooltipProps.tooltipProps}
+      />
+    )
+  ) : null;
+
   return (
     <EuiTableCellContent
       className={className}
@@ -97,6 +132,7 @@ const CellContents = ({
           <span>{description}</span>
         </EuiScreenReaderOnly>
       )}
+      {tooltipIcon}
       {isSorted ? (
         <EuiIcon
           className="euiTableSortIcon"
@@ -127,7 +163,9 @@ export const EuiTableHeaderCell: FunctionComponent<EuiTableHeaderCellProps> = ({
   width,
   style,
   readOnly,
+  tooltipProps,
   description,
+  append,
   ...rest
 }) => {
   const styles = useEuiMemoizedStyles(euiTableHeaderFooterCellStyles);
@@ -154,6 +192,7 @@ export const EuiTableHeaderCell: FunctionComponent<EuiTableHeaderCellProps> = ({
   const cellContentsProps = {
     css: styles.euiTableHeaderCell__content,
     align,
+    tooltipProps,
     description,
     canSort,
     isSorted,
@@ -172,20 +211,27 @@ export const EuiTableHeaderCell: FunctionComponent<EuiTableHeaderCellProps> = ({
       {...rest}
     >
       {canSort ? (
-        <button
-          type="button"
-          css={styles.euiTableHeaderCell__button}
-          className={classNames('euiTableHeaderButton', {
-            'euiTableHeaderButton-isSorted': isSorted,
-          })}
-          onClick={onSort}
-          data-test-subj="tableHeaderSortButton"
+        <EuiToolTip
+          content={tooltipProps?.content}
+          {...tooltipProps?.tooltipProps}
+          display="block"
         >
-          <CellContents {...cellContentsProps} />
-        </button>
+          <button
+            type="button"
+            css={styles.euiTableHeaderCell__button}
+            className={classNames('euiTableHeaderButton', {
+              'euiTableHeaderButton-isSorted': isSorted,
+            })}
+            onClick={onSort}
+            data-test-subj="tableHeaderSortButton"
+          >
+            <CellContents {...cellContentsProps} />
+          </button>
+        </EuiToolTip>
       ) : (
         <CellContents {...cellContentsProps} />
       )}
+      {append}
     </CellComponent>
   );
 };

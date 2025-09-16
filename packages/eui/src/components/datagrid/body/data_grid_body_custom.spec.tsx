@@ -22,6 +22,8 @@ describe('EuiDataGridBodyCustomRender', () => {
     visibleColumns,
     visibleRowData,
     Cell,
+    headerRow,
+    footerRow,
   }) => {
     const visibleRows = raw_data.slice(
       visibleRowData.startRow,
@@ -29,6 +31,7 @@ describe('EuiDataGridBodyCustomRender', () => {
     );
     return (
       <>
+        {headerRow}
         {visibleRows.map((row, rowIndex) => (
           <div role="row" key={rowIndex} style={{ display: 'flex' }}>
             {visibleColumns.map((column, colIndex) => (
@@ -41,6 +44,7 @@ describe('EuiDataGridBodyCustomRender', () => {
             ))}
           </div>
         ))}
+        {footerRow}
       </>
     );
   };
@@ -135,6 +139,7 @@ describe('EuiDataGridBodyCustomRender', () => {
       '[data-gridcell-row-index="0"][data-gridcell-column-index="1"]'
     ).contains('B,0');
 
+    cy.get('[data-test-subj="dataGridHeaderCellActionButton-A"]').realHover();
     cy.get('[data-test-subj="dataGridHeaderCellActionButton-A"]').click();
     cy.contains('Move right').click();
 
@@ -160,6 +165,7 @@ describe('EuiDataGridBodyCustomRender', () => {
     cy.realMount(<DataGridTest />);
     cy.get('[role="gridcell"]').first().contains('A,0');
 
+    cy.get('[data-test-subj="dataGridHeaderCellActionButton-A"]').realHover();
     cy.get('[data-test-subj="dataGridHeaderCellActionButton-A"]').click();
     cy.contains('Sort High-Low').click();
 
@@ -197,7 +203,7 @@ describe('EuiDataGridBodyCustomRender', () => {
     cy.get('[role="gridcell"]').first().invoke('outerHeight').should('eq', 36);
 
     cy.get('[data-test-subj="dataGridDisplaySelectorButton"]').click();
-    cy.contains('Auto fit').click();
+    cy.contains('Auto').click();
 
     cy.get('[role="gridcell"]')
       .first()

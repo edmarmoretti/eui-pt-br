@@ -6,12 +6,15 @@
  * Side Public License, v 1.
  */
 
-import React from 'react';
-import { fireEvent } from '@testing-library/react';
-import { render } from '../../../test/rtl';
+import React, { useState } from 'react';
+import moment from 'moment';
+import { fireEvent, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+import { render, waitForEuiPopoverOpen, screen } from '../../../test/rtl';
 import { requiredProps } from '../../../test';
 import { shouldRenderCustomStyles } from '../../../test/internal';
-
+import { EuiFieldText } from '../../form';
 import {
   EuiSuperDatePicker,
   EuiSuperDatePickerProps,
@@ -149,6 +152,29 @@ describe('EuiSuperDatePicker', () => {
       expect(updateButton.className).toContain('danger');
     });
 
+    test('quickSelectButtonProps', () => {
+      const onMouseDown = jest.fn();
+      const quickSelectButtonProps: EuiSuperDatePickerProps['quickSelectButtonProps'] =
+        {
+          onMouseDown,
+          color: 'danger',
+        };
+
+      const { getByTestSubject } = render(
+        <EuiSuperDatePicker
+          onTimeChange={noop}
+          quickSelectButtonProps={quickSelectButtonProps}
+        />
+      );
+      const quickSelectButton = getByTestSubject(
+        'superDatePickerToggleQuickMenuButton'
+      )!;
+      expect(quickSelectButton.className).toContain('danger');
+      fireEvent.mouseDown(quickSelectButton);
+
+      expect(onMouseDown).toHaveBeenCalledTimes(1);
+    });
+
     it('invokes onFocus callbacks on the date popover buttons', () => {
       const focusMock = jest.fn();
       const { getByTestSubject } = render(
@@ -229,6 +255,59 @@ describe('EuiSuperDatePicker', () => {
           <EuiSuperDatePicker onTimeChange={noop} isQuickSelectOnly />
         );
         expect(container.firstChild).toMatchSnapshot();
+      });
+
+      it('should open the quick select panel', async () => {
+        const Component = () => {
+          const [isCollapsed, setCollapsed] = useState(false);
+
+          return (
+            <>
+              <EuiFieldText
+                onFocus={() => setCollapsed(true)}
+                data-test-subj="euiFieldText"
+              />
+              <EuiSuperDatePicker
+                start="2025-01-01T00:00:00"
+                end="now"
+                onTimeChange={noop}
+                isQuickSelectOnly={isCollapsed}
+                quickSelectButtonProps={{
+                  onClick: () => setCollapsed(false),
+                  'data-test-subj': 'euiSuperDatePickerQuickSelectButton',
+                }}
+              />
+            </>
+          );
+        };
+        const { getByTestSubject } = render(<Component />);
+
+        const input = getByTestSubject('euiFieldText');
+        const quickSelectButton = getByTestSubject(
+          'euiSuperDatePickerQuickSelectButton'
+        );
+        const startDateButton = getByTestSubject(
+          'superDatePickerstartDatePopoverButton'
+        );
+
+        expect(startDateButton).toBeInTheDocument();
+
+        act(() => {
+          userEvent.click(input);
+        });
+
+        expect(input).toHaveFocus();
+        expect(startDateButton).not.toBeInTheDocument();
+
+        fireEvent.click(quickSelectButton);
+
+        await waitForEuiPopoverOpen();
+
+        expect(
+          getByTestSubject('superDatePickerQuickMenu')
+        ).toBeInTheDocument();
+
+        expect(document.querySelector('.euiPanel')).toHaveFocus();
       });
     });
 
@@ -395,6 +474,170 @@ describe('EuiSuperDatePicker', () => {
         fireEvent.change(unitSelect, { target: { value: 'd' } });
         expect(startButton).toHaveTextContent('300 days ago');
       });
+    });
+
+    describe('minDate', () => {
+      const props = {
+        onTimeChange: noop,
+        end: 'now',
+      };
+
+      it('is valid when the start value is set after the minDate', () => {
+        const { container } = render(
+          <EuiSuperDatePicker
+            {...props}
+            start="10/01/2024"
+            minDate={moment('10/01/2024')}
+          />
+        );
+
+        const formWraper = container.querySelector(
+          '.euiFormControlLayout__childrenWrapper'
+        )!;
+
+        expect(formWraper.className).not.toContain('invalid');
+      });
+
+      it('is invalid when the start value is set before the minDate', () => {
+        const { container } = render(
+          <EuiSuperDatePicker
+            {...props}
+            start="09/30/2024"
+            minDate={moment('10/01/2024')}
+          />
+        );
+
+        const formWraper = container.querySelector(
+          '.euiFormControlLayout__childrenWrapper'
+        )!;
+
+        expect(formWraper.className).toContain('invalid');
+      });
+    });
+
+    describe('maxDate', () => {
+      const props = {
+        onTimeChange: noop,
+        start: '10/01/2024',
+      };
+
+      it('is valid when the end value is set before the maxDate', () => {
+        const { container } = render(
+          <EuiSuperDatePicker
+            {...props}
+            end="10/31/2024"
+            maxDate={moment('11/01/2024')}
+          />
+        );
+
+        const formWraper = container.querySelector(
+          '.euiFormControlLayout__childrenWrapper'
+        )!;
+
+        expect(formWraper.className).not.toContain('invalid');
+      });
+
+      it('is invalid when the end date exceeds the maxDate', () => {
+        const { container } = render(
+          <EuiSuperDatePicker
+            {...props}
+            end="11/02/2024"
+            maxDate={moment('11/01/2024')}
+          />
+        );
+
+        const formWraper = container.querySelector(
+          '.euiFormControlLayout__childrenWrapper'
+        )!;
+
+        expect(formWraper.className).toContain('invalid');
+      });
+    });
+  });
+
+  describe('Quick Select time window steps', () => {
+    it('steps forward', async () => {
+      // Use fixed absolute start/end with time
+      const start = '2025-01-01T10:00:00.000Z';
+      const end = '2025-01-02T10:00:00.000Z';
+      let lastTimeChange: { start: string; end: string } = { start, end };
+
+      render(
+        <EuiSuperDatePicker
+          start={start}
+          end={end}
+          onTimeChange={({ start, end }) => {
+            lastTimeChange = { start, end };
+          }}
+          showUpdateButton={false}
+        />
+      );
+
+      act(() => {
+        userEvent.click(
+          screen.getByTestSubject('superDatePickerToggleQuickMenuButton')
+        );
+      });
+
+      await waitForEuiPopoverOpen();
+
+      // Find the quick select stepper buttons (previous/next)
+      const prevBtn = screen.getByLabelText(/Previous time window/i);
+      const nextBtn = screen.getByLabelText(/Next time window/i);
+
+      expect(prevBtn).toBeInTheDocument();
+      expect(nextBtn).toBeInTheDocument();
+
+      // Step forward (should move window forward by the same duration)
+      act(() => {
+        userEvent.click(nextBtn);
+      });
+
+      const nextStart = lastTimeChange.start;
+      const nextEnd = lastTimeChange.end;
+
+      expect(nextStart).toBe('2025-01-02T10:00:00.000Z');
+      expect(nextEnd).toBe('2025-01-03T10:00:00.000Z');
+    });
+
+    it('steps backward', async () => {
+      // Use fixed absolute start/end with time
+      const start = '2025-01-01T10:00:00.000Z';
+      const end = '2025-01-02T10:00:00.000Z';
+      let lastTimeChange: { start: string; end: string } = { start, end };
+
+      render(
+        <EuiSuperDatePicker
+          start={start}
+          end={end}
+          onTimeChange={({ start, end }) => {
+            lastTimeChange = { start, end };
+          }}
+          showUpdateButton={false}
+        />
+      );
+
+      act(() => {
+        userEvent.click(
+          screen.getByTestSubject('superDatePickerToggleQuickMenuButton')
+        );
+      });
+
+      await waitForEuiPopoverOpen();
+
+      const prevBtn = screen.getByLabelText(/Previous time window/i);
+
+      expect(prevBtn).toBeInTheDocument();
+
+      act(() => {
+        userEvent.click(prevBtn);
+      });
+
+      const prevStart = lastTimeChange.start;
+      const prevEnd = lastTimeChange.end;
+
+      expect(prevStart).toBe('2024-12-31T10:00:00.000Z');
+      expect(prevEnd).toBe('2025-01-01T10:00:00.000Z');
     });
   });
 });

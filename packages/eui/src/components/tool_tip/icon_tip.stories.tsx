@@ -15,7 +15,7 @@ import {
 } from '../../../.storybook/utils';
 import { LOKI_SELECTORS } from '../../../.storybook/loki';
 import { EuiFlexGroup } from '../flex';
-import { EuiIconTip, Props as EuiIconTipProps } from './icon_tip';
+import { EuiIconTip, EuiIconTipProps } from './icon_tip';
 
 const meta: Meta<EuiIconTipProps> = {
   title: 'Display/EuiIconTip',
@@ -40,7 +40,7 @@ const meta: Meta<EuiIconTipProps> = {
     ),
   ],
   args: {
-    type: 'questionInCircle',
+    type: 'question',
     position: 'top',
     delay: 'regular',
     display: 'inlineBlock',

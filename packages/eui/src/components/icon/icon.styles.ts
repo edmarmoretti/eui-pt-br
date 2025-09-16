@@ -40,11 +40,14 @@ export const euiIconStyles = ({ euiTheme }: UseEuiTheme) => ({
     }
   `,
   // Colors
-  accent: css`
-    color: ${euiTheme.colors.accentText};
+  primary: css`
+    color: ${euiTheme.colors.textPrimary};
   `,
-  danger: css`
-    color: ${euiTheme.colors.dangerText};
+  accent: css`
+    color: ${euiTheme.colors.textAccent};
+  `,
+  accentSecondary: css`
+    color: ${euiTheme.colors.textAccentSecondary};
   `,
   ghost: css`
     color: ${euiTheme.colors.ghost};
@@ -55,17 +58,11 @@ export const euiIconStyles = ({ euiTheme }: UseEuiTheme) => ({
       fill: currentColor !important; /* stylelint-disable-line declaration-no-important */
     }
   `,
-  primary: css`
-    color: ${euiTheme.colors.primaryText};
-  `,
-  success: css`
-    color: ${euiTheme.colors.successText};
-  `,
   subdued: css`
-    color: ${euiTheme.colors.subduedText};
+    color: ${euiTheme.colors.textSubdued};
   `,
   text: css`
-    color: ${euiTheme.colors.title};
+    color: ${euiTheme.colors.textHeading};
 
     /* Really force all paths to inherit (specifically for logos) */
     *[fill],
@@ -73,8 +70,20 @@ export const euiIconStyles = ({ euiTheme }: UseEuiTheme) => ({
       fill: currentColor !important; /* stylelint-disable-line declaration-no-important */
     }
   `,
+  neutral: css`
+    color: ${euiTheme.colors.textNeutral};
+  `,
+  success: css`
+    color: ${euiTheme.colors.textSuccess};
+  `,
   warning: css`
-    color: ${euiTheme.colors.warningText};
+    color: ${euiTheme.colors.textWarning};
+  `,
+  risk: css`
+    color: ${euiTheme.colors.textRisk};
+  `,
+  danger: css`
+    color: ${euiTheme.colors.textDanger};
   `,
   inherit: css`
     color: inherit;
@@ -101,12 +110,12 @@ export const euiIconStyles = ({ euiTheme }: UseEuiTheme) => ({
   // Variants
   // App icons are two-toned. This provides the base color.
   app: css`
-    fill: ${euiTheme.colors.text};
+    fill: ${euiTheme.colors.textParagraph};
 
     /* Note: This className is hard-coded into our SVGs and cannot be converted to Emotion */
     .euiIcon__fillSecondary {
       /* This provides the default secondary color */
-      fill: ${euiTheme.colors.successText};
+      fill: ${euiTheme.colors.primary};
     }
   `,
   logo: css``,

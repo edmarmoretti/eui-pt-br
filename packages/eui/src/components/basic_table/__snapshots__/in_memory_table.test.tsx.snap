@@ -7,19 +7,24 @@ exports[`EuiInMemoryTable behavior mobile header 1`] = `
   <div
     class="euiCheckbox emotion-euiCheckbox"
   >
-    <input
-      aria-label="Select all rows"
-      class="euiCheckbox__input"
-      data-test-subj="checkboxSelectAll"
-      id="_selection_column-checkbox_generated-id"
-      title="Select all rows"
-      type="checkbox"
-    />
     <div
-      class="euiCheckbox__square"
-    />
+      class="euiCheckbox__square emotion-euiCheckbox__square-unselected"
+    >
+      <span
+        class="emotion-euiCheckbox__icon-check"
+        data-euiicon-type="empty"
+      />
+      <input
+        aria-label="Select all rows"
+        class="euiCheckbox__input emotion-euiCheckbox__input"
+        data-test-subj="checkboxSelectAll"
+        id="_selection_column-checkbox_generated-id"
+        title="Select all rows"
+        type="checkbox"
+      />
+    </div>
     <label
-      class="euiCheckbox__label"
+      class="euiCheckbox__label emotion-euiCheckbox__label"
       for="_selection_column-checkbox_generated-id"
     >
       Select all rows
@@ -84,7 +89,6 @@ exports[`EuiInMemoryTable behavior pagination 1`] = `
     />
   </a>
   <ul
-    aria-label="Pagination for table: "
     class="euiPagination__list emotion-euiPagination__list"
   >
     <li
@@ -114,7 +118,7 @@ exports[`EuiInMemoryTable behavior pagination 1`] = `
     >
       <button
         aria-controls="__table_generated-id"
-        aria-current="true"
+        aria-current="page"
         aria-label="Page 2 of 2"
         class="euiButtonEmpty euiPaginationButton emotion-euiButtonDisplay-euiButtonEmpty-s-empty-disabled-isDisabled-euiPaginationButton-isActive"
         data-test-subj="pagination-button-1"
@@ -156,6 +160,13 @@ exports[`EuiInMemoryTable empty array 1`] = `
   class="euiBasicTable testClass1 testClass2 emotion-euiTestCss"
   data-test-subj="test subject string"
 >
+  <span
+    aria-hidden="true"
+    class="euiScreenReaderOnly"
+    data-tabular-copy-marker="boundary"
+  >
+    𐘂𐘂
+  </span>
   <table
     class="euiTable emotion-euiTable-fixed-uncompressed-desktop"
     id="__table_generated-id"
@@ -163,7 +174,22 @@ exports[`EuiInMemoryTable empty array 1`] = `
   >
     <caption
       class="euiTableCaption emotion-euiTableCaptionStyles-euiScreenReaderOnly"
-    />
+    >
+      <span
+        aria-hidden="true"
+        class="euiScreenReaderOnly"
+        data-tabular-copy-marker="no-copy"
+      >
+        ✄𐘗
+      </span>
+      <span
+        aria-hidden="true"
+        class="euiScreenReaderOnly"
+        data-tabular-copy-marker="no-copy"
+      >
+        ✄𐘗
+      </span>
+    </caption>
     <thead>
       <tr>
         <th
@@ -187,6 +213,13 @@ exports[`EuiInMemoryTable empty array 1`] = `
               description
             </span>
           </div>
+          <span
+            aria-hidden="true"
+            class="euiScreenReaderOnly"
+            data-tabular-copy-marker="newline"
+          >
+            ↵
+          </span>
         </th>
       </tr>
     </thead>
@@ -213,6 +246,13 @@ exports[`EuiInMemoryTable empty array 1`] = `
       </tr>
     </tbody>
   </table>
+  <span
+    aria-hidden="true"
+    class="euiScreenReaderOnly"
+    data-tabular-copy-marker="boundary"
+  >
+    𐘂𐘂
+  </span>
 </div>
 `;
 
@@ -222,6 +262,13 @@ exports[`EuiInMemoryTable with items 1`] = `
   class="euiBasicTable testClass1 testClass2 emotion-euiTestCss"
   data-test-subj="test subject string"
 >
+  <span
+    aria-hidden="true"
+    class="euiScreenReaderOnly"
+    data-tabular-copy-marker="boundary"
+  >
+    𐘂𐘂
+  </span>
   <table
     class="euiTable emotion-euiTable-fixed-uncompressed-desktop"
     id="__table_generated-id"
@@ -229,7 +276,22 @@ exports[`EuiInMemoryTable with items 1`] = `
   >
     <caption
       class="euiTableCaption emotion-euiTableCaptionStyles-euiScreenReaderOnly"
-    />
+    >
+      <span
+        aria-hidden="true"
+        class="euiScreenReaderOnly"
+        data-tabular-copy-marker="no-copy"
+      >
+        ✄𐘗
+      </span>
+      <span
+        aria-hidden="true"
+        class="euiScreenReaderOnly"
+        data-tabular-copy-marker="no-copy"
+      >
+        ✄𐘗
+      </span>
+    </caption>
     <thead>
       <tr>
         <th
@@ -253,6 +315,13 @@ exports[`EuiInMemoryTable with items 1`] = `
               description
             </span>
           </div>
+          <span
+            aria-hidden="true"
+            class="euiScreenReaderOnly"
+            data-tabular-copy-marker="newline"
+          >
+            ↵
+          </span>
         </th>
       </tr>
     </thead>
@@ -274,6 +343,13 @@ exports[`EuiInMemoryTable with items 1`] = `
               name1
             </span>
           </div>
+          <span
+            aria-hidden="true"
+            class="euiScreenReaderOnly"
+            data-tabular-copy-marker="newline"
+          >
+            ↵
+          </span>
         </td>
       </tr>
       <tr
@@ -291,6 +367,13 @@ exports[`EuiInMemoryTable with items 1`] = `
               name2
             </span>
           </div>
+          <span
+            aria-hidden="true"
+            class="euiScreenReaderOnly"
+            data-tabular-copy-marker="newline"
+          >
+            ↵
+          </span>
         </td>
       </tr>
       <tr
@@ -308,9 +391,23 @@ exports[`EuiInMemoryTable with items 1`] = `
               name3
             </span>
           </div>
+          <span
+            aria-hidden="true"
+            class="euiScreenReaderOnly"
+            data-tabular-copy-marker="newline"
+          >
+            ↵
+          </span>
         </td>
       </tr>
     </tbody>
   </table>
+  <span
+    aria-hidden="true"
+    class="euiScreenReaderOnly"
+    data-tabular-copy-marker="boundary"
+  >
+    𐘂𐘂
+  </span>
 </div>
 `;

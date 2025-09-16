@@ -178,7 +178,7 @@ exports[`EuiBadge props color accent is rendered 1`] = `
 exports[`EuiBadge props color accepts hex 1`] = `
 <span
   class="euiBadge emotion-euiBadge"
-  style="--euiBadgeBackgroundColor: #333; --euiBadgeTextColor: #FFF;"
+  style="--euiBadgeBackgroundColor: #333; --euiBadgeTextColor: #FFFFFF;"
   title="Content"
 >
   <span
@@ -196,7 +196,7 @@ exports[`EuiBadge props color accepts hex 1`] = `
 exports[`EuiBadge props color accepts rgba 1`] = `
 <span
   class="euiBadge emotion-euiBadge"
-  style="--euiBadgeBackgroundColor: rgba(255,255,255,1); --euiBadgeTextColor: #000;"
+  style="--euiBadgeBackgroundColor: rgba(255,255,255,1); --euiBadgeTextColor: #07101F;"
   title="Content"
 >
   <span
@@ -262,9 +262,43 @@ exports[`EuiBadge props color hollow is rendered 1`] = `
 </span>
 `;
 
+exports[`EuiBadge props color neutral is rendered 1`] = `
+<span
+  class="euiBadge emotion-euiBadge-neutral"
+  title="Content"
+>
+  <span
+    class="euiBadge__content emotion-euiBadge__content"
+  >
+    <span
+      class="euiBadge__text emotion-euiBadge__text"
+    >
+      Content
+    </span>
+  </span>
+</span>
+`;
+
 exports[`EuiBadge props color primary is rendered 1`] = `
 <span
   class="euiBadge emotion-euiBadge-primary"
+  title="Content"
+>
+  <span
+    class="euiBadge__content emotion-euiBadge__content"
+  >
+    <span
+      class="euiBadge__text emotion-euiBadge__text"
+    >
+      Content
+    </span>
+  </span>
+</span>
+`;
+
+exports[`EuiBadge props color risk is rendered 1`] = `
+<span
+  class="euiBadge emotion-euiBadge-risk"
   title="Content"
 >
   <span
@@ -487,9 +521,45 @@ exports[`EuiBadge props style is rendered with hollow 2`] = `
 </span>
 `;
 
+exports[`EuiBadge props style is rendered with neutral 1`] = `
+<span
+  class="euiBadge emotion-euiBadge-neutral"
+  style="border: 4px solid tomato;"
+  title="Content"
+>
+  <span
+    class="euiBadge__content emotion-euiBadge__content"
+  >
+    <span
+      class="euiBadge__text emotion-euiBadge__text"
+    >
+      Content
+    </span>
+  </span>
+</span>
+`;
+
 exports[`EuiBadge props style is rendered with primary 1`] = `
 <span
   class="euiBadge emotion-euiBadge-primary"
+  style="border: 4px solid tomato;"
+  title="Content"
+>
+  <span
+    class="euiBadge__content emotion-euiBadge__content"
+  >
+    <span
+      class="euiBadge__text emotion-euiBadge__text"
+    >
+      Content
+    </span>
+  </span>
+</span>
+`;
+
+exports[`EuiBadge props style is rendered with risk 1`] = `
+<span
+  class="euiBadge emotion-euiBadge-risk"
   style="border: 4px solid tomato;"
   title="Content"
 >

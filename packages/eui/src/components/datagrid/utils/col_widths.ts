@@ -102,9 +102,7 @@ export const useColumnWidths = ({
         ...prevColumnWidths,
         [columnId]: width,
       }));
-      if (onColumnResize) {
-        onColumnResize({ columnId, width });
-      }
+      onColumnResize?.({ columnId, width });
     },
     [onColumnResize]
   );

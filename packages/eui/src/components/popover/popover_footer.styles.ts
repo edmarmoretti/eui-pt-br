@@ -17,13 +17,20 @@ import {
 import { UseEuiTheme } from '../../services';
 
 export const euiPopoverFooterStyles = (euiThemeContext: UseEuiTheme) => {
-  const { euiTheme } = euiThemeContext;
+  const { euiTheme, highContrastMode } = euiThemeContext;
 
   return {
     // Base
     euiPopoverFooter: css`
       ${euiFontSize(euiThemeContext, 's')}
-      ${logicalCSS('border-top', euiTheme.border.thin)}
+      ${logicalCSS(
+        'border-top',
+        `${euiTheme.border.width.thin} solid ${
+          highContrastMode
+            ? euiTheme.border.color
+            : euiTheme.components.popoverFooterBorderColor
+        }`
+      )}
     `,
     // If the popover's containing panel has padding applied,
     // ensure the title expands to cover that padding via negative margins
@@ -52,7 +59,7 @@ export const panelPaddingOffset = (
   euiThemeContext: UseEuiTheme,
   size: EuiPaddingSize
 ) => {
-  const panelPaddingSize = euiPaddingSize(euiThemeContext, size);
+  const panelPaddingSize = euiPaddingSize(euiThemeContext, size)!;
 
   return logicalShorthandCSS(
     'margin',

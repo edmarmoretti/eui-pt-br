@@ -9,7 +9,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import illustration from '../../../src-docs/src/images/empty-prompt/illustration.svg';
+import illustration from './images/illustration.svg';
 import { EuiButton, EuiButtonEmpty } from '../button';
 import { EuiTitle } from '../title';
 import { EuiLink } from '../link';
@@ -95,5 +95,20 @@ export const PageTemplate: Story = {
         </EuiLink>
       </>
     ),
+  },
+};
+
+export const HighContrast: Story = {
+  tags: ['vrt-only'],
+  globals: { highContrastMode: true },
+  args: Playground.args,
+};
+
+export const HighContrastTransparent: Story = {
+  tags: ['vrt-only'],
+  globals: { highContrastMode: true },
+  args: {
+    ...Playground.args,
+    color: 'transparent',
   },
 };

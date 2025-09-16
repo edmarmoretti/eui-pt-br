@@ -12,10 +12,12 @@ import { Pagination } from './pagination_bar';
 import { Action } from './action_types';
 import { Primitive } from '../../services/sort/comparators';
 import { CommonProps } from '../common';
+import { IconType } from '../icon';
 import {
   EuiTableRowCellProps,
   EuiTableRowCellMobileOptionsShape,
 } from '../table/table_row_cell';
+import { EuiToolTipProps, EuiIconTipProps } from '../tool_tip';
 
 export type ItemId<T> = string | number | ((item: T) => string);
 export type ItemIdResolved = string | number;
@@ -31,6 +33,25 @@ export interface EuiTableFooterProps<T> {
   items: T[];
   pagination?: Pagination;
 }
+
+/** Allows adding an icon with a tooltip to column names */
+export type EuiTableColumnNameTooltipProps = {
+  /** The main content of the tooltip */
+  content: ReactNode;
+  /**
+   * The icon type to display
+   * @default 'question'
+   */
+  icon?: IconType;
+  /** Additional props for EuiIcon */
+  iconProps?: EuiIconTipProps['iconProps'];
+  /** Additional props for the EuiToolip */
+  tooltipProps?: Omit<EuiToolTipProps, 'children' | 'delay' | 'position'> & {
+    delay?: EuiToolTipProps['delay'];
+    position?: EuiToolTipProps['position'];
+  };
+};
+
 export interface EuiTableFieldDataColumnType<T>
   extends CommonProps,
     Omit<TdHTMLAttributes<HTMLTableCellElement>, 'width' | 'align'> {
@@ -44,6 +65,10 @@ export interface EuiTableFieldDataColumnType<T>
    * The display name of the column
    */
   name: ReactNode;
+  /**
+   * Allows adding an icon with a tooltip displayed next to the name
+   */
+  nameTooltip?: EuiTableColumnNameTooltipProps;
   /**
    * A description of the column (will be presented as a title over the column header)
    */
@@ -91,9 +116,12 @@ export interface EuiTableFieldDataColumnType<T>
     render?: (item: T) => ReactNode;
   };
   /**
-   * Describe a custom renderer function for the content
+   * A custom renderer for this column's cell content.
+   * Unlike computed columns or `mobileOptions.render`, this function receives:
+   * - `value`: The value of the specified field for this row
+   * - `item`: The full data item (row object)
    */
-  render?: (value: any, record: T) => ReactNode;
+  render?: (value: any, item: T) => ReactNode;
   /**
    * Content to display in the footer beneath this column
    */
@@ -113,11 +141,15 @@ export type EuiTableComputedColumnType<T> = CommonProps &
     /**
      * A function that computes the value for each item and renders it
      */
-    render: (record: T) => ReactNode;
+    render: (item: T) => ReactNode;
     /**
      * The display name of the column
      */
     name?: ReactNode;
+    /**
+     * Allows configuring an icon with a tooltip, to be displayed next to the name
+     */
+    nameTooltip?: EuiTableColumnNameTooltipProps;
     /**
      * If provided, allows this column to be sorted on. Must return the value to sort against.
      */
@@ -134,13 +166,17 @@ export type EuiTableComputedColumnType<T> = CommonProps &
 
 export type EuiTableActionsColumnType<T extends object> = {
   /**
-   * An array of one of the objects: #DefaultItemAction or #CustomItemAction
+   * An array of one of the objects: {@link DefaultItemAction} or {@link CustomItemAction}
    */
   actions: Array<Action<T>>;
   /**
    * The display name of the column
    */
   name?: ReactNode;
+  /**
+   * Allows configuring an icon with a tooltip, to be displayed next to the name
+   */
+  nameTooltip?: EuiTableColumnNameTooltipProps;
 } & Pick<EuiTableFieldDataColumnType<T>, 'description' | 'width'>;
 
 export interface EuiTableSortingType<T> {

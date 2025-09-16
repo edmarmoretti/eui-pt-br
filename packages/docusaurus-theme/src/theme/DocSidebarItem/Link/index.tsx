@@ -1,8 +1,8 @@
-import React from 'react';
+import { JSX } from 'react';
 import clsx from 'clsx';
 import { css } from '@emotion/react';
 import { ThemeClassNames } from '@docusaurus/theme-common';
-import { isActiveSidebarItem } from '@docusaurus/theme-common/internal';
+import { isActiveSidebarItem } from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme-original/Icon/ExternalLink';
@@ -16,11 +16,6 @@ const getStyles = ({ euiTheme }: UseEuiTheme) => ({
       color: ${euiTheme.colors.text};
       font-size: var(--eui-font-size-s);
       line-height: var(--eui-line-height-s);
-
-      @media (min-width: 997px) {
-        font-size: var(--eui-font-size-xs);
-        line-height: var(--eui-line-height-xs);
-      }
     }
 
     .menu__link--active {

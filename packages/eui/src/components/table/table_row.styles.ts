@@ -7,14 +7,11 @@
  */
 
 import { css, keyframes } from '@emotion/react';
+import { euiShadow } from '@elastic/eui-theme-common';
 
-import { UseEuiTheme, tint, shade, transparentize } from '../../services';
-import {
-  euiCanAnimate,
-  euiBackgroundColor,
-  logicalCSS,
-} from '../../global_styling';
-import { euiShadow } from '../../themes/amsterdam/global_styling/mixins';
+import { UseEuiTheme } from '../../services';
+import { euiCanAnimate, logicalCSS, mathWithUnits } from '../../global_styling';
+import { cssSupportsHasWithNextSibling } from '../../global_styling/functions/supports';
 
 import { euiTableVariables } from './table.styles';
 
@@ -27,14 +24,26 @@ export const euiTableRowStyles = (euiThemeContext: UseEuiTheme) => {
   const { cellContentPadding, mobileSizes, checkboxSize } =
     euiTableVariables(euiThemeContext);
 
+  const markedStyles = `
+    :where(&.euiTableRow--marked):hover {
+      background-color: ${rowColors.marked.hover};
+    }
+  `;
+
   return {
-    euiTableRow: css``,
+    euiTableRow: css`
+      :where(&.euiTableRow--marked) {
+        background-color: ${rowColors.marked.background};
+      }
+    `,
 
     desktop: {
       desktop: css`
         &:hover {
           background-color: ${rowColors.hover};
         }
+
+        ${markedStyles}
       `,
       expanded: css`
         background-color: ${rowColors.hover};
@@ -46,6 +55,8 @@ export const euiTableRowStyles = (euiThemeContext: UseEuiTheme) => {
           cursor: pointer;
         }
 
+        ${markedStyles}
+
         &:focus {
           background-color: ${rowColors.clickable.focus};
         }
@@ -53,7 +64,7 @@ export const euiTableRowStyles = (euiThemeContext: UseEuiTheme) => {
       selected: css`
         &,
         & + .euiTableRow-isExpandedRow {
-          background-color: ${rowColors.selected.color};
+          background-color: ${rowColors.selected.background};
         }
 
         &:hover,
@@ -79,14 +90,27 @@ export const euiTableRowStyles = (euiThemeContext: UseEuiTheme) => {
         ${logicalCSS('margin-bottom', cellContentPadding)}
 
         /* EuiPanel styling */
-        ${euiShadow(euiThemeContext, 's')}
-        background-color: ${euiBackgroundColor(euiThemeContext, 'plain')};
+        ${euiShadow(euiThemeContext, 's', {
+          borderAllInHighContrastMode: true,
+        })}
+        background-color: ${euiTheme.colors.backgroundBasePlain};
         border-radius: ${euiTheme.border.radius.medium};
+
+        /* :has(+) is not supported in all environments (mainly not in older jsdom versions)
+        TODO: Remove the wrapper once consumers have updated their jsdom to >= 24 */
+        ${cssSupportsHasWithNextSibling(
+          `
+            &:has(+ .euiTableRow-isExpandedRow) {
+              ${logicalCSS('border-bottom-left-radius', 0)}
+              ${logicalCSS('border-bottom-right-radius', 0)}
+            }
+          `
+        )}
       `,
       selected: css`
         &,
         & + .euiTableRow-isExpandedRow {
-          background-color: ${rowColors.selected.color};
+          background-color: ${rowColors.selected.background};
         }
       `,
       /**
@@ -108,15 +132,22 @@ export const euiTableRowStyles = (euiThemeContext: UseEuiTheme) => {
           position: absolute;
           ${logicalCSS('vertical', 0)}
           ${logicalCSS('right', mobileSizes.actions.width)}
-          ${logicalCSS('width', euiTheme.border.width.thin)}
-          background-color: ${euiTheme.border.color};
+          ${logicalCSS('border-right', euiTheme.border.thin)}
         }
       `,
       /**
        * Bottom of card - expanded rows
        */
       expanded: css`
-        ${logicalCSS('margin-top', `-${mobileSizes.actions.offset}`)}
+        ${logicalCSS(
+          // On mobile, visually move the expanded row to join up with the
+          // preceding table row via negative margins
+          'margin-top',
+          mathWithUnits(
+            [cellContentPadding, euiTheme.border.width.thin],
+            (x, y) => (x + y) * -1
+          )
+        )}
         /* Padding accounting for the checkbox is already applied via the content */
         ${logicalCSS('padding-left', cellContentPadding)}
 
@@ -159,23 +190,18 @@ const _expandedRowAnimation = ({ euiTheme }: UseEuiTheme) => {
   `;
 };
 
-const _rowColorVariables = ({ euiTheme, colorMode }: UseEuiTheme) => ({
-  hover:
-    colorMode === 'DARK'
-      ? euiTheme.colors.lightestShade
-      : tint(euiTheme.colors.lightestShade, 0.5),
+const _rowColorVariables = ({ euiTheme }: UseEuiTheme) => ({
+  hover: euiTheme.components.tableRowBackgroundHover,
   selected: {
-    color:
-      colorMode === 'DARK'
-        ? shade(euiTheme.colors.primary, 0.7)
-        : tint(euiTheme.colors.primary, 0.96),
-    hover:
-      colorMode === 'DARK'
-        ? shade(euiTheme.colors.primary, 0.75)
-        : tint(euiTheme.colors.primary, 0.9),
+    background: euiTheme.components.tableRowBackgroundSelected,
+    hover: euiTheme.components.tableRowBackgroundSelectedHover,
   },
   clickable: {
-    hover: transparentize(euiTheme.colors.primary, 0.05),
-    focus: transparentize(euiTheme.colors.primary, 0.1),
+    hover: euiTheme.components.tableRowInteractiveBackgroundHover,
+    focus: euiTheme.components.tableRowInteractiveBackgroundFocus,
+  },
+  marked: {
+    background: euiTheme.components.tableRowBackgroundMarked,
+    hover: euiTheme.components.tableRowBackgroundMarkedHover,
   },
 });

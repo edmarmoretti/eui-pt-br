@@ -1,0 +1,419 @@
+---
+sidebar_position: 3
+sidebar_label: Typography
+---
+
+# Typography utilities
+
+```mdx-code-block
+import { css } from '@emotion/react';
+import { Example } from '@site/src/components';
+import { EuiCallOut, EuiCode, EuiSpacer, EuiText } from '@elastic/eui';
+```
+
+## Alignment
+
+<Example>
+  <Example.Description>
+    ### `.eui-textLeft` <Badge color="hollow">className</Badge>
+
+    Changes the element’s text alignment to the left/starting side of its container.
+
+  </Example.Description>
+  <Example.Preview>
+    <div className="eui-textLeft">Left align text</div>
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textLeft">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+<Example>
+  <Example.Description>
+    ### `.eui-textCenter` <Badge color="hollow">className</Badge>
+
+    Changes the element’s text alignment to the center of its container.
+
+  </Example.Description>
+  <Example.Preview>
+    <div className="eui-textCenter">Center align text</div>
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textCenter">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+<Example>
+  <Example.Description>
+    ### `.eui-textRight` <Badge color="hollow">className</Badge>
+
+    Changes the element’s text alignment to the right/ending side of its container.
+
+  </Example.Description>
+  <Example.Preview>
+    <div className="eui-textRight">Right align text</div>
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textRight">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+## Wrapping
+
+```mdx-code-block
+import { WrappingTextTruncateFnPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `euiTextTruncate(maxWidth?)` <Badge color="hollow">function</Badge>
+
+    Truncates text at 100% width of its parent and will display an ellipsis.
+
+    This utility accepts a single optional parameter for customizing the maximum width of the truncated text. If not passed, it defaults to `max-width: 100%;`.
+
+    Tip: When truncating text, it is recommended to include the full text within an HTML title attribute or by wrapping the element within an EuiToolTip.
+
+  </Example.Description>
+  <Example.Preview>
+    <WrappingTextTruncateFnPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    css`
+      ${euiTextTruncate()}
+    `
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { WrappingTextTruncatePreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `.eui-textTruncate` <Badge color="hollow">className</Badge>
+
+    Applies the `euiTextTruncate()` styles as an overriding CSS utility class.
+
+  </Example.Description>
+  <Example.Preview>
+    <WrappingTextTruncatePreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div
+      className="eui-textTruncate"
+      title="Your content">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+import { WrappingTextBreakWordFnPreview } from './preview_utilities';
+
+<Example>
+  <Example.Description>
+    ### `euiTextBreakWord()` <Badge color="hollow">function</Badge>
+
+    Wraps the text across lines like normal, but forces long words like URLs to break.
+
+  </Example.Description>
+  <Example.Preview>
+    <WrappingTextBreakWordFnPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    css`
+      ${euiTextBreakWord()}
+    `
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { WrappingTextBreakWordPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `.eui-textBreakWord` <Badge color="hollow">className</Badge>
+
+    Applies the `euiTextBreakWord()` styles as an overriding CSS utility class.
+
+  </Example.Description>
+  <Example.Preview>
+    <WrappingTextBreakWordPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textBreakWord">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { WrappingTextNoWrapPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `.eui-textNoWrap` <Badge color="hollow">className</Badge>
+
+    Forces text not to wrap even in small containers.
+
+  </Example.Description>
+  <Example.Preview>
+    <WrappingTextNoWrapPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textNoWrap">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { WrappingTextBreakAllPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `.eui-textBreakAll` <Badge color="hollow">className</Badge>
+
+    Wraps the text across lines always forcing the last word on the line to break.
+
+  </Example.Description>
+  <Example.Preview>
+    <WrappingTextBreakAllPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textBreakAll">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { WrappingTextBreakNormalPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `.eui-textBreakNormal` <Badge color="hollow">className</Badge>
+
+    Reverts the text back to the normal wrapping scheme of not forcing word breaks.
+
+  </Example.Description>
+  <Example.Preview>
+    <WrappingTextBreakNormalPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textBreakNormal">
+      /* Your content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+## Numbers
+
+```mdx-code-block
+import { NumbersFormatFnPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `euiNumberFormat(euiTheme)` <Badge color="hollow">function</Badge>
+
+    Applies `font-feature-settings: "tnum";` so that numbers align more properly in a column, especially when right aligned.
+
+  </Example.Description>
+  <Example.Preview>
+    <NumbersFormatFnPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    css`
+      ${euiNumberFormat(useEuiTheme())}
+    `
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { NumbersFormatPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `.eui-textNumber` <Badge color="hollow">className</Badge>
+
+    Applies the `euiNumberFormat()` styles as an overriding CSS utility class.
+
+  </Example.Description>
+  <Example.Preview>
+    <NumbersFormatPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <div className="eui-textNumber">
+      /* Your number content */
+    </div>
+    ```
+  </Example.Snippet>
+</Example>
+
+## Color
+
+```mdx-code-block
+import { ColorInheritPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `.eui-textInheritColor` <Badge color="hollow">className</Badge>
+
+    Forces the component to inherit its text color from its parent.
+
+    For changing the color of your text to on of the named colors, [use **EuiText** or **EuiTextColor**](../../../components/display/text.mdx#coloring-text).
+
+  </Example.Description>
+  <Example.Preview>
+    <ColorInheritPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    <EuiTextColor color="danger">
+      <EuiCode className="eui-textInheritColor">I am danger code</EuiCode>
+    </EuiTextColor>
+    ```
+  </Example.Snippet>
+</Example>
+
+## Size
+
+```mdx-code-block
+import { FontSizeFromScaleFnPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `euiFontSizeFromScale(scale, euiTheme, options?)` <Badge color="hollow">function</Badge>
+
+    Calculates font-size values using the theme's scale system for consistent typography.
+
+    Accepts a scale key (`'xxxs'`, `'xxs'`, `'xs'`, `'s'`, `'m'`, `'l'`, `'xl'`, `'xxl'`), the `euiTheme` object, and optional parameters for unit or custom scaling.
+
+  </Example.Description>
+  <Example.Preview>
+    <FontSizeFromScaleFnPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    css`
+      font-size: ${euiFontSizeFromScale('m', euiTheme)};
+    `
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { LineHeightFromBaselineFnPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `euiLineHeightFromBaseline(scale, euiTheme, options?)` <Badge color="hollow">function</Badge>
+
+    Calculates line-height values aligned to the baseline grid for consistent vertical rhythm.
+
+    Uses the same scale system as `euiFontSizeFromScale` and automatically adjusts to maintain baseline alignment.
+
+  </Example.Description>
+  <Example.Preview>
+    <LineHeightFromBaselineFnPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    css`
+      line-height: ${euiLineHeightFromBaseline('m', euiTheme)};
+    `
+    ```
+  </Example.Snippet>
+</Example>
+
+<EuiSpacer />
+
+```mdx-code-block
+import { TextShiftFnPreview } from './preview_utilities';
+```
+
+<Example>
+  <Example.Description>
+    ### `euiTextShift(fontWeight?, attribute?, euiTheme)` <Badge color="hollow">function</Badge>
+
+    Prevents layout shift when changing font-weight on hover or focus. Creates an invisible pseudo-element to reserve space for the bold weight.
+
+    Useful for interactive text that changes weight on state changes.
+
+    <EuiCallOut iconType="warning" color="warning" title={<EuiText css={css`display: inline;`}>Remember to pass <EuiCode>data-text</EuiCode> attribute!</EuiText>}>
+      This is important for <EuiCode>euiTextShift</EuiCode> to work correctly.
+    </EuiCallOut>
+
+  </Example.Description>
+  <Example.Preview>
+    <TextShiftFnPreview />
+  </Example.Preview>
+  <Example.Snippet>
+    ```tsx
+    css`
+      ${euiTextShift('bold', 'data-text', euiTheme)}
+      &:hover {
+        font-weight: ${euiTheme.font.weight.bold};
+      }
+    `
+    ```
+  </Example.Snippet>
+</Example>

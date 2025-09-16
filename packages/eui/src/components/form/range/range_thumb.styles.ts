@@ -14,7 +14,6 @@ import {
   euiRangeThumbFocus,
   euiRangeVariables,
 } from './range.styles';
-import { euiCustomControl } from '../form.styles';
 
 export const euiRangeThumbStyles = (euiThemeContext: UseEuiTheme) => {
   const range = euiRangeVariables(euiThemeContext);
@@ -22,7 +21,6 @@ export const euiRangeThumbStyles = (euiThemeContext: UseEuiTheme) => {
   return {
     // Base
     euiRangeThumb: css`
-      ${euiCustomControl(euiThemeContext, { type: 'round' })}
       ${euiRangeThumbStyle(euiThemeContext)}
       content: '';
       position: absolute;
@@ -37,7 +35,6 @@ export const euiRangeThumbStyles = (euiThemeContext: UseEuiTheme) => {
 
       &:focus {
         ${euiRangeThumbFocus(euiThemeContext)}
-        outline: none;
       }
     `,
     hasTicks: css`

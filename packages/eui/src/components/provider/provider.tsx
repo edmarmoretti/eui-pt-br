@@ -6,13 +6,16 @@
  * Side Public License, v 1.
  */
 
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, JSX } from 'react';
 import type { EmotionCache } from '@emotion/css';
+import { EuiThemeBorealis } from '@elastic/eui-theme-borealis';
 
 import {
   EuiThemeProvider,
   EuiThemeProviderProps,
   EuiThemeSystem,
+  EuiThemeColorMode,
+  EuiThemeHighContrastModeProp,
 } from '../../services';
 import { emitEuiProviderWarning } from '../../services/theme/warning';
 import { cache as fallbackCache } from '../../services/emotion/css';
@@ -22,9 +25,9 @@ import {
   EuiGlobalStylesProps,
 } from '../../global_styling/reset/global_styles';
 import { EuiUtilityClasses } from '../../global_styling/utility/utility';
-import { EuiThemeAmsterdam } from '../../themes';
 
 import { EuiCacheProvider } from './cache';
+import { EuiSystemDefaultsProvider } from './system_defaults';
 import { EuiProviderNestedCheck, useIsNestedEuiProvider } from './nested';
 import {
   EuiComponentDefaults,
@@ -38,12 +41,25 @@ const isEmotionCacheObject = (
 export interface EuiProviderProps<T>
   extends PropsWithChildren,
     EuiGlobalStylesProps,
-    Pick<EuiThemeProviderProps<T>, 'colorMode' | 'modify'> {
+    Pick<EuiThemeProviderProps<T>, 'modify'> {
   /**
-   * Provide a specific EuiTheme; Defaults to EuiThemeAmsterdam;
+   * Provide a specific EuiTheme; Defaults to EuiThemeBorealis;
    * Pass `null` to remove all theming including global reset
    */
   theme?: EuiThemeSystem | null;
+  /**
+   * Allows setting `light` or `dark` mode.
+   * Defaults to the user's OS/system setting if undefined.
+   */
+  colorMode?: EuiThemeColorMode;
+  /**
+   * Allows enabling a high contrast mode preference for better accessibility.
+   * Defaults to the user's OS/system setting if undefined.
+   *
+   * - @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast
+   * - @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors (system only, supercedes this prop)
+   */
+  highContrastMode?: EuiThemeHighContrastModeProp;
   /**
    * Provide global styles via `@emotion/react` `Global` for your custom theme.
    * Pass `false` to remove the default EUI global styles.
@@ -84,10 +100,11 @@ export interface EuiProviderProps<T>
 
 export const EuiProvider = <T extends {} = {}>({
   cache = fallbackCache,
-  theme = EuiThemeAmsterdam,
+  theme = EuiThemeBorealis,
   globalStyles: Globals = EuiGlobalStyles,
   utilityClasses: Utilities = EuiUtilityClasses,
   colorMode,
+  highContrastMode,
   modify,
   componentDefaults,
   children,
@@ -101,9 +118,9 @@ export const EuiProvider = <T extends {} = {}>({
     return children as any;
   }
 
-  let defaultCache;
-  let globalCache;
-  let utilityCache;
+  let defaultCache: EmotionCache | undefined;
+  let globalCache: EmotionCache | undefined;
+  let utilityCache: EmotionCache | undefined;
   if (cache) {
     if (isEmotionCacheObject(cache)) {
       cache.compat = true;
@@ -127,27 +144,30 @@ export const EuiProvider = <T extends {} = {}>({
   return (
     <EuiProviderNestedCheck>
       <EuiCacheProvider cache={defaultCache ?? fallbackCache}>
-        <EuiThemeProvider
-          theme={theme ?? undefined}
-          colorMode={colorMode}
-          modify={modify}
-        >
-          {theme && (
-            <>
-              <EuiCacheProvider
-                cache={globalCache}
-                children={Globals && <Globals />}
-              />
-              <EuiCacheProvider
-                cache={utilityCache}
-                children={Utilities && <Utilities />}
-              />
-            </>
-          )}
-          <EuiComponentDefaultsProvider componentDefaults={componentDefaults}>
-            {children}
-          </EuiComponentDefaultsProvider>
-        </EuiThemeProvider>
+        <EuiSystemDefaultsProvider>
+          <EuiThemeProvider
+            theme={theme ?? undefined}
+            colorMode={colorMode}
+            highContrastMode={highContrastMode}
+            modify={modify}
+          >
+            {theme && (
+              <>
+                <EuiCacheProvider
+                  cache={globalCache}
+                  children={Globals && <Globals />}
+                />
+                <EuiCacheProvider
+                  cache={utilityCache}
+                  children={Utilities && <Utilities />}
+                />
+              </>
+            )}
+            <EuiComponentDefaultsProvider componentDefaults={componentDefaults}>
+              {children}
+            </EuiComponentDefaultsProvider>
+          </EuiThemeProvider>
+        </EuiSystemDefaultsProvider>
       </EuiCacheProvider>
     </EuiProviderNestedCheck>
   );

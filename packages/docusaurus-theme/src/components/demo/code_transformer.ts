@@ -1,3 +1,11 @@
+/*
+ * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
+ * or more contributor license agreements. Licensed under the Elastic License
+ * 2.0 and the Server Side Public License, v 1; you may not use this file except
+ * in compliance with, at your election, the Elastic License 2.0 or the Server
+ * Side Public License, v 1.
+ */
+
 const IMPORT_REGEX = /^import [^'"]* from ['"]([^.'"\n ][^'"\n ]*)['"];?/gm;
 const DEFAULT_EXPORT_REGEX = /export default /;
 const COMPONENT_ONLY_REGEX = /^\(?</;
@@ -16,8 +24,8 @@ const COMPONENT_ONLY_REGEX = /^\(?</;
  * a JSX component definition (e.g. it contains a variable definition
  * or `export default` statement).
  *
- * @see {@link https://github.com/alangpierce/sucrase}
- * @see {@link https://github.com/FormidableLabs/react-live/blob/master/packages/react-live/src/utils/transpile/index.ts}
+ * @see https://github.com/alangpierce/sucrase
+ * @see https://github.com/FormidableLabs/react-live/blob/master/packages/react-live/src/utils/transpile/index.ts
  */
 export const demoCodeTransformer = (code: string) => {
   // Remove ESM imports

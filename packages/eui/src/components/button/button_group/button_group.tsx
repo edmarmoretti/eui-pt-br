@@ -18,7 +18,7 @@ import { useEuiMemoizedStyles } from '../../../services';
 import { EuiScreenReaderOnly } from '../../accessibility';
 import { CommonProps } from '../../common';
 
-import { _EuiButtonColor } from '../../../themes/amsterdam/global_styling/mixins';
+import { _EuiButtonColor } from '../../../global_styling/mixins';
 import { EuiToolTipProps } from '../../../components/tool_tip';
 import { EuiButtonDisplayContentProps } from '../button_display/_button_display_content';
 import { EuiButtonGroupButton } from './button_group_button';
@@ -85,6 +85,11 @@ export type EuiButtonGroupProps = CommonProps & {
   legend: string;
   /**
    * Any of the named color palette options.
+   *
+   * Do not use the following colors for standalone buttons directly,
+   * they exist to serve other components:
+   *  - accent
+   *  - warning
    */
   color?: _EuiButtonColor;
   /**
@@ -95,7 +100,7 @@ export type EuiButtonGroupProps = CommonProps & {
    */
   type?: 'single' | 'multi';
   /**
-   * An array of #EuiButtonGroupOptionProps
+   * An array of {@link EuiButtonGroupOptionProps}
    */
   options: EuiButtonGroupOptionProps[];
 } & (

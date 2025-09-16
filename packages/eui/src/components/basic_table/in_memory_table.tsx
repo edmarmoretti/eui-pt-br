@@ -75,9 +75,17 @@ type InMemoryTableProps<T extends object> = Omit<
   EuiBasicTableProps<T>,
   'pagination' | 'sorting' | 'noItemsMessage' | 'onChange'
 > & {
+  /**
+   * Message to display if table is empty
+   * @deprecated Use `noItemsMessage` instead.
+   */
   message?: ReactNode;
   /**
-   * Configures #Search.
+   * Message to display if table is empty
+   */
+  noItemsMessage?: ReactNode;
+  /**
+   * Configures {@link Search}.
    */
   search?: Search;
   /**
@@ -93,11 +101,11 @@ type InMemoryTableProps<T extends object> = Omit<
    */
   searchFormat?: 'eql' | 'text';
   /**
-   * Configures #Pagination
+   * Configures {@link Pagination}
    */
   pagination?: undefined;
   /**
-   * Configures #EuiTableSortingType
+   * Configures {@link EuiTableSortingType}
    */
   sorting?: Sorting;
   /**
@@ -107,11 +115,13 @@ type InMemoryTableProps<T extends object> = Omit<
   /**
    * `onChange` is not required when `pagination` and/or `sorting` are configured,
    * but if `onChange` is present it is responsible for handling state for each/both.
-   * See #Criteria or #CriteriaWithPagination
+   * See {@link Criteria} or {@link CriteriaWithPagination}
    */
   onChange?: EuiBasicTableProps<T>['onChange'];
   /**
-   * Callback for when table pagination or sorting is changed. This is meant to be informational only, and not used to set any state as the in-memory table already manages this state. See #Criteria or #CriteriaWithPagination.
+   * Callback for when table pagination or sorting is changed. This is meant to be informational only,
+   * and not used to set any state as the in-memory table already manages this state.
+   * See {@link Criteria} or {@link CriteriaWithPagination}.
    */
   onTableChange?: (nextValues: Criteria<T>) => void;
   executeQueryOptions?: {
@@ -675,6 +685,7 @@ export class EuiInMemoryTable<T extends object = object> extends Component<
       columns,
       loading,
       message,
+      noItemsMessage,
       error,
       selection,
       compressed,
@@ -748,7 +759,7 @@ export class EuiInMemoryTable<T extends object = object> extends Component<
         onChange={this.onTableChange}
         error={error}
         loading={loading}
-        noItemsMessage={message}
+        noItemsMessage={noItemsMessage || message}
         tableLayout={tableLayout}
         compressed={compressed}
         itemIdToExpandedRowMap={itemIdToExpandedRowMap}

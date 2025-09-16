@@ -7,9 +7,16 @@
  */
 
 import React, { Component } from 'react';
-import classNames from 'classnames';
 
+import {
+  isEuiThemeRefreshVariant,
+  RenderWithEuiStylesMemoizer,
+  RenderWithEuiTheme,
+} from '../../../services';
+import { DistributiveOmit } from '../../common';
+import { EuiIcon, IconColor, IconType } from '../../icon';
 import { EuiLoadingSpinner } from '../../loading';
+
 import {
   EuiFormControlLayoutClearButton,
   EuiFormControlLayoutClearButtonProps,
@@ -18,8 +25,7 @@ import {
   EuiFormControlLayoutCustomIcon,
   EuiFormControlLayoutCustomIconProps,
 } from './form_control_layout_custom_icon';
-import { EuiIcon, IconColor, IconType } from '../../icon';
-import { DistributiveOmit } from '../../common';
+import { euiFormControlLayoutIconsStyles } from './form_control_layout_icons.styles';
 
 export const ICON_SIDES = ['left', 'right'] as const;
 
@@ -48,11 +54,17 @@ export interface EuiFormControlLayoutIconsProps {
   isInvalid?: boolean;
   isDropdown?: boolean;
   compressed?: boolean;
+  isDisabled?: boolean;
 }
 
 export class EuiFormControlLayoutIcons extends Component<EuiFormControlLayoutIconsProps> {
   render() {
-    const { side = 'left', iconsPosition = 'absolute' } = this.props;
+    const {
+      side = 'left',
+      iconsPosition = 'absolute',
+      compressed,
+      isDisabled,
+    } = this.props;
 
     const customIcon = this.renderCustomIcon();
     const loadingSpinner = this.renderLoadingSpinner();
@@ -60,25 +72,44 @@ export class EuiFormControlLayoutIcons extends Component<EuiFormControlLayoutIco
     const invalidIcon = this.renderInvalidIcon();
     const dropdownIcon = this.renderDropdownIcon();
 
-    const classes = classNames(
-      'euiFormControlLayoutIcons',
-      `euiFormControlLayoutIcons--${side}`,
-      `euiFormControlLayoutIcons--${iconsPosition}`
-    );
-
     return (
-      <div className={classes}>
-        {clearButton}
-        {loadingSpinner}
-        {invalidIcon}
-        {customIcon}
-        {dropdownIcon}
-      </div>
+      <RenderWithEuiStylesMemoizer>
+        {(stylesMemoizer) => {
+          const styles = stylesMemoizer(euiFormControlLayoutIconsStyles);
+          const cssStyles = [
+            styles.euiFormControlLayoutIcons,
+            compressed ? styles.compressed : styles.uncompressed,
+            ...(iconsPosition === 'absolute'
+              ? [
+                  styles.position.absolute.absolute,
+                  compressed
+                    ? styles.position.absolute.compressed[side]
+                    : styles.position.absolute.uncompressed[side],
+                ]
+              : [
+                  styles.position.static.static,
+                  compressed
+                    ? styles.position.static.compressed
+                    : styles.position.static.uncompressed,
+                ]),
+            isDisabled && styles.disabled,
+          ];
+          return (
+            <div css={cssStyles} className="euiFormControlLayoutIcons">
+              {clearButton}
+              {loadingSpinner}
+              {invalidIcon}
+              {customIcon}
+              {dropdownIcon}
+            </div>
+          );
+        }}
+      </RenderWithEuiStylesMemoizer>
     );
   }
 
   renderCustomIcon() {
-    const { icon, compressed } = this.props;
+    const { icon, compressed, isDisabled } = this.props;
 
     if (!icon) {
       return null;
@@ -93,26 +124,50 @@ export class EuiFormControlLayoutIcons extends Component<EuiFormControlLayoutIco
     const { ref: iconRef, side, ...iconRest } = iconProps;
 
     return (
-      <EuiFormControlLayoutCustomIcon
-        size={compressed ? 's' : 'm'}
-        iconRef={iconRef}
-        {...iconRest}
-      />
+      <RenderWithEuiTheme>
+        {(euiThemeContext) => {
+          const isRefreshVariant = isEuiThemeRefreshVariant(
+            euiThemeContext,
+            'formVariant'
+          );
+
+          return (
+            <EuiFormControlLayoutCustomIcon
+              size={compressed && !isRefreshVariant ? 's' : 'm'}
+              disabled={isDisabled}
+              iconRef={iconRef}
+              {...iconRest}
+            />
+          );
+        }}
+      </RenderWithEuiTheme>
     );
   }
 
   renderDropdownIcon() {
-    const { isDropdown, compressed } = this.props;
+    const { isDropdown, compressed, isDisabled } = this.props;
 
     if (!isDropdown) {
       return null;
     }
 
     return (
-      <EuiFormControlLayoutCustomIcon
-        size={compressed ? 's' : 'm'}
-        type="arrowDown"
-      />
+      <RenderWithEuiTheme>
+        {(euiThemeContext) => {
+          const isRefreshVariant = isEuiThemeRefreshVariant(
+            euiThemeContext,
+            'formVariant'
+          );
+
+          return (
+            <EuiFormControlLayoutCustomIcon
+              size={compressed && !isRefreshVariant ? 's' : 'm'}
+              disabled={isDisabled}
+              type="arrowDown"
+            />
+          );
+        }}
+      </RenderWithEuiTheme>
     );
   }
 
@@ -123,20 +178,47 @@ export class EuiFormControlLayoutIcons extends Component<EuiFormControlLayoutIco
       return null;
     }
 
-    return <EuiLoadingSpinner size={compressed ? 's' : 'm'} />;
+    return (
+      <RenderWithEuiTheme>
+        {(euiThemeContext) => {
+          const isRefreshVariant = isEuiThemeRefreshVariant(
+            euiThemeContext,
+            'formVariant'
+          );
+
+          return (
+            <EuiLoadingSpinner
+              size={compressed && !isRefreshVariant ? 's' : 'm'}
+            />
+          );
+        }}
+      </RenderWithEuiTheme>
+    );
   }
 
   renderClearButton() {
-    const { clear, compressed } = this.props;
+    const { clear, compressed, isDisabled } = this.props;
     if (!clear) {
       return null;
     }
 
     return (
-      <EuiFormControlLayoutClearButton
-        size={compressed ? 's' : 'm'}
-        {...clear}
-      />
+      <RenderWithEuiTheme>
+        {(euiThemeContext) => {
+          const isRefreshVariant = isEuiThemeRefreshVariant(
+            euiThemeContext,
+            'formVariant'
+          );
+
+          return (
+            <EuiFormControlLayoutClearButton
+              size={compressed && !isRefreshVariant ? 's' : 'm'}
+              disabled={isDisabled}
+              {...clear}
+            />
+          );
+        }}
+      </RenderWithEuiTheme>
     );
   }
 
@@ -147,7 +229,22 @@ export class EuiFormControlLayoutIcons extends Component<EuiFormControlLayoutIco
     }
 
     return (
-      <EuiIcon size={compressed ? 's' : 'm'} color="danger" type="warning" />
+      <RenderWithEuiTheme>
+        {(euiThemeContext) => {
+          const isRefreshVariant = isEuiThemeRefreshVariant(
+            euiThemeContext,
+            'formVariant'
+          );
+
+          return (
+            <EuiIcon
+              size={compressed && !isRefreshVariant ? 's' : 'm'}
+              color="danger"
+              type="warning"
+            />
+          );
+        }}
+      </RenderWithEuiTheme>
     );
   }
 }

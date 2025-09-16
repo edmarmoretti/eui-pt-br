@@ -10,13 +10,12 @@ import { css } from '@emotion/react';
 
 import {
   euiPaddingSize,
-  euiSupportsHas,
   logicalCSS,
   logicals,
   logicalTextAlignCSS,
 } from '../../global_styling';
 import { UseEuiTheme } from '../../services';
-import { euiButtonColor } from '../../themes/amsterdam/global_styling/mixins';
+import { euiButtonColor } from '../../global_styling/mixins';
 
 import { EuiCardProps } from './card';
 const paddingKey = 'm';
@@ -68,8 +67,7 @@ export const euiCardStyles = (
       },
       disabled: css`
         cursor: not-allowed; /* Duplicate property due to Chrome bug */
-        background-color: ${euiButtonColor(euiThemeContext, 'disabled')};
-        color: ${euiTheme.colors.disabledText};
+        ${euiButtonColor(euiThemeContext, 'disabled')}
       `,
     },
 
@@ -218,12 +216,6 @@ export const euiCardTextStyles = (euiThemeContext: UseEuiTheme) => {
       &:focus {
         text-decoration: underline;
       }
-
-      /* Progressive enhancement where we remove focus from text as
-         it will be applied to the whole card instead */
-      ${euiSupportsHas} {
-        outline: none !important; /* stylelint-disable-line declaration-no-important */
-      }
     `,
 
     aligned: {
@@ -269,9 +261,8 @@ export const euiCardBetaBadgeStyles = (
       transform: translateX(-50%) translateY(-50%);
       /* Get above absolutely positioned image */
       z-index: 3;
-      /* TODO: $euiButtonMinWidth */
       /* Extend beta badges to at least 30% of the container's width or 112px (whichever is smaller) */
-      ${logicalCSS('min-width', 'min(30%, 112px)')}
+      ${logicalCSS('min-width', `min(30%, ${euiTheme.base * 7}px)`)}
       ${logicalCSS('max-width', `calc(100% - (${padding} * 2))`)}
     `,
 

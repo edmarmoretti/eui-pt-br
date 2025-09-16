@@ -22,7 +22,7 @@ export interface FieldValueToggleGroupFilterConfigType {
   type: 'field_value_toggle_group';
   field: string;
   /**
-   * See #FieldValueToggleGroupFilterItemType
+   * See {@link FieldValueToggleGroupFilterItemType}
    */
   items: FieldValueToggleGroupFilterItemType[];
   available?: () => boolean;
@@ -78,9 +78,11 @@ export class FieldValueToggleGroupFilter extends Component<FieldValueToggleGroup
         <EuiFilterButton
           key={key}
           onClick={onClick}
+          isSelected={active}
           hasActiveFilters={active}
           aria-pressed={!!active}
           withNext={!isLastItem}
+          isToggle
         >
           {name}
         </EuiFilterButton>

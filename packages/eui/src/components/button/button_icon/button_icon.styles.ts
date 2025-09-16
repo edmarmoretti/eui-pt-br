@@ -12,10 +12,10 @@ import { UseEuiTheme } from '../../../services';
 import { logicalSizeCSS } from '../../../global_styling';
 import {
   BUTTON_COLORS,
-  _EuiButtonColor,
+  _EuiExtendedButtonColor,
   euiButtonEmptyColor,
   euiButtonSizeMap,
-} from '../../../themes/amsterdam/global_styling/mixins/button';
+} from '../../../global_styling/mixins/_button';
 
 import { euiButtonBaseCSS } from '../button_display/_button_display.styles';
 
@@ -67,5 +67,5 @@ export const _emptyHoverStyles = (euiThemeContext: UseEuiTheme) =>
         }
       `,
     }),
-    {} as Record<_EuiButtonColor, SerializedStyles>
+    {} as Record<_EuiExtendedButtonColor, SerializedStyles>
   );

@@ -7,46 +7,96 @@
  */
 
 import { css } from '@emotion/react';
+import { euiShadowMedium } from '@elastic/eui-theme-common';
 
-import { UseEuiTheme } from '../../services';
+import { isEuiThemeRefreshVariant, UseEuiTheme } from '../../services';
 import { logicalCSS } from '../../global_styling';
-import { euiShadowMedium } from '../../themes/amsterdam/global_styling/mixins';
+import {
+  euiFormControlDisabledStyles,
+  euiFormControlReadOnlyStyles,
+  euiFormControlDefaultShadow,
+  euiFormControlInvalidStyles,
+} from '../form/form.styles';
 
 export const euiDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
   const { euiTheme } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'formVariant'
+  );
+
+  const inlineStyles = `
+      /* removes form layout border */
+      &::after {
+        display: none;
+      }
+    `;
 
   return {
     euiDatePicker: css`
       display: block;
     `,
-    inline: css`
-      .euiFormControlLayout {
-        ${logicalCSS('height', 'auto')}
-        ${logicalCSS('width', 'fit-content')}
-        background-color: transparent;
-        box-shadow: none;
-        padding: 0;
-      }
 
-      /* TODO: Extra specificity required to override .euiFormControlLayoutDelimited styles */
-      .euiFormControlLayoutDelimited .euiFormControlLayout__childrenWrapper {
-        background-color: transparent;
-        flex-direction: column; /* Render form control icons below date picker */
-      }
+    inline: {
+      inline: css`
+        .euiFormControlLayout {
+          ${logicalCSS('height', 'auto')}
+          ${logicalCSS('width', 'fit-content')}
+          border: none;
+          padding: 0;
 
-      .euiFormControlLayoutIcons {
-        justify-content: center;
-        ${logicalCSS('padding-bottom', euiTheme.size.s)}
-      }
-    `,
-    shadow: css`
-      .euiFormControlLayout {
-        ${euiShadowMedium(euiThemeContext)}
-      }
+          ${isRefreshVariant && inlineStyles}
+        }
 
-      /* TODO: Extra specificity required to override .euiFormControlLayoutDelimited styles */
-      .euiFormControlLayoutDelimited .euiFormControlLayout__childrenWrapper {
-        background-color: ${euiTheme.colors.emptyShade};
+        .euiFormControlLayout__childrenWrapper {
+          flex-direction: column; /* Render form control icons below date picker */
+        }
+
+        .euiFormControlLayoutIcons {
+          justify-content: center;
+          ${logicalCSS('padding-bottom', euiTheme.size.s)}
+        }
+      `,
+      // Skip css`` to avoid generating an Emotion className
+      noShadow: `
+        .euiFormControlLayout {
+          background-color: transparent;
+        }
+      `,
+      shadow: css`
+        .euiFormControlLayout {
+          background-color: ${euiTheme.colors.emptyShade};
+          ${euiShadowMedium(euiThemeContext, {
+            borderAllInHighContrastMode: true,
+          })}
+        }
+      `,
+      // Needs to come before shadow CSS so that it doesn't override their background-colors
+      invalid: css`
+        .euiFormControlLayout {
+          ${euiFormControlDefaultShadow(euiThemeContext, { withBorder: false })}
+          ${euiFormControlInvalidStyles(euiThemeContext)}
+        }
+      `,
+      // Should come after shadow CSS to override their background-colors
+      disabled: css`
+        .euiFormControlLayout {
+          ${euiFormControlDisabledStyles(euiThemeContext)}
+        }
+      `,
+      readOnly: css`
+        .euiFormControlLayout {
+          ${euiFormControlReadOnlyStyles(euiThemeContext)}
+        }
+      `,
+    },
+
+    inGroup: css`
+      .euiFormControlLayout__childrenWrapper {
+        .euiPopover,
+        .react-datepicker__input-container {
+          ${logicalCSS('height', '100%')}
+        }
       }
     `,
   };

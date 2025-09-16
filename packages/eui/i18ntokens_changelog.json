@@ -1,5 +1,277 @@
 [
   {
+    "version": "106.4.0",
+    "changes": [
+      {
+        "token": "euiModal.screenReaderModalDialog",
+        "changeType": "added",
+        "value": "You are in a modal dialog. Press Escape or tap/click outside the dialog on the shadowed overlay to close."
+      }
+    ]
+  },
+  {
+    "version": "106.2.0",
+    "changes": [
+      {
+        "token": "euiDataGridCell.focusTrapEnteredExitPrompt",
+        "changeType": "added",
+        "value": "Press the Escape key to exit the cell."
+      }
+    ]
+  },
+  {
+    "version": "106.1.0",
+    "changes": [
+      {
+        "token": "euiMarkdownEditorFooter.showMarkdownHelp",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiMarkdownEditorFooter.syntaxTitle",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiMarkdownEditorFooter.mdSyntaxLink",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiMarkdownEditorFooter.syntaxModalDescriptionPrefix",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiMarkdownEditorFooter.syntaxModalDescriptionSuffix",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiMarkdownEditorFooter.closeButton",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiMarkdownEditorFooter.syntaxPopoverDescription",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiMarkdownEditorHelpButton.mdSyntaxLink",
+        "changeType": "added",
+        "value": "GitHub flavored markdown"
+      },
+      {
+        "token": "euiMarkdownEditorHelpButton.syntaxTitle",
+        "changeType": "added",
+        "value": "Syntax help"
+      },
+      {
+        "token": "euiMarkdownEditorHelpButton.showMarkdownHelp",
+        "changeType": "added",
+        "value": "Show markdown help"
+      },
+      {
+        "token": "euiMarkdownEditorHelpButton.syntaxModalDescriptionPrefix",
+        "changeType": "added",
+        "value": "This editor uses"
+      },
+      {
+        "token": "euiMarkdownEditorHelpButton.syntaxModalDescriptionSuffix",
+        "changeType": "added",
+        "value": "You can also utilize these additional syntax plugins to add rich content to your text."
+      },
+      {
+        "token": "euiMarkdownEditorHelpButton.closeButton",
+        "changeType": "added",
+        "value": "Close"
+      },
+      {
+        "token": "euiMarkdownEditorHelpButton.syntaxPopoverDescription",
+        "changeType": "added",
+        "value": "This editor uses"
+      }
+    ]
+  },
+  {
+    "version": "106.0.0",
+    "changes": [
+      {
+        "token": "euiFlyout.screenReaderFixedHeaders",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiFlyout.screenReaderFocusTrapShards",
+        "changeType": "added",
+        "value": "You can still continue tabbing through other global page landmarks."
+      }
+    ]
+  },
+  {
+    "version": "104.1.0",
+    "changes": [
+      {
+        "token": "euiSaturation.ariaLabel",
+        "changeType": "modified",
+        "value": "Select a color"
+      },
+      {
+        "token": "euiSaturation.roleDescription",
+        "changeType": "added",
+        "value": "HSV color mode saturation and value 2-axis slider."
+      },
+      {
+        "token": "euiHue.ariaValueText",
+        "changeType": "added",
+        "value": "Hue"
+      },
+      {
+        "token": "euiHue.ariaRoleDescription",
+        "changeType": "added",
+        "value": "Hue slider"
+      },
+      {
+        "token": "euiColorPicker.selectedColorLabel",
+        "changeType": "added",
+        "value": "Selected color"
+      }
+    ]
+  },
+  {
+    "version": "98.2.0",
+    "changes": [
+      {
+        "token": "euiCodeBlockFullScreen.ariaLabel",
+        "changeType": "added",
+        "value": "Expanded code block"
+      },
+      {
+        "token": "euiCodeBlock.label",
+        "changeType": "added",
+        "value": "{language} code block:"
+      }
+    ]
+  },
+  {
+    "version": "98.1.0",
+    "changes": [
+      {
+        "token": "euiFieldValueSelectionFilter.buttonLabelHint",
+        "changeType": "added",
+        "value": "Selection"
+      }
+    ]
+  },
+  {
+    "version": "97.3.0",
+    "changes": [
+      {
+        "token": "euiDisplaySelector.rowHeightLabel",
+        "changeType": "modified",
+        "value": "Lines per row"
+      },
+      {
+        "token": "euiDisplaySelector.labelSingle",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiDisplaySelector.labelAuto",
+        "changeType": "modified",
+        "value": "Auto"
+      },
+      {
+        "token": "euiDisplaySelector.labelCustom",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiDisplaySelector.lineCountLabel",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiDisplaySelector.labelStatic",
+        "changeType": "added",
+        "value": "Static"
+      },
+      {
+        "token": "euiDisplaySelector.labelMax",
+        "changeType": "added",
+        "value": "Max"
+      }
+    ]
+  },
+  {
+    "version": "97.0.0",
+    "changes": [
+      {
+        "token": "euiExternalLinkIcon.ariaLabel",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiExternalLinkIcon.newTarget.screenReaderOnlyText",
+        "changeType": "modified",
+        "value": "(external, opens in a new tab or window)"
+      },
+      {
+        "token": "euiExternalLinkIcon.externalTarget.screenReaderOnlyText",
+        "changeType": "added",
+        "value": "(external)"
+      }
+    ]
+  },
+  {
+    "version": "95.11.0",
+    "changes": [
+      {
+        "token": "euiCollapsedItemActions.allActions",
+        "changeType": "modified",
+        "value": "All actions, row {index}"
+      },
+      {
+        "token": "euiDataGridCell.position",
+        "changeType": "modified",
+        "value": "{columnName}, column {columnIndex}, row {rowIndex}"
+      },
+      {
+        "token": "euiCollapsedItemActions.allActionsTooltip",
+        "changeType": "added",
+        "value": "All actions"
+      },
+      {
+        "token": "euiColumnActions.unsort",
+        "changeType": "added",
+        "value": "Unsort {schemaLabel}"
+      }
+    ]
+  },
+  {
+    "version": "95.10.0",
+    "changes": [
+      {
+        "token": "euiDataGridHeaderCell.headerActions",
+        "changeType": "deleted"
+      },
+      {
+        "token": "euiDataGridCell.focusTrapExitPrompt",
+        "changeType": "added",
+        "value": "Exited cell content."
+      },
+      {
+        "token": "euiDataGridHeaderCell.actionsButtonAriaLabel",
+        "changeType": "added",
+        "value": "{title}. Click to view column header actions."
+      },
+      {
+        "token": "euiDataGridHeaderCell.actionsEnterKeyInstructions",
+        "changeType": "added",
+        "value": "Press the Enter key to view this column's actions"
+      }
+    ]
+  },
+  {
+    "version": "95.8.0",
+    "changes": [
+      {
+        "token": "euiFieldSearch.clearSearchButtonLabel",
+        "changeType": "added",
+        "value": "Clear search input"
+      }
+    ]
+  },
+  {
     "version": "95.5.0",
     "changes": [
       {

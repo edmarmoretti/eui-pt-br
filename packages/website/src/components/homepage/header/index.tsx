@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import NavbarSearch from '@theme/Navbar/Search';
 import SearchBar from '@theme/SearchBar';
@@ -8,7 +8,6 @@ import {
   EuiDescriptionList,
   EuiDescriptionListDescription,
   EuiDescriptionListTitle,
-  EuiIcon,
   EuiLink,
   useEuiMemoizedStyles,
   UseEuiTheme,
@@ -23,7 +22,7 @@ import { DecorRight } from './decor_right';
 import { DecorLeft } from './decor_left';
 
 const title = 'Meet the EUI framework';
-const tagline = 'powering the Elastic stack';
+const taglines = ['powering the Elastic Stack', 'shared to build your ideas'];
 
 const DESCRIPTION_DATA = [
   {
@@ -59,10 +58,10 @@ const getStyles = (euiThemeContext: UseEuiTheme) => {
       --hero-decor-fill-brand-poppy: #ff957d;
 
       position: relative;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       inline-size: 100%;
       min-block-size: 40rem;
       padding: 7rem 0;
@@ -132,12 +131,12 @@ const getStyles = (euiThemeContext: UseEuiTheme) => {
         block-size: ${form.controlHeight};
       }
 
-      // overwrride original header use case behavior
+      // override original header use case behavior
       .ds-dropdown-menu {
         position: absolute !important;
 
         &:before {
-          left: ${euiTheme.size.xl}; // align carret with search input
+          left: ${euiTheme.size.xl}; // align caret with search input
         }
       }
     `,
@@ -178,10 +177,18 @@ const getStyles = (euiThemeContext: UseEuiTheme) => {
       }
     `,
     decor: {
+      wrapper: css`
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        z-index: -1;
+      `,
       decor: css`
         position: absolute;
         top: 0;
-        z-index: -1;
         block-size: 100%;
         inline-size: 15%;
 
@@ -212,22 +219,60 @@ const getStyles = (euiThemeContext: UseEuiTheme) => {
 };
 
 export function HomepageHeader() {
+  const [currentText, setCurrentText] = useState('');
+  const [fullTextIndex, setFullTextIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const styles = useEuiMemoizedStyles(getStyles);
 
+  useEffect(() => {
+    const fullText = taglines[fullTextIndex];
+    let typingSpeed = 50; // normal typing speed
+
+    if (isDeleting) {
+      typingSpeed /= 2; // deleting is faster
+    }
+
+    const timeout = setTimeout(() => {
+      setCurrentText((prev) => {
+        if (isDeleting) {
+          return fullText.substring(0, prev.length - 1);
+        } else {
+          return fullText.substring(0, prev.length + 1);
+        }
+      });
+
+      if (!isDeleting && currentText === fullText) {
+        setTimeout(() => setIsDeleting(true), 5000);
+      }
+
+      if (isDeleting && currentText === '') {
+        setTimeout(() => {
+          setIsDeleting(false);
+          setFullTextIndex((prev) => (prev + 1) % taglines.length);
+        }, 300);
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, fullTextIndex]);
+
   return (
-    <header className={clsx('hero hero--primary')} css={styles.hero}>
-      <div css={[styles.decor.decor, styles.decor.left]}>
-        <DecorLeft />
-      </div>
-      <div css={[styles.decor.decor, styles.decor.right]}>
-        <DecorRight />
+    <header css={styles.hero}>
+      <div css={styles.decor.wrapper}>
+        <div css={[styles.decor.decor, styles.decor.left]}>
+          <DecorLeft />
+        </div>
+        <div css={[styles.decor.decor, styles.decor.right]}>
+          <DecorRight />
+        </div>
       </div>
       <HomepageContainer>
         <div css={styles.left}>
           <div css={styles.title}>
             <Heading as="h1">{title},</Heading>
             <p css={styles.tagline}>
-              {tagline}
+              {currentText}
               <span css={styles.underscore}>_</span>
             </p>
           </div>
@@ -237,13 +282,23 @@ export function HomepageHeader() {
             </NavbarSearch>
           </div>
           <div css={styles.actions}>
-            <EuiButton href="/docs" fill css={styles.button}>
+            <EuiButton
+              href="./docs/getting-started/setup/"
+              fill
+              css={styles.button}
+            >
               Get started
             </EuiButton>
-            <EuiLink href="https://github.com/elastic/eui/tree/main/packages/eui/changelogs">
+            <EuiLink
+              href="https://github.com/elastic/eui/tree/main/packages/eui/changelogs"
+              target="_blank"
+            >
               What's new?
             </EuiLink>
-            <EuiLink href="https://github.com/elastic/eui/tree/main/wiki/contributing-to-eui">
+            <EuiLink
+              href="https://github.com/elastic/eui/tree/main/wiki/contributing-to-eui"
+              target="_blank"
+            >
               Contribute
             </EuiLink>
           </div>

@@ -1,0 +1,310 @@
+---
+sidebar_position: 7
+keywords: [EuiRadio, EuiRadioGroup]
+---
+
+# Radio and Radio group
+
+```mdx-code-block
+import { EuiFlexGrid, EuiRadioGroup } from '@elastic/eui';
+```
+
+Radios are are ideal for allowing users to select options among a small list of options, or to [switch settings on/off](./switch.mdx). For longer lists of options, consider using [dropdown selection](./overview.mdx) components.
+
+## Radio
+
+This component renders a basic HTML `<input type="radio">` element. Use radio buttons to allow users to choose one option out of a list. They are ideal for a list of more than 2 options, and usually no more than 6 options.
+
+When creating a list, each input should have the same `name` to ensure a group is established. This way when you select a radio button in that group, the other options are automatically deselected.
+
+Make sure to pass a `label` to ensure a larger clickable area and ensure that screen readers will read out the label when the user is focused on the input.
+
+```tsx interactive
+import React, { useState } from 'react';
+import { EuiRadio, EuiSpacer, useGeneratedHtmlId } from '@elastic/eui';
+
+export default () => {
+  const [checked, setChecked] = useState(false);
+
+  const basicRadioButtonId = useGeneratedHtmlId({ prefix: 'basicRadioButton' });
+  const disabledRadioButtonId = useGeneratedHtmlId({
+    prefix: 'disabledRadioButton',
+  });
+  const compressedRadioButtonId = useGeneratedHtmlId({
+    prefix: 'compressedRadioButton',
+  });
+
+  const onChange = (e) => {
+    setChecked(e.target.checked);
+  };
+
+  return (
+    <>
+      <EuiRadio
+        id={basicRadioButtonId}
+        label="I am a radio"
+        checked={checked}
+        onChange={(e) => onChange(e)}
+      />
+
+      <EuiSpacer size="m" />
+
+      <EuiRadio
+        id={disabledRadioButtonId}
+        label="I am a disabled radio"
+        checked={checked}
+        onChange={(e) => onChange(e)}
+        disabled
+      />
+
+      <EuiSpacer size="m" />
+
+      <EuiRadio
+        id={compressedRadioButtonId}
+        label="I am a compressed radio"
+        checked={checked}
+        onChange={(e) => onChange(e)}
+        compressed
+      />
+    </>
+  );
+};
+```
+
+## Radio group
+
+Use a **EuiRadioGroup** when you want to generate a group of radio buttons by passing an array of `options` with an `id` and`label` for each object. Pass a single `name` property to define the group. For more details on which selection component to use, see the [Component comparison](./overview.mdx).
+
+When the individual labels for each radio do not provide a sufficient description, pass a `legend` to the group.
+
+```tsx interactive
+import React, { useState } from 'react';
+import { EuiRadioGroup, useGeneratedHtmlId } from '@elastic/eui';
+
+export default () => {
+  const radioGroupItemId__1 = useGeneratedHtmlId({
+    prefix: 'radioGroupItem',
+    suffix: 'first',
+  });
+  const radioGroupItemId__2 = useGeneratedHtmlId({
+    prefix: 'radioGroupItem',
+    suffix: 'second',
+  });
+  const radioGroupItemId__3 = useGeneratedHtmlId({
+    prefix: 'radioGroupItem',
+    suffix: 'third',
+  });
+
+  const radios = [
+    {
+      id: radioGroupItemId__1,
+      label: 'Option one',
+    },
+    {
+      id: radioGroupItemId__2,
+      label: 'Option two is checked by default',
+    },
+    {
+      id: radioGroupItemId__3,
+      label: 'Option three is disabled',
+      disabled: true,
+    },
+  ];
+
+  const [radioIdSelected, setRadioIdSelected] = useState(radioGroupItemId__2);
+
+  const onChange = (optionId) => {
+    setRadioIdSelected(optionId);
+  };
+
+  return (
+    /* DisplayToggles wrapper for Docs only */
+    <DisplayToggles
+      canLoading={false}
+      canReadOnly={false}
+      canInvalid={false}
+      canFullWidth={false}
+    >
+      <EuiRadioGroup
+        options={radios}
+        idSelected={radioIdSelected}
+        onChange={(id) => onChange(id)}
+        name="radio group"
+        legend={{
+          children: <span>This is a legend for a radio group</span>,
+        }}
+      />
+    </DisplayToggles>
+  );
+};
+```
+
+## Usage
+
+### Labels
+
+A label should be succinct, short, and descriptive with one to two words. This way users can quickly scan the available options.
+
+<EuiFlexGrid columns={2}>
+  <Guideline type="do" text="Use one to two descriptive words.">
+    <EuiRadioGroup
+      options={[
+        { id: 'easy_scan_do_one', label: 'Canceled' },
+        { id: 'easy_scan_do_two', label: 'In progress' },
+        { id: 'easy_scan_do_three', label: 'On hold' },
+        { id: 'easy_scan_do_four', label: 'Resolved' },
+      ]}
+      onChange={() => {}}
+    />
+  </Guideline>
+  <Guideline type="dont" text="Repeat the same words. They make labels difficult to scan.">
+    <EuiRadioGroup
+      options={[
+        { id: 'easy_scan_dont_one', label: 'Case is canceled' },
+        { id: 'easy_scan_dont_two', label: 'Case is in progress' },
+        { id: 'easy_scan_dont_three', label: 'Case is on hold' },
+        { id: 'easy_scan_dont_four', label: 'Case is resolved' },
+      ]}
+      onChange={() => {}}
+    />
+  </Guideline>
+</EuiFlexGrid>
+
+Use positive and active wording.
+
+<EuiFlexGrid columns={2}>
+  <Guideline type="do" text="Tell users what happens when the selection control is on.">
+    <EuiRadioGroup
+      options={[
+        { id: 'positive_do_one', label: 'Use logs' },
+        { id: 'positive_do_two', label: 'Use metrics' },
+      ]}
+      idSelected="positive_do_one"
+      onChange={() => {}}
+    />
+  </Guideline>
+  <Guideline type="dont" text="Use negatives. They're unnatural and confusing.">
+    <EuiRadioGroup
+      options={[
+        { id: 'positive_dont_one', label: 'Do not include logs' },
+        { id: 'positive_dont_two', label: 'Do not include metrics' },
+      ]}
+      idSelected="positive_dont_one"
+      onChange={() => {}}
+    />
+  </Guideline>
+</EuiFlexGrid>
+
+Use sentence case (capitalize the first word).
+
+<EuiFlexGrid columns={2}>
+  <Guideline type="do" text="Sentence case makes titles easier to read.">
+    <EuiRadioGroup
+      options={[
+        { id: 'sentence_case_do_one', label: 'Read access' },
+        { id: 'sentence_case_do_two', label: 'Write access' },
+        { id: 'sentence_case_do_three', label: 'Create access' },
+        { id: 'sentence_case_do_four', label: 'Delete access' },
+      ]}
+      idToSelectedMap={{ sentence_case_do_one: true }}
+      onChange={() => {}}
+    />
+  </Guideline>
+  <Guideline type="dont" text="Title case can feel more cluttered.">
+    <EuiRadioGroup
+      options={[
+        { id: 'sentence_case_dont_one', label: 'Read Access' },
+        { id: 'sentence_case_dont_two', label: 'Write Access' },
+        { id: 'sentence_case_dont_three', label: 'Create Access' },
+        { id: 'sentence_case_dont_four', label: 'Delete Access' },
+      ]}
+      idToSelectedMap={{ sentence_case_dont_one: true }}
+      onChange={() => {}}
+    />
+  </Guideline>
+</EuiFlexGrid>
+
+Use consistent label structures for options within the same group.
+
+<EuiFlexGrid columns={2}>
+  <Guideline type="do" text="Use sentences only or fragments only.">
+    <EuiRadioGroup
+      legend={{ children: 'Data to ship' }}
+      options={[
+        { id: 'group_title_do_one', label: 'Logs' },
+        { id: 'group_title_do_two', label: 'Metric' },
+      ]}
+      idToSelectedMap={{ group_title_do_one: true }}
+      onChange={() => {}}
+    />
+  </Guideline>
+  <Guideline type="dont" text="Mix label structure within the same group of options.">
+    <EuiRadioGroup
+      legend={{ children: 'Data to ship' }}
+      options={[
+        { id: 'group_title_dont_one', label: 'Use Logs' },
+        { id: 'group_title_dont_two', label: 'Metric' },
+      ]}
+      idToSelectedMap={{ group_title_dont_one: true }}
+      onChange={() => {}}
+    />
+  </Guideline>
+  <Guideline type="do" text="Start all with a verb, all with a noun, or all with a number.">
+    <EuiRadioGroup
+      legend={{ children: 'Availability zones' }}
+      options={[
+        { id: 'consistent_do_one', label: '1 zone' },
+        { id: 'consistent_do_two', label: '2 zones' },
+        { id: 'consistent_do_three', label: '3 zones' },
+      ]}
+      onChange={() => {}}
+    />
+  </Guideline>
+  <Guideline type="dont" text="Use ending punctuation. Exception: Question marks can be used if they add clarity.">
+    <EuiRadioGroup
+      legend={{ children: 'Availability zones' }}
+      options={[
+        { id: 'consistent_dont_one', label: 'One zone' },
+        { id: 'consistent_dont_two', label: '2 zones.' },
+        { id: 'consistent_dont_three', label: '3 zones' },
+      ]}
+      onChange={() => {}}
+    />
+  </Guideline>
+</EuiFlexGrid>
+
+### Legends
+
+For groups of options, add a legend that gives meaning to the options. Legends appear like a title.
+
+<EuiFlexGrid columns={2}>
+  <Guideline type="do" text="Use nouns that describe the choices to make.">
+    <EuiRadioGroup
+      legend={{ children: 'Data to ship' }}
+      options={[
+        { id: 'group_title_do_one', label: 'Logs' },
+        { id: 'group_title_do_two', label: 'Metrics' },
+      ]}
+      onChange={() => {}}
+      idToSelectedMap={{ group_title_do_one: true }}
+    />
+  </Guideline>
+  <Guideline type="dont" text="Repeat choices or use the title as instructions.">
+    <EuiRadioGroup
+      legend={{ children: 'Data to ship' }}
+      options={[
+        { id: 'group_title_dont_one', label: 'Logs' },
+        { id: 'group_title_dont_two', label: 'Metrics' },
+      ]}
+      onChange={() => {}}
+      idToSelectedMap={{ group_title_dont_one: true }}
+    />
+  </Guideline>
+</EuiFlexGrid>
+
+## Props
+
+import docgen from '@elastic/eui-docgen/dist/components/form';
+
+<PropTable definition={docgen.EuiRadio} />
+<PropTable definition={docgen.EuiRadioGroup} />

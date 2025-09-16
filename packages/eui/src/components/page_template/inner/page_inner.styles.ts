@@ -7,15 +7,13 @@
  */
 
 import { css } from '@emotion/react';
-import { euiShadow } from '../../../themes/amsterdam/global_styling/mixins';
-import { euiBackgroundColor, logicalCSS } from '../../../global_styling';
-import { transparentize, UseEuiTheme } from '../../../services';
+import { euiShadow } from '@elastic/eui-theme-common';
+
+import { logicalCSS } from '../../../global_styling';
+import { UseEuiTheme } from '../../../services';
 
 export const euiPageInnerStyles = (euiThemeContext: UseEuiTheme) => {
-  const borderColor = transparentize(
-    euiThemeContext.euiTheme.colors.lightShade,
-    0.7
-  );
+  const { euiTheme } = euiThemeContext;
 
   return {
     euiPageInner: css`
@@ -29,23 +27,17 @@ export const euiPageInnerStyles = (euiThemeContext: UseEuiTheme) => {
     `,
 
     panelled: css`
-      background: ${euiBackgroundColor(euiThemeContext, 'plain')};
+      background: ${euiThemeContext.euiTheme.colors.backgroundBasePlain};
       ${euiShadow(euiThemeContext, 'm')}
     `,
 
     border: {
       top: css`
-        ${logicalCSS(
-          'border-top',
-          `${euiThemeContext.euiTheme.border.width.thin} solid ${borderColor}`
-        )}
+        ${logicalCSS('border-top', euiTheme.border.thin)}
       `,
 
       left: css`
-        ${logicalCSS(
-          'border-left',
-          `${euiThemeContext.euiTheme.border.width.thin} solid ${borderColor}`
-        )}
+        ${logicalCSS('border-left', euiTheme.border.thin)}
       `,
     },
   };

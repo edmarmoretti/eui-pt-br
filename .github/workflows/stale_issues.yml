@@ -10,6 +10,7 @@ jobs:
   stale-prs: # close stale PRs after ~3 months
     permissions:
       pull-requests: write
+      issues: none # this will generate GH actions permissions errors. This is fine; we'd rather the action error than try to parse issues it doesn't need to
     runs-on: ubuntu-latest
     steps:
       - uses: actions/stale@v8
@@ -27,6 +28,7 @@ jobs:
   stale-issues: # close stale issues after ~1 year
     permissions:
       issues: write
+      pull-requests: none # this will generate GH actions permissions errors. This is fine; we'd rather the action error than try to parse PRs it doesn't need to
     runs-on: ubuntu-latest
     steps:
       - uses: actions/stale@v8
@@ -38,7 +40,7 @@ jobs:
           stale-issue-label: 'stale-issue'
           close-issue-label: 'stale-issue-closed'
           close-issue-reason: 'not_planned'
-          exempt-issue-labels: 'bug,meta,task'
+          exempt-issue-labels: 'pinned,meta'
           operations-per-run: 1000
           remove-stale-when-updated: true
           enable-statistics: true
@@ -46,6 +48,7 @@ jobs:
   answered-issues: # close answered issues after 3 days if no response
     permissions:
       issues: write
+      pull-requests: none  # this will generate GH actions permissions errors. This is fine; we'd rather the action error than try to parse PRs it doesn't need to
     runs-on: ubuntu-latest
     steps:
       - uses: actions/stale@v8

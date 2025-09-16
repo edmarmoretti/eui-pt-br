@@ -12,22 +12,23 @@ import {
   euiFontSize,
   logicalCSS,
   logicalShorthandCSS,
-  euiBackgroundColor,
   euiTextTruncate,
   euiTextBreakWord,
 } from '../../global_styling';
 import { UseEuiTheme } from '../../services';
-import { euiButtonColor } from '../../themes/amsterdam/global_styling/mixins/button';
+import { euiButtonColor } from '../../global_styling/mixins/_button';
 
 export const euiListGroupItemStyles = (euiThemeContext: UseEuiTheme) => {
   const euiTheme = euiThemeContext.euiTheme;
 
-  const primaryBgColor = euiBackgroundColor(euiThemeContext, 'primary', {
-    method: 'transparent',
-  });
-  const subduedBgColor = euiBackgroundColor(euiThemeContext, 'subdued', {
-    method: 'transparent',
-  });
+  const primaryBgColor =
+    euiTheme.components.listGroupItemBackgroundPrimaryActive;
+  const subduedBgColor =
+    euiTheme.components.listGroupItemBackgroundSubduedActive;
+
+  const backgroundHover = euiTheme.components.listGroupItemBackgroundHover;
+  const backgroundPrimaryHover =
+    euiTheme.components.listGroupItemBackgroundPrimaryHover;
 
   return {
     // Base
@@ -71,19 +72,19 @@ export const euiListGroupItemStyles = (euiThemeContext: UseEuiTheme) => {
         primary: css`
           &:hover,
           &:focus-within {
-            background-color: ${primaryBgColor};
+            background-color: ${backgroundPrimaryHover};
           }
         `,
         text: css`
           &:hover,
           &:focus-within {
-            background-color: ${subduedBgColor};
+            background-color: ${backgroundHover};
           }
         `,
         subdued: css`
           &:hover,
           &:focus-within {
-            background-color: ${subduedBgColor};
+            background-color: ${backgroundHover};
           }
         `,
       },
@@ -112,13 +113,11 @@ export const euiListGroupItemInnerStyles = (euiThemeContext: UseEuiTheme) => {
     // Sizes
     xs: css`
       ${euiFontSize(euiThemeContext, 'xs')}
-      font-weight: ${euiTheme.font.weight.medium};
       letter-spacing: 0;
       ${logicalCSS('min-height', euiTheme.size.l)}
     `,
     s: css`
       ${euiFontSize(euiThemeContext, 's')}
-      font-weight: ${euiTheme.font.weight.medium};
       letter-spacing: 0;
       ${logicalCSS('min-height', euiTheme.size.xl)}
     `,
@@ -169,17 +168,15 @@ export const euiListGroupItemInnerStyles = (euiThemeContext: UseEuiTheme) => {
   };
 };
 
-export const euiListGroupItemLabelStyles = () => {
-  return {
-    // Base
-    euiListGroupItem__label: css``,
-    truncate: css`
-      ${euiTextTruncate()}
-    `,
-    wrapText: css`
-      ${euiTextBreakWord()}
-    `,
-  };
+export const euiListGroupItemLabelStyles = {
+  // Base
+  euiListGroupItem__label: css``,
+  truncate: css`
+    ${euiTextTruncate()}
+  `,
+  wrapText: css`
+    ${euiTextBreakWord()}
+  `,
 };
 
 export const euiListGroupItemIconStyles = ({ euiTheme }: UseEuiTheme) => {
@@ -193,12 +190,10 @@ export const euiListGroupItemIconStyles = ({ euiTheme }: UseEuiTheme) => {
   };
 };
 
-export const euiListGroupItemTooltipStyles = () => {
-  return {
-    // Base
-    euiListGroupItem__tooltip: css`
-      display: inline-flex; /* Allows the wrapped button/text to grow */
-      ${logicalCSS('width', '100%')}
-    `,
-  };
+export const euiListGroupItemTooltipStyles = {
+  // Base
+  euiListGroupItem__tooltip: css`
+    display: inline-flex; /* Allows the wrapped button/text to grow */
+    ${logicalCSS('width', '100%')}
+  `,
 };

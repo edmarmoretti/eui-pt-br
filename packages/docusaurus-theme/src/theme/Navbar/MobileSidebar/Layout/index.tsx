@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { css } from '@emotion/react';
 import Layout from '@theme-init/Navbar/MobileSidebar/Layout';
 import type LayoutType from '@theme-init/Navbar/MobileSidebar/Layout';
@@ -21,6 +21,8 @@ const styles = {
     .navbar-sidebar__back {
       font-size: var(--eui-font-size-s);
       line-height: var(--eui-fline-height-xs);
+      padding-block: var(--eui-size-m);
+      padding-inline: var(--eui-size-s);
     }
   `,
 };

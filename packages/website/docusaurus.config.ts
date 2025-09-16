@@ -9,9 +9,18 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type { Options as EuiPresetOptions } from '@elastic/eui-docusaurus-preset';
 
 const baseUrl = process.env.DOCS_BASE_URL || '/';
 const googleTagManagerId = process.env.DOCS_GOOGLE_TAG_MANAGER_ID || undefined;
+
+let storybookBaseUrl: string = 'https://eui.elastic.co/storybook';
+
+if (process.env.NODE_ENV === 'development') {
+  storybookBaseUrl = 'http://localhost:6006';
+} else if (process.env.STORYBOOK_BASE_URL) {
+  storybookBaseUrl = process.env.STORYBOOK_BASE_URL;
+}
 
 const config: Config = {
   title: 'Elastic UI Framework',
@@ -36,24 +45,30 @@ const config: Config = {
     locales: ['en'],
   },
 
-  themes: ['@elastic/eui-docusaurus-theme'],
+  customFields: {
+    storybookBaseUrl,
+  },
 
   presets: [
     [
-      'classic',
+      require.resolve('@elastic/eui-docusaurus-preset'),
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/elastic/eui/tree/main/website/',
+          editUrl: 'https://github.com/elastic/eui/tree/main/packages/website/',
+          admonitions: {
+            keywords: ['accessibility'],
+            extendDefaults: true,
+          },
         },
         blog: {
           showReadingTime: true,
-          editUrl: 'https://github.com/elastic/eui/tree/main/website/',
+          editUrl: 'https://github.com/elastic/eui/tree/main/packages/website/',
         },
         googleTagManager: googleTagManagerId && {
           containerId: googleTagManagerId,
         },
-      } satisfies Preset.Options,
+      } satisfies EuiPresetOptions,
     ],
   ],
 
@@ -62,6 +77,21 @@ const config: Config = {
       'docusaurus-lunr-search',
       {
         disableVersioning: true, // We don't use docusaurus docs versioning
+        fields: {
+          title: {
+            // We need high enough boost to ensure titles are prioritized
+            // even if it's not a 100% match.
+            // lunr scoring logic seems to be very picky about that
+            boost: 200,
+            extractor(doc) {
+              // We need to include keywords in the title field/index
+              // to boost their importance when searching.
+              // They're not rendered in search results
+              return `${doc.title}${doc.keywords ? ` ${doc.keywords}` : ''}`;
+            },
+          },
+          content: { boost: 1 },
+        },
       },
     ],
   ],
@@ -76,25 +106,37 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'rootSidebar',
+          sidebarId: 'getting-started',
           position: 'left',
-          label: 'Documentation',
+          label: 'Getting started',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'patternsSidebar',
+          sidebarId: 'components',
+          position: 'left',
+          label: 'Components',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'utilities',
+          position: 'left',
+          label: 'Utilities',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'patterns',
           position: 'left',
           label: 'Patterns',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'contentSidebar',
+          sidebarId: 'content',
           position: 'left',
           label: 'Content',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'datavizSidebar',
+          sidebarId: 'dataviz',
           position: 'left',
           label: 'Data visualization',
         },

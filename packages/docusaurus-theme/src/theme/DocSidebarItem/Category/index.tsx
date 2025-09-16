@@ -1,4 +1,4 @@
-import React, { type ComponentProps, useEffect, useMemo } from 'react';
+import { type ComponentProps, useEffect, useMemo, JSX } from 'react';
 import clsx from 'clsx';
 import { css, Interpolation, Theme } from '@emotion/react';
 import {
@@ -8,12 +8,12 @@ import {
   Collapsible,
   useCollapsible,
 } from '@docusaurus/theme-common';
+import { isSamePath } from '@docusaurus/theme-common/internal';
 import {
   isActiveSidebarItem,
   findFirstSidebarItemLink,
   useDocSidebarItemsExpandedState,
-  isSamePath,
-} from '@docusaurus/theme-common/internal';
+} from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import { translate } from '@docusaurus/Translate';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -34,11 +34,6 @@ const getStyles = ({ euiTheme }: UseEuiTheme) => ({
       font-size: var(--eui-font-size-s);
       line-height: var(--eui-line-height-s);
       font-weight: ${euiTheme.font.weight.bold};
-
-      @media (min-width: 997px) {
-        font-size: var(--eui-font-size-xs);
-        line-height: var(--eui-line-height-xxs);
-      }
     }
 
     .menu__link--active {

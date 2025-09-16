@@ -31,24 +31,46 @@ export const euiPageHeaderContentStyles = ({ euiTheme }: UseEuiTheme) => ({
   `,
 
   // Children only (legacy) expects EuiPageHeaderSections as children
-  flex: css`
-    flex-direction: row;
-    display: flex;
-    gap: ${euiTheme.size.base};
-    justify-content: space-between;
+  childrenOnly: {
+    flex: css`
+      flex-direction: row;
+      display: flex;
+      gap: ${euiTheme.size.base};
+      justify-content: space-between;
+    `,
+    // Responsive (what to do at the smaller breakpoint)
+    responsive: css`
+      flex-direction: column;
+      align-items: flex-start;
+    `,
+    responsiveReverse: css`
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    `,
+  },
+
+  euiPageHeaderContent__top: css`
+    container-type: inline-size;
+  `,
+  euiPageHeaderContent__leftSideItems: css`
+    @container (max-width: ${euiTheme.breakpoint.m}px) {
+      ${logicalCSS('min-width', '50%')}
+    }
+  `,
+  euiPageHeaderContent__rightSideItems: css`
+    flex: 0 1 auto;
+    align-content: flex-start;
+    ${logicalCSS('max-width', '100%')}
+
+    @container (min-width: ${euiTheme.breakpoint.m}px) {
+      ${logicalCSS('max-width', '50%')}
+      justify-content: flex-end;
+    }
+  `,
+  euiPageHeaderContent__rightSideItem: css`
+    ${logicalCSS('max-width', '100%')}
   `,
 
-  // Responsive (what to do at the smaller breakpoint)
-  responsive: css`
-    flex-direction: column;
-    align-items: flex-start;
-  `,
-  responsiveReverse: css`
-    flex-direction: column-reverse;
-    align-items: flex-start;
-  `,
-
-  // Content
   euiPageHeaderContent__titleIcon: css`
     position: relative;
     ${logicalCSS('top', `-${euiTheme.size.xs}`)}

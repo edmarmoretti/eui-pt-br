@@ -16,7 +16,7 @@ import {
   logicalTextAlignCSS,
   mathWithUnits,
 } from '../../global_styling';
-import { UseEuiTheme, transparentize } from '../../services';
+import { UseEuiTheme } from '../../services';
 import { euiBadgeColors } from './color_utils';
 
 export const euiBadgeStyles = (euiThemeContext: UseEuiTheme) => {
@@ -44,7 +44,7 @@ export const euiBadgeStyles = (euiThemeContext: UseEuiTheme) => {
       font-weight: ${euiTheme.font.weight.medium};
       white-space: nowrap;
       text-decoration: none;
-      cursor: default;
+      cursor: inherit;
       border: ${euiTheme.border.width.thin} solid transparent;
       border-radius: ${mathWithUnits(
         euiTheme.border.radius.medium,
@@ -99,18 +99,24 @@ export const euiBadgeStyles = (euiThemeContext: UseEuiTheme) => {
     `,
 
     // Colors
-    default: css(setBadgeColorVars(badgeColors.default)),
+    default: css`
+      ${setBadgeColorVars(badgeColors.default)}
+      border-color: ${badgeColors.default.borderColor};
+    `,
     hollow: css`
       ${setBadgeColorVars(badgeColors.hollow)}
       border-color: ${badgeColors.hollow.borderColor};
     `,
     primary: css(setBadgeColorVars(badgeColors.primary)),
     accent: css(setBadgeColorVars(badgeColors.accent)),
-    warning: css(setBadgeColorVars(badgeColors.warning)),
-    danger: css(setBadgeColorVars(badgeColors.danger)),
+    neutral: css(setBadgeColorVars(badgeColors.neutral)),
     success: css(setBadgeColorVars(badgeColors.success)),
+    warning: css(setBadgeColorVars(badgeColors.warning)),
+    risk: css(setBadgeColorVars(badgeColors.risk)),
+    danger: css(setBadgeColorVars(badgeColors.danger)),
     disabled: css`
       ${setBadgeColorVars(badgeColors.disabled)}
+      border-color: ${badgeColors.disabled.borderColor};
 
       /* Override selection color, since disabled badges have rgba backgrounds with opacity */
       *::selection {
@@ -163,15 +169,6 @@ export const euiBadgeStyles = (euiThemeContext: UseEuiTheme) => {
     iconButton: {
       euiBadge__iconButton: css`
         font-size: 0; /* Makes the button only as large as the icon so it aligns vertically better */
-
-        &:focus {
-          background-color: ${transparentize(euiTheme.colors.ghost, 0.8)};
-          color: ${euiTheme.colors.ink};
-          border-radius: ${mathWithUnits(
-            euiTheme.border.radius.small,
-            (x) => x / 2
-          )};
-        }
 
         &:disabled {
           cursor: not-allowed;

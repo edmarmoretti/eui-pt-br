@@ -7,6 +7,8 @@
  */
 
 import { css, keyframes } from '@emotion/react';
+import { euiShadowXLarge } from '@elastic/eui-theme-common';
+
 import { _EuiFlyoutPaddingSize, EuiFlyoutSize } from './flyout';
 import {
   euiCanAnimate,
@@ -16,7 +18,6 @@ import {
   mathWithUnits,
 } from '../../global_styling';
 import { UseEuiTheme } from '../../services';
-import { euiShadowXLarge } from '../../themes/amsterdam/global_styling/mixins';
 import { euiFormMaxWidth } from '../form/form.styles';
 
 export const FLYOUT_BREAKPOINT = 'm' as const;
@@ -44,7 +45,7 @@ export const euiFlyoutSlideInLeft = keyframes`
 `;
 
 export const euiFlyoutStyles = (euiThemeContext: UseEuiTheme) => {
-  const euiTheme = euiThemeContext.euiTheme;
+  const { euiTheme, colorMode } = euiThemeContext;
 
   return {
     euiFlyout: css`
@@ -63,19 +64,24 @@ export const euiFlyoutStyles = (euiThemeContext: UseEuiTheme) => {
         outline: none;
       }
 
-      ${euiMaxBreakpoint(euiThemeContext, FLYOUT_BREAKPOINT)} {
-        /* 1. Leave only a small sliver exposed on small screens so users understand that this is not a new page
-           2. If a custom maxWidth is set, we need to override it. */
-        ${logicalCSS('max-width', '90vw !important')}
-      }
+      ${maxedFlyoutWidth(euiThemeContext)}
     `,
 
     // Flyout sizes
+    // When a child flyout is stacked on top of the parent, the parent flyout size will match the child flyout size
     s: css`
       ${composeFlyoutSizing(euiThemeContext, 's')}
+
+      &.euiFlyout--hasChild--stacked.euiFlyout--hasChild--m {
+        ${composeFlyoutSizing(euiThemeContext, 'm')}
+      }
     `,
     m: css`
       ${composeFlyoutSizing(euiThemeContext, 'm')}
+
+      &.euiFlyout--hasChild--stacked.euiFlyout--hasChild--s {
+        ${composeFlyoutSizing(euiThemeContext, 's')}
+      }
     `,
     l: css`
       ${composeFlyoutSizing(euiThemeContext, 'l')}
@@ -93,6 +99,10 @@ export const euiFlyoutStyles = (euiThemeContext: UseEuiTheme) => {
         animation: ${euiFlyoutSlideInRight} ${euiTheme.animation.normal}
           ${euiTheme.animation.resistance};
       }
+
+      &.euiFlyout--hasChild {
+        clip-path: none;
+      }
     `,
     // Left-side flyouts should only be used for navigation
     left: css`
@@ -106,9 +116,29 @@ export const euiFlyoutStyles = (euiThemeContext: UseEuiTheme) => {
     `,
 
     // Type
-    overlay: css`
-      ${euiShadowXLarge(euiThemeContext)}
-    `,
+    overlay: {
+      overlay: css`
+        ${euiShadowXLarge(euiThemeContext, {
+          borderAllInHighContrastMode: true,
+        })}
+
+        &:has(.euiResizableButton) {
+          border-inline: none;
+        }
+      `,
+      left: css`
+        border-inline-end: ${colorMode === 'DARK'
+          ? `${euiTheme.border.width.thin} solid
+          ${euiTheme.colors.borderBaseFloating}`
+          : 'none'};
+      `,
+      right: css`
+        border-inline-start: ${colorMode === 'DARK'
+          ? `${euiTheme.border.width.thin} solid
+          ${euiTheme.colors.borderBaseFloating}`
+          : 'none'};
+      `,
+    },
     push: {
       push: css`
         clip-path: none;
@@ -145,7 +175,13 @@ export const euiFlyoutStyles = (euiThemeContext: UseEuiTheme) => {
   };
 };
 
-const composeFlyoutSizing = (
+export const maxedFlyoutWidth = (euiThemeContext: UseEuiTheme) => `
+  ${euiMaxBreakpoint(euiThemeContext, FLYOUT_BREAKPOINT)} {
+    ${logicalCSS('max-width', '90vw !important')}
+  }
+`;
+
+export const composeFlyoutSizing = (
   euiThemeContext: UseEuiTheme,
   size: EuiFlyoutSize
 ) => {

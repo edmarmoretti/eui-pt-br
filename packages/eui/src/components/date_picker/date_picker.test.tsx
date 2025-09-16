@@ -47,10 +47,52 @@ describe('EuiDatePicker', () => {
     jest.restoreAllMocks();
   });
 
+  test('onClear', () => {
+    const onClear = () => {};
+    const selected = moment();
+
+    const { queryByLabelText, rerender } = render(
+      <EuiDatePicker onClear={onClear} selected={selected} />
+    );
+    // Should render the clear button
+    expect(queryByLabelText('Clear input')).toBeInTheDocument();
+
+    // Should not render the clear button if the input is disabled
+    rerender(<EuiDatePicker onClear={onClear} selected={selected} disabled />);
+    expect(queryByLabelText('Clear input')).not.toBeInTheDocument();
+
+    // Should not render the clear button if no date is selected
+    rerender(<EuiDatePicker onClear={onClear} />);
+    expect(queryByLabelText('Clear input')).not.toBeInTheDocument();
+  });
+
   test('compressed', () => {
     const { container } = render(<EuiDatePicker compressed />);
     // TODO: Should probably be a visual snapshot test
     expect(container.innerHTML).toContain('-compressed');
+  });
+
+  test('append/prepend', () => {
+    const { container, rerender } = render(
+      <EuiDatePicker append="hello" prepend="world" />
+    );
+    const getAppend = () =>
+      container.querySelector('.euiFormControlLayout__append');
+    const getPrepend = () =>
+      container.querySelector('.euiFormControlLayout__prepend');
+
+    expect(getAppend()).toHaveTextContent('hello');
+    expect(getPrepend()).toHaveTextContent('world');
+
+    // Does not render if controlOnly
+    rerender(<EuiDatePicker append="hello" prepend="world" controlOnly />);
+    expect(getAppend()).not.toBeInTheDocument();
+    expect(getPrepend()).not.toBeInTheDocument();
+
+    // Does not render if inline
+    rerender(<EuiDatePicker append="hello" prepend="world" inline />);
+    expect(getAppend()).not.toBeInTheDocument();
+    expect(getPrepend()).not.toBeInTheDocument();
   });
 
   // TODO: These tests/snapshots don't really do anything in Jest without

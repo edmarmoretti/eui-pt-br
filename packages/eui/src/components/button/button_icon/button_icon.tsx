@@ -14,7 +14,12 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 
-import { getSecureRelForTarget, useEuiMemoizedStyles } from '../../../services';
+import {
+  getSecureRelForTarget,
+  isEuiThemeRefreshVariant,
+  useEuiMemoizedStyles,
+  useEuiTheme,
+} from '../../../services';
 import {
   CommonProps,
   ExclusiveUnion,
@@ -29,8 +34,8 @@ import { EuiLoadingSpinner } from '../../loading';
 import {
   useEuiButtonColorCSS,
   useEuiButtonFocusCSS,
-  _EuiButtonColor,
-} from '../../../themes/amsterdam/global_styling/mixins/button';
+  _EuiExtendedButtonColor,
+} from '../../../global_styling/mixins/_button';
 import { isButtonDisabled } from '../button_display/_button_display';
 import { euiButtonIconStyles, _emptyHoverStyles } from './button_icon.styles';
 
@@ -44,8 +49,15 @@ export interface EuiButtonIconProps extends CommonProps {
   iconType: IconType;
   /**
    * Any of the named color palette options.
+   *
+   * Do not use the following colors for standalone buttons directly,
+   * they exist to serve other components:
+   *  - accent
+   *  - warning
+   *  - neutral
+   *  - risk
    */
-  color?: _EuiButtonColor;
+  color?: _EuiExtendedButtonColor;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   isDisabled?: boolean;
@@ -118,6 +130,12 @@ export const EuiButtonIcon: FunctionComponent<Props> = ({
   isLoading,
   ...rest
 }) => {
+  const euiThemeContext = useEuiTheme();
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'buttonVariant'
+  );
+
   const isDisabled = isButtonDisabled({
     isDisabled: _isDisabled || disabled,
     href,
@@ -144,7 +162,10 @@ export const EuiButtonIcon: FunctionComponent<Props> = ({
     styles[size],
     buttonColorStyles[isDisabled ? 'disabled' : color],
     buttonFocusStyle,
-    display === 'empty' && !isDisabled && emptyHoverStyles[color],
+    !isRefreshVariant &&
+      display === 'empty' &&
+      !isDisabled &&
+      emptyHoverStyles[color],
     isDisabled && styles.isDisabled,
   ];
 

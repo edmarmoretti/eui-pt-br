@@ -14,6 +14,7 @@ import {
   useCombinedRefs,
   useEuiTheme,
   useEuiMemoizedStyles,
+  tabularCopyMarkers,
 } from '../../services';
 import { ExclusiveUnion } from '../common';
 import {
@@ -37,6 +38,8 @@ import {
   euiCodeBlockPreStyles,
   euiCodeBlockCodeStyles,
 } from './code_block.styles';
+import { EuiScreenReaderOnly } from '../accessibility';
+import { useEuiI18n } from '../i18n';
 
 // Based on observed line height for non-virtualized code blocks
 const fontSizeToRowHeightMap = {
@@ -88,6 +91,13 @@ export type EuiCodeBlockProps = EuiCodeSharedProps & {
   isCopyable?: boolean;
 
   /**
+   * Customizes the aria-label for the copy button.
+   *
+   * @default 'Copy'
+   */
+  copyAriaLabel?: string;
+
+  /**
    * Displays line numbers.
    * Optionally accepts a configuration object for setting the starting number,
    * visually highlighting ranges, or annotating specific lines:
@@ -118,12 +128,14 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
   paddingSize = 'l',
   fontSize = 's',
   isCopyable = false,
+  copyAriaLabel,
   whiteSpace = 'pre-wrap',
   children,
   className,
   overflowHeight,
   isVirtualized: _isVirtualized,
   lineNumbers = false,
+  'aria-label': ariaLabel,
   ...rest
 }) => {
   const euiTheme = useEuiTheme();
@@ -159,6 +171,7 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
   );
 
   const { innerTextRef, copyButton } = useCopy({
+    copyAriaLabel,
     isCopyable,
     isVirtualized,
     children,
@@ -226,7 +239,6 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
             : preStyles.whiteSpace.preWrap.controlsOffset.xl),
       ],
       tabIndex: 0,
-      onKeyDown,
     };
 
     return [preProps, preFullscreenProps];
@@ -236,7 +248,6 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
     isVirtualized,
     hasControls,
     paddingSize,
-    onKeyDown,
     tabIndex,
   ]);
 
@@ -255,6 +266,28 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
     };
   }, [codeStyles, language, isVirtualized, rest]);
 
+  const codeBlockLabel = useEuiI18n(
+    'euiCodeBlock.label',
+    '{language} code block:',
+    {
+      language,
+    }
+  );
+  // pre tags don't accept aria-label without an
+  // appropriate role, we add a SR only text instead
+  const codeBlockLabelElement = (
+    <>
+      {tabularCopyMarkers.hiddenNoCopyBoundary}
+      <EuiScreenReaderOnly>
+        <div>
+          {ariaLabel ? `${ariaLabel}, ` : undefined}
+          {codeBlockLabel}
+        </div>
+      </EuiScreenReaderOnly>
+      {tabularCopyMarkers.hiddenNoCopyBoundary}
+    </>
+  );
+
   return (
     <div
       css={cssStyles}
@@ -264,6 +297,7 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
       {isVirtualized ? (
         <EuiCodeBlockVirtualized
           data={data}
+          label={codeBlockLabelElement}
           rowHeight={fontSizeToRowHeightMap[fontSize]}
           overflowHeight={overflowHeight}
           preProps={preProps}
@@ -271,6 +305,7 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
         />
       ) : (
         <pre {...preProps} ref={combinedRef} style={overflowHeightStyles}>
+          {codeBlockLabelElement}
           <code {...codeProps}>{content}</code>
         </pre>
       )}
@@ -280,16 +315,18 @@ export const EuiCodeBlock: FunctionComponent<EuiCodeBlockProps> = ({
       />
 
       {isFullScreen && (
-        <EuiCodeBlockFullScreenWrapper>
+        <EuiCodeBlockFullScreenWrapper onClose={onKeyDown}>
           {isVirtualized ? (
             <EuiCodeBlockVirtualized
               data={data}
+              label={codeBlockLabelElement}
               rowHeight={fontSizeToRowHeightMap.l}
               preProps={preFullscreenProps}
               codeProps={codeProps}
             />
           ) : (
             <pre {...preFullscreenProps}>
+              {codeBlockLabelElement}
               <code {...codeProps}>{content}</code>
             </pre>
           )}

@@ -7,8 +7,12 @@
  */
 
 import { css } from '@emotion/react';
-import { UseEuiTheme } from '../../../services';
+import { isEuiThemeRefreshVariant, UseEuiTheme } from '../../../services';
 import { logicalCSS } from '../../../global_styling';
+import {
+  highContrastModeStyles,
+  preventForcedColors,
+} from '../../../global_styling/functions/high_contrast';
 import { euiFormVariables } from '../../form/form.styles';
 
 export const euiButtonGroupStyles = {
@@ -37,6 +41,7 @@ export const euiButtonGroupButtonsStyles = (euiThemeContext: UseEuiTheme) => {
     euiButtonGroup__buttons: css`
       ${logicalCSS('max-width', '100%')}
       display: flex;
+      align-items: center;
     `,
     fullWidth: css`
       ${logicalCSS('width', '100%')}
@@ -50,15 +55,84 @@ export const euiButtonGroupButtonsStyles = (euiThemeContext: UseEuiTheme) => {
     // Sizes
     m: css`
       border-radius: ${euiTheme.border.radius.medium};
+      ${_highContrastStyles(euiThemeContext)}
     `,
     s: css`
       border-radius: ${euiTheme.border.radius.small};
+      ${_highContrastStyles(euiThemeContext)}
     `,
     compressed: css`
       ${logicalCSS('height', controlCompressedHeight)}
       background-color: ${backgroundColor};
       border: ${euiTheme.border.width.thin} solid ${borderColor};
       border-radius: ${controlCompressedBorderRadius};
+      ${_highContrastStyles(euiThemeContext, true)}
     `,
   };
+};
+
+const _highContrastStyles = (
+  euiThemeContext: UseEuiTheme,
+  compressed?: boolean
+) => {
+  const { euiTheme } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'buttonVariant'
+  );
+
+  // Account for buttons within tooltip wrappers in selectors
+  const getButtonChildSelectors = (selector: string) => `
+    & > .euiButtonGroupButton${selector},
+    & > .euiButtonGroup__tooltipWrapper${selector} .euiButtonGroupButton`;
+
+  return highContrastModeStyles(euiThemeContext, {
+    preferred: compressed
+      ? `
+        .euiButtonGroupButton {
+          border: none;
+        }
+      `
+      : // Conditionally unset the high contrast borders passed by `euiButtonColor` -
+        // faux borders between selected/unselected buttons are rendered by pseudo elements,
+        // and can flip colors depending on selected/unselected siblings
+        `
+        ${
+          !isRefreshVariant &&
+          `
+              ${getButtonChildSelectors(':not(:first-child, :last-child)')} {
+                ${logicalCSS('border-horizontal', 'none')}
+              }
+              ${getButtonChildSelectors(':first-child')} {
+                ${logicalCSS('border-right', 'none')}
+              }
+              ${getButtonChildSelectors(':last-child')} {
+                ${logicalCSS('border-left', 'none')}
+              }
+            `
+        }
+      `,
+    forced: `
+      .euiButtonGroupButton-isSelected {
+        ${preventForcedColors(euiThemeContext)}
+        color: ${euiTheme.colors.emptyShade};
+        background-color: ${euiTheme.colors.fullShade};
+
+        ${
+          isRefreshVariant &&
+          `
+              &:is(:hover, :focus):not(:disabled) {
+                &::before {
+                  border-color: ${euiTheme.colors.textInverse};
+                }
+              }
+            `
+        }
+      }
+
+      .euiButtonGroupButton[disabled] {
+        opacity: 0.5;
+      }
+    `,
+  });
 };

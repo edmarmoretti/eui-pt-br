@@ -211,14 +211,16 @@ describe('EuiListGroupItem', () => {
         const { getByText } = render(
           <EuiListGroupItem label="Label" href="#" external />
         );
-        expect(getByText('External link')).toBeInTheDocument();
+        expect(getByText('(external)')).toBeInTheDocument();
       });
 
       test('target `_blank` renders external icon', () => {
         const { getByText } = render(
           <EuiListGroupItem label="Label" href="#" target="_blank" />
         );
-        expect(getByText('External link')).toBeInTheDocument();
+        expect(
+          getByText('(external, opens in a new tab or window)')
+        ).toBeInTheDocument();
       });
     });
 
@@ -308,7 +310,7 @@ describe('EuiListGroupItem', () => {
         <EuiListGroupItem label="" iconType="empty" icon={<span />} />
       );
 
-      expect(consoleStub).toBeCalled();
+      expect(consoleStub).toHaveBeenCalled();
       expect(consoleStub.mock.calls[0][0]).toMatch(
         '`iconType` and `icon` were passed'
       );

@@ -10,7 +10,13 @@
 /// <reference types="cypress-real-events" />
 /// <reference types="../../../cypress/support" />
 
-import React, { useState, FC, MouseEventHandler } from 'react';
+import React, {
+  useState,
+  useEffect,
+  FC,
+  MouseEventHandler,
+  PropsWithChildren,
+} from 'react';
 
 import { EuiButton, EuiConfirmModal } from '../../components';
 import { EuiPopover, EuiPopoverProps } from './popover';
@@ -167,6 +173,48 @@ describe('EuiPopover', () => {
     });
   });
 
+  describe('toggle click behavior', () => {
+    it('closes the popover on outside click after multiple clicks on the trigger', () => {
+      cy.mount(
+        <PopoverComponent initialFocus="#test">
+          <button data-test-subj="popover-toggle">Test</button>
+        </PopoverComponent>
+      );
+
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+
+      cy.get('[data-test-subj="popoverPanel"]').should('exist');
+
+      cy.get('body').click();
+
+      cy.get('[data-test-subj="popoverPanel"]').should('not.exist');
+    });
+
+    it('closes the popover on ESCAPE keypress after multiple clicks on the trigger', () => {
+      cy.mount(
+        <PopoverComponent initialFocus="#test">
+          <button data-test-subj="popover-toggle">Test</button>
+        </PopoverComponent>
+      );
+
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+      cy.get('[data-test-subj="togglePopover"]').click();
+
+      cy.get('[data-test-subj="popoverPanel"]').should('exist');
+
+      cy.focused().type('{esc}');
+
+      cy.get('[data-test-subj="popoverPanel"]').should('not.exist');
+    });
+  });
+
   describe('repositionToCrossAxis', () => {
     beforeEach(() => {
       // Set a forced viewport with not enough room to render the popover vertically
@@ -182,8 +230,10 @@ describe('EuiPopover', () => {
       // Assert that the popover rendered horizontally and not vertically
       cy.get('[data-popover-panel]')
         .invoke('offset')
-        .then(({ top, left }) => {
-          expect(left).to.be.gt(top);
+        .then((offset) => {
+          if (offset) {
+            expect(offset.left).to.be.gt(offset.top);
+          }
         });
     });
 
@@ -201,9 +251,69 @@ describe('EuiPopover', () => {
       // Assert that the popover vertically and not horizontally
       cy.get('[data-popover-panel]')
         .invoke('offset')
-        .then(({ top, left }) => {
-          expect(top).to.be.gt(left);
+        .then((offset) => {
+          if (offset) {
+            expect(offset.top).to.be.gt(offset.left);
+          }
         });
+    });
+  });
+
+  describe('insert', () => {
+    const sibling = document.createElement('div');
+    sibling.id = 'sibling';
+    const componentDefaults = {
+      EuiPortal: { insert: { sibling, position: 'before' as const } },
+    };
+
+    const Wrapper: FC<PropsWithChildren> = ({ children }) => {
+      const [mounted, setMounted] = useState(false);
+
+      useEffect(() => {
+        document.body.appendChild(sibling);
+        setMounted(true);
+      }, []);
+
+      return <>{mounted && children}</>;
+    };
+
+    it('inherits from componentDefaults.EuiPortal', () => {
+      cy.mount(
+        <Wrapper>
+          <PopoverComponent isOpen={true} />
+        </Wrapper>,
+        { providerProps: { componentDefaults } }
+      );
+
+      // verify the popover was appended before the sibling
+      cy.get('div[data-euiportal]').then((portal) => {
+        cy.get('div#sibling').then((sibling) => {
+          expect(portal).to.have.lengthOf(1);
+          expect(sibling).to.have.lengthOf(1);
+          expect(sibling.get(0).previousElementSibling).to.equal(portal.get(0));
+        });
+      });
+    });
+
+    it('still allows overriding defaults via component props', () => {
+      cy.mount(
+        <Wrapper>
+          <PopoverComponent
+            isOpen={true}
+            insert={{ sibling, position: 'after' }}
+          />
+        </Wrapper>,
+        { providerProps: { componentDefaults } }
+      );
+
+      // verify portal elements were appended before and after the sibling
+      cy.get('div[data-euiportal]').then((portal) => {
+        cy.get('div#sibling').then((sibling) => {
+          expect(portal).to.have.lengthOf(1);
+          expect(sibling).to.have.lengthOf(1);
+          expect(sibling.get(0).nextElementSibling).to.equal(portal.get(0));
+        });
+      });
     });
   });
 });

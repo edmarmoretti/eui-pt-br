@@ -12,6 +12,7 @@ import React, {
   HTMLAttributes,
   MouseEventHandler,
   ReactNode,
+  JSX,
 } from 'react';
 import classNames from 'classnames';
 
@@ -22,7 +23,7 @@ import { EuiIcon, IconType } from '../../icon';
 
 import { euiBetaBadgeStyles } from './beta_badge.styles';
 
-export const COLORS = ['accent', 'subdued', 'hollow'] as const;
+export const COLORS = ['accent', 'subdued', 'hollow', 'warning'] as const;
 export type BetaBadgeColor = (typeof COLORS)[number];
 
 export const SIZES = ['s', 'm'] as const;
@@ -109,7 +110,7 @@ type BadgeProps = {
    */
   title?: string;
   /**
-   * Accepts accent, subdued and hollow.
+   * Accepts accent, subdued, hollow and warning.
    */
   color?: BetaBadgeColor;
   size?: BetaBadgeSize;

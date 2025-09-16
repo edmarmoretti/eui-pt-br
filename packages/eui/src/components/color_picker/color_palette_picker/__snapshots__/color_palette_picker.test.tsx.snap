@@ -23,10 +23,10 @@ exports[`EuiColorPalettePicker is rendered 1`] = `
         type="button"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -65,10 +65,10 @@ exports[`EuiColorPalettePicker is rendered with a selected custom text 1`] = `
         Plain text as a custom option
       </button>
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -135,10 +135,10 @@ exports[`EuiColorPalettePicker is rendered with a selected fixed palette 1`] = `
         </span>
       </button>
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -185,10 +185,10 @@ exports[`EuiColorPalettePicker is rendered with a selected gradient palette 1`] 
         />
       </button>
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -235,10 +235,10 @@ exports[`EuiColorPalettePicker is rendered with a selected gradient palette with
         />
       </button>
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -277,10 +277,10 @@ exports[`EuiColorPalettePicker is rendered with the prop selectionDisplay set as
         Palette 1
       </button>
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -348,10 +348,10 @@ exports[`EuiColorPalettePicker more props are propagated to each option 1`] = `
             </span>
           </button>
           <div
-            class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+            class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
           >
             <span
-              class="euiFormControlLayoutCustomIcon"
+              class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
             >
               <span
                 aria-hidden="true"
@@ -381,7 +381,7 @@ exports[`EuiColorPalettePicker more props are propagated to each option 1`] = `
         class="euiPanel euiPanel--plain euiPopover__panel emotion-euiPanel-grow-m-plain-euiPopover__panel-light-isAttached-bottom"
         data-popover-panel="true"
         role="dialog"
-        style="top: 0px; left: -22px; will-change: transform, opacity; z-index: 2000; inline-size: 0px;"
+        style="top: 0px; left: -18px; will-change: transform, opacity; z-index: 2000; inline-size: 0px;"
       >
         <div>
           <div
@@ -427,10 +427,18 @@ exports[`EuiColorPalettePicker more props are propagated to each option 1`] = `
                     class="euiColorPalettePicker__item"
                   >
                     <div
-                      aria-hidden="true"
-                      class="euiText euiColorPalettePicker__itemTitle emotion-euiText-xs"
+                      class="euiFlexGroup emotion-euiFlexGroup-l-flexStart-stretch-row"
                     >
-                      Palette 1
+                      <div
+                        class="euiFlexItem emotion-euiFlexItem-grow-1"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="euiText euiColorPalettePicker__itemTitle emotion-euiText-xs"
+                        >
+                          Palette 1
+                        </div>
+                      </div>
                     </div>
                     <div
                       class="euiSpacer euiSpacer--xs emotion-euiSpacer-xs"
@@ -487,10 +495,18 @@ exports[`EuiColorPalettePicker more props are propagated to each option 1`] = `
                     class="euiColorPalettePicker__item"
                   >
                     <div
-                      aria-hidden="true"
-                      class="euiText euiColorPalettePicker__itemTitle emotion-euiText-xs"
+                      class="euiFlexGroup emotion-euiFlexGroup-l-flexStart-stretch-row"
                     >
-                      Linear Gradient
+                      <div
+                        class="euiFlexItem emotion-euiFlexItem-grow-1"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="euiText euiColorPalettePicker__itemTitle emotion-euiText-xs"
+                        >
+                          Linear Gradient
+                        </div>
+                      </div>
                     </div>
                     <div
                       class="euiSpacer euiSpacer--xs emotion-euiSpacer-xs"
@@ -527,10 +543,18 @@ exports[`EuiColorPalettePicker more props are propagated to each option 1`] = `
                     class="euiColorPalettePicker__item"
                   >
                     <div
-                      aria-hidden="true"
-                      class="euiText euiColorPalettePicker__itemTitle emotion-euiText-xs"
+                      class="euiFlexGroup emotion-euiFlexGroup-l-flexStart-stretch-row"
                     >
-                      Linear Gradient with stops
+                      <div
+                        class="euiFlexItem emotion-euiFlexItem-grow-1"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="euiText euiColorPalettePicker__itemTitle emotion-euiText-xs"
+                        >
+                          Linear Gradient with stops
+                        </div>
+                      </div>
                     </div>
                     <div
                       class="euiSpacer euiSpacer--xs emotion-euiSpacer-xs"

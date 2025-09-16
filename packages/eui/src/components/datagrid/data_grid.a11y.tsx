@@ -190,7 +190,7 @@ describe('EuiDataGrid', () => {
         'button[data-test-subj="dataGridColumnSelectorButton"]'
       ).realClick();
       cy.get('input[data-test-subj="dataGridColumnSelectorSearch"]').type('a');
-      cy.get('div.euiSwitch--compressed').should(($s) => {
+      cy.get('.euiSwitch').should(($s) => {
         expect($s).to.have.length(5);
       });
       cy.checkAxe();
@@ -203,7 +203,7 @@ describe('EuiDataGrid', () => {
       cy.get('input[data-test-subj="dataGridColumnSelectorSearch"]').type(
         'favorite'
       );
-      cy.get('div.euiSwitch--compressed').should(($s) => {
+      cy.get('.euiSwitch').should(($s) => {
         expect($s).to.have.length(1);
       });
       cy.checkAxe();
@@ -235,6 +235,7 @@ describe('EuiDataGrid', () => {
     });
 
     it('has zero violations when the column actions menu is open', () => {
+      cy.get('.euiDataGridHeaderCell').first().realHover();
       cy.get('button.euiDataGridHeaderCell__button').first().realClick();
       cy.checkAxe();
     });
@@ -253,6 +254,8 @@ describe('EuiDataGrid', () => {
     });
 
     it('has zero violations on sort and when the columns sorting menu is open', () => {
+      cy.get('.euiDataGridHeaderCell').last().realHover();
+      cy.wait(200); // Wait for transition
       cy.get('button.euiDataGridHeaderCell__button').last().realClick();
       cy.get('button.euiListGroupItem__button')
         .contains('Sort Alma to Debian')

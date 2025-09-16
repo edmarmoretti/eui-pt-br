@@ -20,8 +20,10 @@ import 'cypress-real-events';
 
 import './a11y/checkAxe';
 import './keyboard/repeatRealPress';
+import './copy/select_and_copy';
 import './setup/mount';
 import './setup/realMount';
+import './css/cssVar';
 
 // @see https://github.com/quasarframework/quasar/issues/2233#issuecomment-492975745
 // @see also https://github.com/cypress-io/cypress/issues/20341
@@ -30,5 +32,3 @@ Cypress.on('uncaught:exception', (err) => {
     return false;
   }
 });
-
-require(THEME_IMPORT); // defined by DefinePlugin in the cypress webpack config

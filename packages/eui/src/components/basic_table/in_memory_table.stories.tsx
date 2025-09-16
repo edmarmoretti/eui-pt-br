@@ -30,7 +30,7 @@ const meta: Meta<EuiInMemoryTableProps> = {
     error: '',
     loading: false,
     // Set to strings for easier testing
-    message: '',
+    noItemsMessage: '',
     childrenBetween: '',
     // Inherited from EuiTable
     responsiveBreakpoint: 'm',
@@ -102,6 +102,9 @@ const columns: Array<EuiBasicTableColumn<User>> = [
   {
     field: 'location',
     name: 'Location',
+    nameTooltip: {
+      content: 'The city and country in which this person resides',
+    },
     truncateText: true,
     textOnly: true,
     render: (location: User['location']) => {

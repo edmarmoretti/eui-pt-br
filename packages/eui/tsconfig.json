@@ -40,6 +40,9 @@
     // same in TypeScript as it does in Node.js.
     "moduleResolution": "node",
 
+    // Skip type checking node_modules
+    "skipLibCheck": true,
+
     // Disallow inconsistently-cased references to the same file.
     "forceConsistentCasingInFileNames": true,
 
@@ -57,7 +60,6 @@
   },
   "include": [
     "./src/**/*",
-    "./src-docs/**/*",
     "./.storybook/*.d.ts"
   ],
   "exclude": ["node_modules", "**/*/*.spec.tsx", "**/*/*.a11y.tsx"]

@@ -8,23 +8,21 @@
 
 import { css } from '@emotion/react';
 
-import { UseEuiTheme, transparentize } from '../../services';
+import { UseEuiTheme } from '../../services';
 import { euiFontSize, logicalCSS, mathWithUnits } from '../../global_styling';
 import { euiTitle } from '../title/title.styles';
 
 export const euiSideNavItemStyles = (euiThemeContext: UseEuiTheme) => {
   const { euiTheme } = euiThemeContext;
 
-  const emphasizedBackgroundColor = transparentize(
-    euiTheme.colors.lightShade,
-    0.3
-  );
+  const emphasizedBackgroundColor =
+    euiTheme.components.sideNavItemEmphasizedBackground;
 
   return {
     euiSideNavItem: css``,
     emphasized: css`
       background-color: ${emphasizedBackgroundColor};
-      color: ${euiTheme.colors.title};
+      color: ${euiTheme.colors.textHeading};
 
       /* The large y values allow the shadow to stretch beyond the side nav bounds to it's parents container */
       box-shadow: 100px 0 0 0 ${emphasizedBackgroundColor},
@@ -47,11 +45,11 @@ export const euiSideNavItemStyles = (euiThemeContext: UseEuiTheme) => {
       }
     `,
     trunk: css`
-      color: ${euiTheme.colors.title};
+      color: ${euiTheme.colors.textHeading};
     `,
     branch: css`
       position: relative;
-      color: ${euiTheme.colors.subduedText};
+      color: ${euiTheme.colors.textSubdued};
 
       /* Draw the vertical line to group an expanded item's child items together. */
       &::after {
@@ -59,8 +57,7 @@ export const euiSideNavItemStyles = (euiThemeContext: UseEuiTheme) => {
         content: '';
         ${logicalCSS('vertical', 0)}
         ${logicalCSS('left', 0)}
-        ${logicalCSS('width', euiTheme.border.width.thin)}
-        background-color: ${euiTheme.border.color};
+        ${logicalCSS('border-left', euiTheme.border.thin)}
       }
 
       /* If this is actually the last item, we don't want the vertical line to stretch all the way down */
@@ -130,11 +127,11 @@ export const euiSideNavItemButtonStyles = (euiThemeContext: UseEuiTheme) => {
 
       &:disabled {
         cursor: not-allowed;
-        color: ${euiTheme.colors.disabledText};
+        color: ${euiTheme.colors.textDisabled};
       }
     `,
     selected: css`
-      color: ${euiTheme.colors.primaryText};
+      color: ${euiTheme.colors.textPrimary};
       font-weight: ${euiTheme.font.weight.bold};
 
       /* Restrict the underline to the button __label so it doesn't affect other components that might live within */
@@ -166,8 +163,7 @@ export const euiSideNavItemButtonStyles = (euiThemeContext: UseEuiTheme) => {
         ${logicalCSS('top', euiTheme.size.m)}
         ${logicalCSS('left', 0)}
         ${logicalCSS('width', euiTheme.size.xs)}
-        ${logicalCSS('height', euiTheme.border.width.thin)}
-        background-color: ${euiTheme.border.color};
+        ${logicalCSS('border-bottom', euiTheme.border.thin)}
       }
     `,
 

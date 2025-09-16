@@ -7,13 +7,12 @@
  */
 
 import { css } from '@emotion/react';
+import { euiShadowXSmall } from '@elastic/eui-theme-common';
 
-import { euiShadowSmall } from '../../themes/amsterdam/global_styling/mixins';
 import { logicalCSS } from '../../global_styling';
 import {
   UseEuiTheme,
-  shade,
-  transparentize,
+  isEuiThemeRefreshVariant,
   makeHighContrastColor,
 } from '../../services';
 
@@ -28,15 +27,8 @@ export const euiHeaderVariables = (euiThemeContext: UseEuiTheme) => {
 };
 
 export const euiHeaderStyles = (euiThemeContext: UseEuiTheme) => {
-  const { euiTheme, colorMode } = euiThemeContext;
+  const { euiTheme } = euiThemeContext;
   const { height, padding } = euiHeaderVariables(euiThemeContext);
-
-  // Curated border color to fade into the shadow without looking too much like a border
-  // It adds separation between the header and flyout
-  const borderColor =
-    colorMode === 'DARK'
-      ? shade(euiTheme.colors.emptyShade, 0.35)
-      : shade(euiTheme.border.color, 0.03);
 
   return {
     euiHeader: css`
@@ -44,7 +36,8 @@ export const euiHeaderStyles = (euiThemeContext: UseEuiTheme) => {
       justify-content: space-between;
       ${logicalCSS('height', height)}
       ${logicalCSS('padding-horizontal', padding)}
-      ${euiShadowSmall(euiThemeContext)}
+      ${logicalCSS('border-bottom', euiTheme.border.thin)}
+      ${euiShadowXSmall(euiThemeContext)}
     `,
     // Position
     static: css`
@@ -53,20 +46,17 @@ export const euiHeaderStyles = (euiThemeContext: UseEuiTheme) => {
       position: relative;
     `,
     fixed: css`
-      z-index: ${euiTheme.levels.header};
+      /* Ensure it's above EuiFlyout */
+      z-index: ${Number(euiTheme.levels.header!) + 1};
       position: fixed;
       ${logicalCSS('top', 0)}
       ${logicalCSS('horizontal', 0)}
     `,
     // Theme
     default: css`
-      background-color: ${euiTheme.colors.emptyShade};
-      ${logicalCSS(
-        'border-bottom',
-        `${euiTheme.border.width.thin} solid ${borderColor}`
-      )}
+      background-color: ${euiTheme.components.headerBackground};
     `,
-    dark: css(euiHeaderDarkStyles(euiThemeContext, borderColor)),
+    dark: css(euiHeaderDarkStyles(euiThemeContext)),
   };
 };
 
@@ -81,23 +71,83 @@ export const euiHeaderStyles = (euiThemeContext: UseEuiTheme) => {
  */
 import { euiFormVariables } from '../form/form.styles';
 
-const euiHeaderDarkStyles = (
-  euiThemeContext: UseEuiTheme,
-  defaultBorderColor: string
-) => {
-  const { euiTheme, colorMode } = euiThemeContext;
+const euiHeaderDarkStyles = (euiThemeContext: UseEuiTheme) => {
+  const { euiTheme, highContrastMode } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'formVariant'
+  );
   const { controlPlaceholderText } = euiFormVariables(euiThemeContext);
 
-  const backgroundColor =
-    colorMode === 'DARK'
-      ? shade(euiTheme.colors.lightestShade, 0.5)
-      : shade(euiTheme.colors.darkestShade, 0.28);
-  const borderColor =
-    colorMode === 'DARK' ? defaultBorderColor : backgroundColor;
+  const backgroundColor = euiTheme.components.headerDarkBackground;
+
+  // Specific color overrides for EuiSelectableTemplateSitewide
+  const selectableSitewide = {
+    color: euiTheme.colors.ghost,
+    borderColor: euiTheme.components.headerDarkSearchBorderColor,
+    placeholderColor: makeHighContrastColor(
+      controlPlaceholderText,
+      8
+    )(backgroundColor),
+  };
+
+  const formLayoutStyles = `
+    .euiSelectableTemplateSitewide .euiFormControlLayout {
+      background-color: transparent;
+
+      input {
+        box-shadow: inset 0 0 0 ${euiTheme.border.width.thin} ${
+    selectableSitewide.borderColor
+  };
+      }
+
+      &--group {
+        border-color: ${
+          // the header is in a faux dark mode, we can't rely on color
+          // switch tokens as they'd be in the wrong color mode
+          highContrastMode
+            ? euiTheme.colors.plainLight
+            : euiTheme.components.headerDarkSearchBorderColor
+        };
+
+        input {
+          box-shadow: none;
+        }
+      }
+
+      &__append {
+        border-color: ${highContrastMode ? euiTheme.colors.plainLight : ''}
+      }
+
+      &:not(:focus-within) {
+        /* Increase contrast of filled text to be more than placeholder text */
+        color: ${selectableSitewide.color};
+
+        input {
+          /* Increase contrast of placeholder text */
+          &::placeholder {
+            color: ${selectableSitewide.placeholderColor};
+          }
+
+          /* Inherit color from form control layout */
+          color: inherit;
+          background-color: transparent;
+        }
+
+        .euiFormControlLayout__append,
+        .euiFormControlLayout__prepend {
+          background-color: transparent;
+        }
+
+        .euiFormLabel {
+          color: inherit;
+        }
+      }
+  }
+  `;
 
   return `
     background-color: ${backgroundColor};
-    ${logicalCSS('border-bottom-color', borderColor)}
 
     .euiHeaderLogo__text,
     .euiHeaderLink,
@@ -113,7 +163,9 @@ const euiHeaderDarkStyles = (
     .euiHeaderLink,
     .euiHeaderSectionItemButton {
       &:focus {
-        background-color: ${shade(euiTheme.colors.primary, 0.5)};
+        background-color: ${
+          euiTheme.components.headerDarkSectionItemBackgroundFocus
+        };
       }
     }
 
@@ -125,38 +177,6 @@ const euiHeaderDarkStyles = (
       stroke: ${backgroundColor};
     }
 
-    .euiSelectableTemplateSitewide .euiFormControlLayout {
-      background-color: transparent;
-
-      &--group,
-      input {
-        box-shadow: inset 0 0 0 ${euiTheme.border.width.thin}
-          ${transparentize(euiTheme.colors.ghost, 0.3)};
-      }
-
-      &:not(:focus-within) {
-        /* Increase contrast of filled text to be more than placeholder text */
-        color: ${euiTheme.colors.ghost};
-
-        input {
-          /* Increase contrast of placeholder text */
-          &::placeholder {
-            color: ${makeHighContrastColor(
-              controlPlaceholderText,
-              8
-            )(backgroundColor)};
-          }
-
-          /* Inherit color from form control layout */
-          color: inherit;
-          background-color: transparent;
-        }
-
-        .euiFormControlLayout__append {
-          background-color: transparent;
-          color: inherit;
-        }
-      }
-    }
+    ${!isRefreshVariant && formLayoutStyles} 
   `;
 };

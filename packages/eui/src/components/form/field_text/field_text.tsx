@@ -31,6 +31,11 @@ export type EuiFieldTextProps = InputHTMLAttributes<HTMLInputElement> &
      */
     fullWidth?: boolean;
     isLoading?: boolean;
+    /**
+     * Prevents user from changing input.
+     *
+     * Defaults to the value of `disabled` unless explicity defined otherwise.
+     */
     readOnly?: boolean;
     inputRef?: Ref<HTMLInputElement>;
 
@@ -74,7 +79,8 @@ export const EuiFieldText: FunctionComponent<EuiFieldTextProps> = (props) => {
     compressed,
     prepend,
     append,
-    readOnly,
+    disabled,
+    readOnly = disabled, // sync to prevent onChange unless explicitly defined
     controlOnly,
     ...rest
   } = props;
@@ -103,6 +109,7 @@ export const EuiFieldText: FunctionComponent<EuiFieldTextProps> = (props) => {
         css={cssStyles}
         value={value}
         ref={inputRef}
+        disabled={disabled}
         readOnly={readOnly}
         {...rest}
       />
@@ -118,6 +125,7 @@ export const EuiFieldText: FunctionComponent<EuiFieldTextProps> = (props) => {
       isLoading={isLoading}
       isInvalid={isInvalid}
       compressed={compressed}
+      isDisabled={disabled}
       readOnly={readOnly}
       prepend={prepend}
       append={append}

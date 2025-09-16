@@ -15,7 +15,8 @@ const SSPL_LICENSE_URL =
 const getFooterStyles = ({ euiTheme }: UseEuiTheme) => {
   return {
     root: css`
-      background: #1c1e23; // Color not available in EUI
+      background: ${euiTheme.colors
+        .backgroundBaseSubdued}; // Color not available in EUI
       padding: ${euiTheme.size.l};
       text-align: center;
     `,
@@ -28,27 +29,33 @@ const getFooterStyles = ({ euiTheme }: UseEuiTheme) => {
   };
 };
 
-const Footer = () => {
+const _Footer = () => {
   const styles = useEuiMemoizedStyles(getFooterStyles);
 
   return (
+    <footer css={styles.root}>
+      <EuiText textAlign="center" size="s" css={styles.text}>
+        EUI is dual-licensed under{' '}
+        <EuiLink href={ELASTIC_LICENSE_URL}>Elastic License 2.0</EuiLink>
+        {' and '}
+        <EuiLink href={SSPL_LICENSE_URL}>
+          Server Side Public License, v 1
+        </EuiLink>
+        {' | '}
+        Crafted with{' '}
+        <span role="img" aria-label="love" css={styles.heart}>
+          ❤
+        </span>{' '}
+        by <EuiLink href="https://elastic.co">Elastic</EuiLink>
+      </EuiText>
+    </footer>
+  );
+};
+
+const Footer = () => {
+  return (
     <EuiThemeProvider colorMode="dark">
-      <footer css={styles.root}>
-        <EuiText textAlign="center" size="s" css={styles.text}>
-          EUI is dual-licensed under{' '}
-          <EuiLink href={ELASTIC_LICENSE_URL}>Elastic License 2.0</EuiLink>
-          {' and '}
-          <EuiLink href={SSPL_LICENSE_URL}>
-            Server Side Public License, v 1
-          </EuiLink>
-          {' | '}
-          Crafted with{' '}
-          <span role="img" aria-label="love" css={styles.heart}>
-            ❤
-          </span>{' '}
-          by <EuiLink href="https://elastic.co">Elastic</EuiLink>
-        </EuiText>
-      </footer>
+      <_Footer />
     </EuiThemeProvider>
   );
 };

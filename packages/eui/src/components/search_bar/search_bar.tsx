@@ -44,6 +44,8 @@ export interface SchemaType {
   strict?: boolean;
   fields?: any;
   flags?: string[];
+  // Controls which phrases will be parsed as field clauses
+  recognizedFields?: string[];
 }
 
 export type EuiSearchBarOnChangeArgs = ArgsWithQuery | ArgsWithError;
@@ -90,7 +92,7 @@ export interface EuiSearchBarProps extends CommonProps {
   };
 
   /**
-   An array of search filters. See #SearchFilterConfig.
+   An array of search filters. See {@link SearchFilterConfig}.
    */
   filters?: SearchFilterConfig[];
 
@@ -123,7 +125,7 @@ const parseQuery = (
   props: EuiSearchBarProps
 ): Query => {
   let schema: SchemaType | undefined = undefined;
-  if (props.box && props.box.schema && typeof props.box.schema === 'object') {
+  if (props.box?.schema && typeof props.box?.schema === 'object') {
     schema = props.box.schema;
   }
   const dateFormat = props.dateFormat;

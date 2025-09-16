@@ -94,6 +94,7 @@ describe('useGeneratedHtmlId', () => {
     rerender({ conditionalId: 'world' });
     expect(result.current).toEqual('world');
 
+    // @ts-expect-error we need to assign `undefined` to assert the fallback
     rerender({ conditionalId: undefined });
     expect(result.current).toBeTruthy(); // Should fall back to a generated ID
   });
@@ -118,17 +119,14 @@ describe('useGeneratedHtmlId', () => {
       expect(getByTestSubject('el')).toHaveAttribute('id', 'prefix:r3:suffix');
     });
 
-    testOnReactVersion(['16', '17'])(
-      '[React 16-17] generates correct IDs',
-      () => {
-        mockedUuid.v1.mockImplementationOnce(() => 'random-id');
+    testOnReactVersion('17')('[React 17] generates correct IDs', () => {
+      mockedUuid.v1.mockImplementationOnce(() => 'random-id');
 
-        const { getByTestSubject } = render(<MockComponent />);
-        expect(getByTestSubject('el')).toHaveAttribute(
-          'id',
-          'prefix_random-id_suffix'
-        );
-      }
-    );
+      const { getByTestSubject } = render(<MockComponent />);
+      expect(getByTestSubject('el')).toHaveAttribute(
+        'id',
+        'prefix_random-id_suffix'
+      );
+    });
   });
 });

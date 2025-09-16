@@ -8,40 +8,60 @@
 
 import chroma from 'chroma-js';
 
-import { UseEuiTheme, isColorDark, tint } from '../../services';
+import { UseEuiTheme, isColorDark } from '../../services';
 import {
   euiButtonColor,
   euiButtonFillColor,
-} from '../../themes/amsterdam/global_styling/mixins';
+} from '../../global_styling/mixins/_button';
 import { chromaValid, parseColor } from '../color_picker/utils';
 
 export const euiBadgeColors = (euiThemeContext: UseEuiTheme) => {
-  const { euiTheme, colorMode } = euiThemeContext;
+  const { euiTheme, highContrastMode } = euiThemeContext;
+
+  const badgeColorsAccentText = getBadgeColors(
+    euiThemeContext,
+    euiTheme.colors.textAccent
+  );
 
   return {
     // Colors shared between buttons and badges
     primary: euiButtonFillColor(euiThemeContext, 'primary'),
+    neutral: euiButtonFillColor(euiThemeContext, 'neutral'),
     success: euiButtonFillColor(euiThemeContext, 'success'),
     warning: euiButtonFillColor(euiThemeContext, 'warning'),
+    risk: euiButtonFillColor(euiThemeContext, 'risk'),
     danger: euiButtonFillColor(euiThemeContext, 'danger'),
     accent: euiButtonFillColor(euiThemeContext, 'accent'),
-    disabled: euiButtonColor(euiThemeContext, 'disabled'),
+    disabled: {
+      ...euiButtonColor(euiThemeContext, 'disabled'),
+      borderColor: highContrastMode ? euiTheme.colors.textDisabled : '',
+    },
     // Colors unique to badges
-    default: getBadgeColors(euiThemeContext, euiTheme.colors.lightShade),
+    default: {
+      ...getBadgeColors(euiThemeContext, euiTheme.components.badgeBackground),
+      borderColor: highContrastMode ? euiTheme.border.color : '',
+    },
     // Hollow has a border and is used for autocompleters and beta badges
     hollow: {
       ...getBadgeColors(euiThemeContext, euiTheme.colors.emptyShade),
-      borderColor:
-        colorMode === 'DARK'
-          ? tint(euiTheme.border.color, 0.15)
-          : euiTheme.border.color,
+      borderColor: highContrastMode
+        ? euiTheme.border.color
+        : euiTheme.components.badgeBorderColorHollow,
     },
     // Colors used by beta and notification badges
-    subdued: getBadgeColors(
-      euiThemeContext,
-      tint(euiTheme.colors.lightShade, 0.3)
-    ),
-    accentText: getBadgeColors(euiThemeContext, euiTheme.colors.accentText),
+    subdued: {
+      ...getBadgeColors(
+        euiThemeContext,
+        euiTheme.components.badgeBackgroundSubdued
+      ),
+      borderColor: highContrastMode ? euiTheme.border.color : '',
+    },
+    accentText: {
+      ...badgeColorsAccentText,
+      borderColor: highContrastMode
+        ? badgeColorsAccentText.backgroundColor
+        : '',
+    },
   };
 };
 

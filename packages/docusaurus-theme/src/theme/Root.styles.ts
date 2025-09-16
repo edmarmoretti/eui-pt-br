@@ -7,20 +7,18 @@
  */
 
 import {
-  euiBorderColor,
   euiFontSizeFromScale,
   euiLineHeightFromBaseline,
-  useEuiBackgroundColor,
-  useEuiFocusRing,
   UseEuiTheme,
 } from '@elastic/eui';
+import { css } from '@emotion/react';
 
 // override docusaurus variables as needed
 // NOTE: we use define variables with style calculations here
 // on the global level to reduce how often they are called
 export const getGlobalStyles = (theme: UseEuiTheme) => {
   const { euiTheme } = theme;
-  const { font, base, colors, size } = euiTheme;
+  const { font, base, colors, size, components } = euiTheme;
   const fontBodyScale = font.scale[font.body.scale];
   const fontBase = {
     fontFamily: font.family,
@@ -46,114 +44,79 @@ export const getGlobalStyles = (theme: UseEuiTheme) => {
   const lineHeightXS = '1.33rem';
   const lineHeightXXS = euiLineHeightFromBaseline('xxs', euiTheme);
 
-  return `
-      // color theme related variables
-      :root,
-      [data-theme='dark']:root {
-        /* EUI theme variables */
-        --eui-background-color-primary: ${useEuiBackgroundColor('primary')};
-        --eui-background-color-primary-opaque: ${useEuiBackgroundColor(
-          'primary',
-          { method: 'opaque' }
-        )};
-        --eui-background-color-success: ${useEuiBackgroundColor('success')};
-        --eui-background-color-danger: ${useEuiBackgroundColor('danger')};
-        --eui-background-color-warning: ${useEuiBackgroundColor('warning')};
-        --eui-background-color-accent: ${useEuiBackgroundColor('accent')};
+  return css`
+    // color theme related variables
+    :root,
+    [data-theme='dark']:root {
+      /* EUI theme variables */
+      --eui-background-color-primary: ${colors.backgroundBasePrimary};
+      --eui-background-color-success: ${colors.backgroundBaseSuccess};
+      --eui-background-color-danger: ${colors.backgroundBaseDanger};
+      --eui-background-color-warning: ${colors.backgroundBaseWarning};
+      --eui-background-color-accent: ${colors.backgroundBaseAccent};
 
-        --eui-color-danger-text: ${euiTheme.colors.dangerText};
+      --eui-color-danger-text: ${colors.textDanger};
 
-        /* Docusaurus theme variables */
-        --ifm-background-color: ${colors.body};
-        --ifm-font-color-base: ${colors.text};
-        --ifm-link-color: ${colors.link};
-        --ifm-link-hover-color: ${colors.link};
+      /* Docusaurus theme variables */
+      --ifm-background-color: ${colors.backgroundBasePlain};
+      --ifm-font-color-base: ${colors.textParagraph};
+      --ifm-link-color: ${colors.link};
+      --ifm-link-hover-color: ${colors.link};
 
-        --ifm-menu-color: ${euiTheme.colors.text};
-        --ifm-menu-color-background-active: ${euiTheme.colors.lightestShade};
-        --ifm-menu-color-background-hover: var(--eui-background-color-primary);
+      --ifm-menu-color: ${colors.textParagraph};
+      --ifm-menu-color-background-active: ${colors.backgroundBaseSubdued};
+      --ifm-menu-color-background-hover: var(--eui-background-color-primary);
 
-        --ifm-pre-background: ${euiTheme.colors.lightestShade};
-      }
+      --ifm-pre-background: ${components.codeBackground};
+    }
 
-      :root {
-        /* EUI theme variables */
-        --eui-font-size-base: ${fontBase.fontSize};
-        --eui-font-size-xxl: ${fontSizeXXL};
-        --eui-font-size-xl: ${fontSizeXL};
-        --eui-font-size-l: ${fontSizeL};
-        --eui-font-size-m: ${fontSizeM};
-        --eui-font-size-s: ${fontSizeS};
-        --eui-font-size-xs: ${fontSizeXS};
-        --eui-font-size-xxs: ${fontSizeXXS};
+    :root {
+      /* EUI theme variables */
+      --eui-font-size-base: ${fontBase.fontSize};
+      --eui-font-size-xxl: ${fontSizeXXL};
+      --eui-font-size-xl: ${fontSizeXL};
+      --eui-font-size-l: ${fontSizeL};
+      --eui-font-size-m: ${fontSizeM};
+      --eui-font-size-s: ${fontSizeS};
+      --eui-font-size-xs: ${fontSizeXS};
+      --eui-font-size-xxs: ${fontSizeXXS};
 
-        --eui-line-height-base: ${lineHeightXL};
-        --eui-line-height-xxl: ${lineHeightXXL};
-        --eui-line-height-xl: ${lineHeightXL};
-        --eui-line-height-l: ${lineHeightL};
-        --eui-line-height-m: ${lineHeightM};
-        --eui-line-height-s: ${lineHeightS};
-        --eui-line-height-xs: ${lineHeightXS};
-        --eui-line-height-xxs: ${lineHeightXXS};
+      --eui-line-height-base: ${lineHeightXL};
+      --eui-line-height-xxl: ${lineHeightXXL};
+      --eui-line-height-xl: ${lineHeightXL};
+      --eui-line-height-l: ${lineHeightL};
+      --eui-line-height-m: ${lineHeightM};
+      --eui-line-height-s: ${lineHeightS};
+      --eui-line-height-xs: ${lineHeightXS};
+      --eui-line-height-xxs: ${lineHeightXXS};
 
-        --eui-size-xs: ${euiTheme.size.xs};
-        --eui-size-s: ${euiTheme.size.s};
+      --eui-size-xs: ${size.xs};
+      --eui-size-s: ${size.s};
+      --eui-size-m: ${size.m};
 
-        --eui-border-color-primary: ${euiBorderColor(theme, 'primary')};
+      --eui-border-color-primary: ${colors.borderStrongPrimary};
 
-        /* Docusaurus theme variables */
-        --ifm-font-family-base: ${fontBase.fontFamily};
-        --ifm-font-size-base: var(--eui-font-size-base);
-        --ifm-font-weight-base: ${fontBase.fontWeight};
-        --ifm-line-height-base: var(--eui-line-height-base);
+      --eui-theme-content-vertical-spacing: ${size.base};
 
-        --ifm-h1-font-size: var(--eui-font-size-xl);
-        --ifm-h2-font-size: var(--eui-font-size-l);
-        --ifm-h3-font-size: var(--eui-font-size-m);
-        --ifm-h4-font-size: var(--eui-font-size-s);
-        --ifm-h5-font-size: var(--eui-font-size-xs);
-        --ifm-h6-font-size: var(--eui-font-size-xxs);
+      /* Docusaurus theme variables */
+      --ifm-font-family-base: ${fontBase.fontFamily};
+      --ifm-font-size-base: var(--eui-font-size-base);
+      --ifm-font-weight-base: ${fontBase.fontWeight};
+      --ifm-line-height-base: var(--eui-line-height-base);
 
-        --ifm-global-radius: ${euiTheme.border.radius.small};
-      }
+      --ifm-h1-font-size: var(--eui-font-size-xl);
+      --ifm-h2-font-size: var(--eui-font-size-l);
+      --ifm-h3-font-size: var(--eui-font-size-m);
+      --ifm-h4-font-size: var(--eui-font-size-s);
+      --ifm-h5-font-size: var(--eui-font-size-xs);
+      --ifm-h6-font-size: var(--eui-font-size-xxs);
 
-      /* base styles & resets */
-      h1, h2, h3, h4, h5, h6 {
-        margin-block-start: ${size.l};
-        margin-block-end: ${size.m};
+      --ifm-global-radius: ${euiTheme.border.radius.small};
 
-        font-weight: ${font.weight.bold};
-      }
+      --ifm-toc-border-color: ${euiTheme.border.color};
 
-      button {
-        background: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-        color: inherit;
-        border-radius: 0;
-        font-size: inherit;
-        font-family: inherit;
-      }
-
-      input,
-      textarea,
-      select {
-        fontSize: 1rem; // Inherit from html root
-        font-family: inherit;
-      }
-
-      dd {
-        margin: 0;
-      }
-
-      figure {
-        margin: 0;
-      }
-
-      /* global styles */
-      * {
-        ${useEuiFocusRing('outset', euiTheme.colors.primary)};
-      }
+      --doc-sidebar-width: 258px;
+      --doc-sidebar-hidden-width: 30px;
+    }
   `;
 };

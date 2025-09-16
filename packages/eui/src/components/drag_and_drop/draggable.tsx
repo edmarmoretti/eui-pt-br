@@ -15,11 +15,12 @@ import React, {
 import { Draggable, DraggableProps } from '@hello-pangea/dnd';
 import classNames from 'classnames';
 
-import { useEuiTheme, cloneElementWithCss } from '../../services';
+import { useEuiMemoizedStyles, cloneElementWithCss } from '../../services';
 import { CommonProps } from '../common';
 
 import { EuiDroppableContext, SPACINGS } from './droppable';
 import { euiDraggableStyles, euiDraggableItemStyles } from './draggable.styles';
+import { EuiPortal } from '../portal';
 
 export interface EuiDraggableProps
   extends CommonProps,
@@ -30,9 +31,12 @@ export interface EuiDraggableProps
   children: ReactElement | DraggableProps['children'];
   className?: string;
   /**
-   * Whether the `children` will provide and set up its own drag handle
+   * Whether the `children` will provide and set up its own drag handle.
+   * The `custom` value additionally removes the `role` from the draggable container.
+   * Use this if the `children` element is focusable and should keep its
+   * semantic role for accessibility purposes.
    */
-  customDragHandle?: boolean;
+  customDragHandle?: boolean | 'custom';
   /**
    * Whether the container has interactive children and should have `role="group"` instead of `"button"`.
    * Setting this flag ensures your drag & drop container is keyboard and screen reader accessible.
@@ -42,6 +46,15 @@ export interface EuiDraggableProps
    * Whether the item is currently in a position to be removed
    */
   isRemovable?: boolean;
+  /**
+   * Whether the currently dragged item is cloned into a portal in the body. This settings will
+   * ensure that drag & drop still works as expected within stacking contexts (e.g. within `EuiFlyout`,
+   * `EuiModal` and `EuiPopover`).
+   *
+   * Make sure to apply styles directly to the Draggable content as relative styling from an outside
+   * scope might not be applied when the content is placed in a portal as the DOM structure changes.
+   */
+  usePortal?: boolean;
   /**
    * Adds padding to the draggable item
    */
@@ -55,6 +68,7 @@ export const EuiDraggable: FunctionComponent<EuiDraggableProps> = ({
   isDragDisabled = false,
   hasInteractiveChildren = false,
   isRemovable = false,
+  usePortal = false,
   index,
   children,
   className,
@@ -65,8 +79,9 @@ export const EuiDraggable: FunctionComponent<EuiDraggableProps> = ({
 }) => {
   const { cloneItems } = useContext(EuiDroppableContext);
 
-  const euiTheme = useEuiTheme();
-  const styles = euiDraggableStyles(euiTheme);
+  const styles = useEuiMemoizedStyles(euiDraggableStyles);
+
+  const hasCustomDragHandle = customDragHandle !== false;
 
   return (
     <Draggable
@@ -77,6 +92,7 @@ export const EuiDraggable: FunctionComponent<EuiDraggableProps> = ({
     >
       {(provided, snapshot, rubric) => {
         const { isDragging } = snapshot;
+        const isFullyCustomDragHandle = customDragHandle === 'custom';
 
         const cssStyles = [
           styles.euiDraggable,
@@ -94,28 +110,36 @@ export const EuiDraggable: FunctionComponent<EuiDraggableProps> = ({
           typeof children === 'function'
             ? (children(provided, snapshot, rubric) as ReactElement)
             : children;
-        return (
+
+        const content = (
           <>
             <div
               {...provided.draggableProps}
-              {...(!customDragHandle ? provided.dragHandleProps : {})}
+              {...(!hasCustomDragHandle ? provided.dragHandleProps : {})}
               ref={provided.innerRef}
               data-test-subj={dataTestSubj}
               className={classes}
               css={cssStyles}
-              style={{ ...style, ...provided.draggableProps.style }}
+              style={{
+                ...style,
+                ...provided.draggableProps.style,
+              }}
               // We use [role="group"] instead of [role="button"] when we expect a nested
               // interactive element. Screen readers will cue users that this is a container
               // and has one or more elements inside that are part of a related group.
               role={
-                hasInteractiveChildren
+                isFullyCustomDragHandle
+                  ? undefined // prevent wrapper role from removing semantics of the children
+                  : hasInteractiveChildren
                   ? 'group'
                   : provided.dragHandleProps?.role
               }
               // If the container includes an interactive element, we remove the tabindex=0
               // because [role="group"] does not permit or warrant a tab stop
+              // additionally we remove the tabindex when the child is a fully custom handle
+              // that has its own tabindex and handle props
               tabIndex={
-                hasInteractiveChildren
+                hasInteractiveChildren || isFullyCustomDragHandle
                   ? undefined
                   : provided.dragHandleProps?.tabIndex
               }
@@ -140,6 +164,12 @@ export const EuiDraggable: FunctionComponent<EuiDraggableProps> = ({
               </div>
             )}
           </>
+        );
+
+        return isDragging && usePortal ? (
+          <EuiPortal>{content}</EuiPortal>
+        ) : (
+          content
         );
       }}
     </Draggable>

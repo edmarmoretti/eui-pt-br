@@ -49,6 +49,19 @@ declare global {
         count?: number,
         options?: RealPressOptions
       ): void;
+
+      /**
+       * Select an element's content and copy it to the browser clipboard
+       * @param selectorToCopy e.g. '.euiDataGrid__content'
+       * @returns a chainable .then((string) => { doSomethingWith(string); })
+       */
+      selectAndCopy(selectorToCopy: string): Chainable<string>;
+
+      /*
+       * Get the value of a CSS variable from the element's computed styles.
+       * Params: variableName - the name of the CSS variable (e.g. '--euiColorPrimary')
+       */
+      cssVar(variableName: string): Chainable<string | null>;
     }
   }
 }

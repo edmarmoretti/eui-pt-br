@@ -32,7 +32,7 @@ import { EuiButtonIconPropsForButton } from '../button/button_icon';
 import { EuiButtonEmptyPropsForButton } from '../button/button_empty/button_empty';
 import { EuiFlexGroup, EuiFlexItem } from '../flex';
 import { EuiSkeletonLoading, EuiSkeletonRectangle } from '../skeleton';
-import { useEuiTheme, useCombinedRefs, keys } from '../../services';
+import { useEuiMemoizedStyles, useCombinedRefs, keys } from '../../services';
 import { EuiI18n, useEuiI18n } from '../i18n';
 import { useGeneratedHtmlId } from '../../services/accessibility';
 import { euiInlineEditReadModeStyles } from './inline_edit_form.styles';
@@ -70,7 +70,7 @@ export type EuiInlineEditCommonProps = Omit<
      * Multiple props objects that can be applied directly to various child components displayed in edit mode.
      * - `formRowProps` will be passed to `EuiFormRow`
      * - `inputProps` will be passed to `EuiFieldText`
-     * - `saveButtonProps` & `cancelButtonProps` will be passed to their respective `EuiIconButton`s
+     * - `saveButtonProps` & `cancelButtonProps` will be passed to their respective `EuiButtonIcon`s
      */
     editModeProps?: {
       formRowProps?: Partial<EuiFormRowProps>;
@@ -96,6 +96,7 @@ export type EuiInlineEditCommonProps = Omit<
        * Initial inline edit text value
        */
       defaultValue: string;
+      onCancel?: (previousValue: string) => void;
     },
     {
       /**
@@ -109,7 +110,7 @@ export type EuiInlineEditCommonProps = Omit<
       /**
        * Callback required to reset `value` to the previous read mode text value.
        */
-      onCancel: (perviousValue: string) => void;
+      onCancel: (previousValue: string) => void;
     }
   >;
 
@@ -162,9 +163,8 @@ export const EuiInlineEditForm: FunctionComponent<EuiInlineEditFormProps> = ({
 }) => {
   const classes = classNames('euiInlineEdit', className);
 
-  const euiTheme = useEuiTheme();
-
-  const { controlHeight, controlCompressedHeight } = euiFormVariables(euiTheme);
+  const { controlHeight, controlCompressedHeight } =
+    useEuiMemoizedStyles(euiFormVariables);
   const loadingSkeletonSize = sizes.compressed
     ? controlCompressedHeight
     : controlHeight;
@@ -208,7 +208,7 @@ export const EuiInlineEditForm: FunctionComponent<EuiInlineEditFormProps> = ({
     }
   }, [controlledValue, editModeValue, readModeValue, isEditing, placeholder]);
 
-  const readModeStyles = euiInlineEditReadModeStyles(euiTheme);
+  const readModeStyles = useEuiMemoizedStyles(euiInlineEditReadModeStyles);
   const readModeCssStyles = [
     readModeStyles.euiInlineEditReadMode,
     isReadOnly && readModeStyles.isReadOnly,

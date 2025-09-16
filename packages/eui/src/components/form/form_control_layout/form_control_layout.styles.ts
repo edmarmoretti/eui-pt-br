@@ -8,21 +8,84 @@
 
 import { css } from '@emotion/react';
 
-import { UseEuiTheme } from '../../../services';
+import { isEuiThemeRefreshVariant, UseEuiTheme } from '../../../services';
 import {
   euiTextTruncate,
   logicalCSS,
   mathWithUnits,
 } from '../../../global_styling';
+import { highContrastModeStyles } from '../../../global_styling/functions/high_contrast';
 
-import { euiFormControlDefaultShadow, euiFormVariables } from '../form.styles';
+import { euiFormVariables } from '../form.styles';
 
 export const euiFormControlLayoutStyles = (euiThemeContext: UseEuiTheme) => {
   const { euiTheme } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'formVariant'
+  );
   const form = euiFormVariables(euiThemeContext);
 
+  const groupStyles = `
+      /* use pseudo element for borders to prevent dimension changes and support nested elements better */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        border: ${euiTheme.border.width.thin} solid ${form.borderColor};
+        border-radius: inherit;
+        pointer-events: none;
+      }
+
+      /* the filter group will use the form layout border instead */
+      .euiFilterGroup {
+        border-radius: 0;
+        /* creating extra space to prevent the focus indicator being cut off */
+        ${logicalCSS('padding-right', euiTheme.border.width.thin)}
+
+        &::after {
+          display: none;
+        }
+      }
+
+      .euiFilterButton__wrapper:first-of-type::before,
+      .euiFilterButton__wrapper::after {
+        display: none;
+      }
+  `;
+
+  const wrapperGroupStyles = `
+      > :first-child {
+        ${logicalCSS('border-top-left-radius', '0')}
+        ${logicalCSS('border-bottom-left-radius', '0')}
+      }
+
+      > :last-child {
+        ${logicalCSS('border-top-right-radius', '0')}
+        ${logicalCSS('border-bottom-right-radius', '0')}
+      }
+  `;
+
+  const prependOnlyStyles = `
+      > :last-child {
+        ${logicalCSS('border-top-right-radius', 'inherit')}
+        ${logicalCSS('border-bottom-right-radius', 'inherit')}
+      }
+  `;
+
+  const appendOnlyStyles = `
+      > :first-child {
+        ${logicalCSS('border-top-left-radius', 'inherit')}
+        ${logicalCSS('border-bottom-left-radius', 'inherit')}
+      }
+  `;
+
   return {
-    euiFormControlLayout: css``,
+    euiFormControlLayout: css`
+      position: relative;
+      z-index: 0;
+    `,
     // Skip the css`` on the default height to avoid generating a className
     uncompressed: `
       ${logicalCSS('height', form.controlHeight)}
@@ -42,17 +105,17 @@ export const euiFormControlLayoutStyles = (euiThemeContext: UseEuiTheme) => {
 
     group: {
       group: css`
+        position: relative;
         display: flex;
         align-items: stretch;
 
-        /* Account for inner box-shadow style border */
-        padding: ${euiTheme.border.width.thin};
-        ${euiFormControlDefaultShadow(euiThemeContext, {
-          withBackground: false,
-        })}
+        border: ${isRefreshVariant
+          ? 'none'
+          : `${euiTheme.border.width.thin} solid ${form.borderColor}`};
         background-color: ${form.backgroundColor};
-        /* Keep backgrounds inside border radius */
-        overflow: hidden;
+        overflow: hidden; /* Keep backgrounds inside border radius */
+
+        ${isRefreshVariant && groupStyles}
 
         /* Force the stretch of any children so they expand the full height of the control */
         > * {
@@ -75,14 +138,20 @@ export const euiFormControlLayoutStyles = (euiThemeContext: UseEuiTheme) => {
       inGroup: css`
         flex-grow: 1;
         overflow: hidden; /* Ensure truncation works in children elements */
+
+        ${isRefreshVariant && wrapperGroupStyles}
       `,
       prependOnly: css`
         ${logicalCSS('border-top-right-radius', 'inherit')}
         ${logicalCSS('border-bottom-right-radius', 'inherit')}
+
+        ${isRefreshVariant && prependOnlyStyles}
       `,
       appendOnly: css`
         ${logicalCSS('border-top-left-radius', 'inherit')}
         ${logicalCSS('border-bottom-left-radius', 'inherit')}
+
+        ${isRefreshVariant && appendOnlyStyles}
       `,
     },
   };
@@ -92,19 +161,53 @@ export const euiFormControlLayoutSideNodeStyles = (
   euiThemeContext: UseEuiTheme
 ) => {
   const { euiTheme } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'formVariant'
+  );
+
   const form = euiFormVariables(euiThemeContext);
 
   const uncompressedHeight = mathWithUnits(
     [form.controlHeight, euiTheme.border.width.thin],
-    (x, y) => x - y * 2
+    (x, y) => (isRefreshVariant ? x : x - y * 2)
   );
   const compressedHeight = mathWithUnits(
     [form.controlCompressedHeight, euiTheme.border.width.thin],
-    (x, y) => x - y * 2
+    (x, y) => (isRefreshVariant ? x : x - y * 2)
   );
 
   const buttons = '*:is(.euiButton, .euiButtonEmpty, .euiButtonIcon)';
   const text = '*:is(.euiFormLabel, .euiText)';
+
+  const appendStyles = `
+    position: relative;
+    ${logicalCSS('margin-left', `-${euiTheme.border.width.thin}`)}
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-inline-start: 
+        ${euiTheme.border.width.thin} solid ${form.borderColor};
+    }
+  `;
+
+  const prependStyles = `
+    position: relative;
+    ${logicalCSS('margin-right', `-${euiTheme.border.width.thin}`)}
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      border-inline-end: 
+        ${euiTheme.border.width.thin} solid ${form.borderColor};
+    }
+  `;
 
   return {
     euiFormControlLayout__side: css`
@@ -130,7 +233,9 @@ export const euiFormControlLayoutSideNodeStyles = (
 
       ${text} {
         /* Override .euiFormLabel CSS */
-        cursor: default !important; /* stylelint-disable-line declaration-no-important */
+        cursor: default;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       /* Account for button padding when spacing children */
@@ -144,14 +249,22 @@ export const euiFormControlLayoutSideNodeStyles = (
         ${logicalCSS('padding-right', euiTheme.size.s)}
       }
     `,
-    append: css`
-      ${logicalCSS('border-top-right-radius', 'inherit')}
-      ${logicalCSS('border-bottom-right-radius', 'inherit')}
-    `,
-    prepend: css`
-      ${logicalCSS('border-top-left-radius', 'inherit')}
-      ${logicalCSS('border-bottom-left-radius', 'inherit')}
-    `,
+    append: css(
+      highContrastModeStyles(euiThemeContext, {
+        none: `
+          ${isRefreshVariant && appendStyles}
+        `,
+        preferred: logicalCSS('border-left', euiTheme.border.thin),
+      })
+    ),
+    prepend: css(
+      highContrastModeStyles(euiThemeContext, {
+        none: `
+          ${isRefreshVariant && prependStyles}
+        `,
+        preferred: logicalCSS('border-right', euiTheme.border.thin),
+      })
+    ),
     uncompressed: `
       ${text} {
         ${logicalCSS('padding-horizontal', euiTheme.size.xs)}
@@ -163,6 +276,7 @@ export const euiFormControlLayoutSideNodeStyles = (
       }
 
       .euiButtonIcon {
+        flex-shrink: 0;
         ${logicalCSS('width', euiTheme.size.xl)}
       }
     `,
@@ -177,6 +291,7 @@ export const euiFormControlLayoutSideNodeStyles = (
       }
 
       .euiButtonIcon {
+        flex-shrink: 0;
         ${logicalCSS('width', euiTheme.size.xl)}
       }
     `,

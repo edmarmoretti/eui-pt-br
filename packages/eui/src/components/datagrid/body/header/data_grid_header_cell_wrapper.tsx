@@ -6,19 +6,26 @@
  * Side Public License, v 1.
  */
 
-import classnames from 'classnames';
 import React, {
   FunctionComponent,
-  FocusEventHandler,
   useContext,
   useEffect,
   useState,
   useCallback,
+  KeyboardEventHandler,
 } from 'react';
+import classnames from 'classnames';
+import { FocusableElement } from 'tabbable';
 
+import {
+  keys,
+  tabularCopyMarkers,
+  useEuiMemoizedStyles,
+} from '../../../../services';
 import { EuiDataGridHeaderCellWrapperProps } from '../../data_grid_types';
 import { DataGridFocusContext } from '../../utils/focus';
 import { HandleInteractiveChildren } from '../cell/focus_utils';
+import { euiDataGridHeaderCellWrapperStyles } from './data_grid_header_cell_wrapper.styles';
 
 /**
  * This is a wrapper that handles repeated concerns between control &
@@ -30,18 +37,29 @@ export const EuiDataGridHeaderCellWrapper: FunctionComponent<
 > = ({
   id,
   index,
+  isLastColumn,
   width,
   className,
   children,
-  hasActionsPopover,
-  isActionsButtonFocused,
-  focusActionsButton,
+  hasColumnActions,
+  isDragging,
+  onKeyDown: _onKeyDown,
+  'aria-label': ariaLabel,
   ...rest
 }) => {
   const classes = classnames('euiDataGridHeaderCell', className);
+  const styles = useEuiMemoizedStyles(euiDataGridHeaderCellWrapperStyles);
 
   // Must be a state and not a ref to trigger a HandleInteractiveChildren rerender
   const [headerEl, setHeaderEl] = useState<HTMLDivElement | null>(null);
+  const [renderFocusTrap, setRenderFocusTrap] = useState(false);
+  const [interactiveChildren, setInteractiveChildren] = useState<
+    FocusableElement[]
+  >([]);
+  useEffect(() => {
+    // We're checking for interactive children outside of the default actions button
+    setRenderFocusTrap(interactiveChildren.length > (hasColumnActions ? 1 : 0));
+  }, [hasColumnActions, interactiveChildren]);
 
   const { setFocusedCell, onFocusUpdate } = useContext(DataGridFocusContext);
   const updateCellFocusContext = useCallback(() => {
@@ -61,23 +79,25 @@ export const EuiDataGridHeaderCellWrapper: FunctionComponent<
     });
   }, [index, onFocusUpdate, headerEl]);
 
-  // For cell headers with actions, auto-focus into the button instead of the cell wrapper div
-  // The button text is significantly more useful to screen readers (e.g. contains sort order & hints)
-  const onFocus: FocusEventHandler = useCallback(
+  const onKeyDown: KeyboardEventHandler = useCallback(
     (e) => {
-      if (hasActionsPopover && e.target === headerEl) {
-        focusActionsButton?.();
+      // Ignore keys that conflict with the focus trap being entered/exited
+      if (renderFocusTrap && (e.key === keys.ENTER || e.key === keys.ESCAPE)) {
+        return;
       }
+      // Otherwise, continue with whatever onKeyDown is being passed
+      _onKeyDown?.(e);
     },
-    [hasActionsPopover, focusActionsButton, headerEl]
+    [_onKeyDown, renderFocusTrap]
   );
 
   return (
     <div
       role="columnheader"
       ref={setHeaderEl}
-      tabIndex={isFocused && !isActionsButtonFocused ? 0 : -1}
-      onFocus={onFocus}
+      tabIndex={isFocused ? 0 : -1}
+      onKeyDown={onKeyDown}
+      css={styles.euiDataGridHeaderCell}
       className={classes}
       data-test-subj={`dataGridHeaderCell-${id}`}
       data-gridcell-column-id={id}
@@ -85,15 +105,20 @@ export const EuiDataGridHeaderCellWrapper: FunctionComponent<
       data-gridcell-row-index="-1"
       data-gridcell-visible-row-index="-1"
       style={width != null ? { width: `${width}px` } : {}}
+      aria-label={renderFocusTrap ? ariaLabel : undefined}
       {...rest}
     >
       <HandleInteractiveChildren
-        cellEl={headerEl}
+        cellEl={isDragging ? null : headerEl}
+        renderFocusTrap={isDragging ? false : renderFocusTrap}
         updateCellFocusContext={updateCellFocusContext}
-        renderFocusTrap={!hasActionsPopover}
+        onInteractiveChildrenFound={setInteractiveChildren}
       >
-        {children}
+        {typeof children === 'function' ? children(renderFocusTrap) : children}
       </HandleInteractiveChildren>
+      {isLastColumn
+        ? tabularCopyMarkers.hiddenNewline
+        : tabularCopyMarkers.hiddenTab}
     </div>
   );
 };

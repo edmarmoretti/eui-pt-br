@@ -62,9 +62,39 @@ exports[`EuiPageSection props color accent is rendered 1`] = `
 </section>
 `;
 
+exports[`EuiPageSection props color accentSecondary is rendered 1`] = `
+<section
+  class="emotion-euiPageSection-l-top-accentSecondary"
+>
+  <div
+    class="emotion-euiPageSection__content-l"
+  />
+</section>
+`;
+
 exports[`EuiPageSection props color danger is rendered 1`] = `
 <section
   class="emotion-euiPageSection-l-top-danger"
+>
+  <div
+    class="emotion-euiPageSection__content-l"
+  />
+</section>
+`;
+
+exports[`EuiPageSection props color highlighted is rendered 1`] = `
+<section
+  class="emotion-euiPageSection-l-top-highlighted"
+>
+  <div
+    class="emotion-euiPageSection__content-l"
+  />
+</section>
+`;
+
+exports[`EuiPageSection props color neutral is rendered 1`] = `
+<section
+  class="emotion-euiPageSection-l-top-neutral"
 >
   <div
     class="emotion-euiPageSection__content-l"
@@ -85,6 +115,16 @@ exports[`EuiPageSection props color plain is rendered 1`] = `
 exports[`EuiPageSection props color primary is rendered 1`] = `
 <section
   class="emotion-euiPageSection-l-top-primary"
+>
+  <div
+    class="emotion-euiPageSection__content-l"
+  />
+</section>
+`;
+
+exports[`EuiPageSection props color risk is rendered 1`] = `
+<section
+  class="emotion-euiPageSection-l-top-risk"
 >
   <div
     class="emotion-euiPageSection__content-l"

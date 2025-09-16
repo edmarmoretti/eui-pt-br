@@ -41,7 +41,6 @@ const meta: Meta<EuiPopoverProps> = {
     // adding defaults for quicker/easier QA
     arrowChildren: '',
     attachToAnchor: false,
-    hasDragDrop: false,
     panelClassName: '',
     popoverScreenReaderText: '',
   },
@@ -122,6 +121,27 @@ export const PanelPaddingSize: Story = {
     ),
     button: 'popover trigger',
     isOpen: true,
+  },
+  render: (args) => <StatefulPopover {...args} />,
+};
+
+export const HighContrastMode: Story = {
+  tags: ['vrt-only'],
+  globals: { highContrastMode: true },
+  args: {
+    children: (
+      <>
+        <EuiPopoverTitle>Popover title</EuiPopoverTitle>
+        High contrast mode
+        {/* Move the initialFocus so the popover border shows up more plainly in the screenshot */}
+        <button id="focus" />
+      </>
+    ),
+    panelPaddingSize: 's',
+    anchorPosition: 'upCenter',
+    button: 'popover trigger',
+    isOpen: true,
+    initialFocus: '#focus',
   },
   render: (args) => <StatefulPopover {...args} />,
 };

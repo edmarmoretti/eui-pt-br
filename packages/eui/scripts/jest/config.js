@@ -2,11 +2,24 @@ const jestConfig = require('jest-config');
 const getCacheDirectory = () => jestConfig.defaults.cacheDirectory;
 
 // Set REACT_VERSION env variable to latest if empty or invalid
-if (!['16', '17', '18'].includes(process.env.REACT_VERSION)) {
+if (!['17', '18'].includes(process.env.REACT_VERSION)) {
   process.env.REACT_VERSION = '18';
 }
 
 const reactVersion = process.env.REACT_VERSION;
+
+/**
+ * Buildkite reporter requires a token to be set and this token is only
+ * available when jest is running in our CI pipeline.
+ */
+const buildkiteTestReporterToken = process.env.BUILDKITE_ANALYTICS_TOKEN;
+const isBuildkiteTestReporterAvailable =
+  typeof buildkiteTestReporterToken === 'string' &&
+  buildkiteTestReporterToken !== '';
+
+if (isBuildkiteTestReporterAvailable) {
+  console.log('Buildkite Test Analytics reporter available');
+}
 
 console.log(`Running tests on React v${reactVersion}`);
 
@@ -15,7 +28,6 @@ const config = {
   rootDir: '../../',
   roots: [
     '<rootDir>/src/',
-    '<rootDir>/src-docs/src/components',
     '<rootDir>/scripts/babel',
     '<rootDir>/scripts/tests',
     '<rootDir>/scripts/eslint-plugin',
@@ -57,12 +69,23 @@ const config = {
   ],
   // react version and user permissions aware cache directory
   cacheDirectory: `${getCacheDirectory()}_react-${reactVersion}`,
+  reporters: [
+    'default',
+    !!isBuildkiteTestReporterAvailable && [
+      'buildkite-test-collector/jest/reporter',
+      {
+        token: buildkiteTestReporterToken,
+      },
+    ],
+  ].filter(Boolean),
+  // Include test location in test results for buildkite-test-collector
+  testLocationInResults: true,
 };
 
-if (['16', '17'].includes(reactVersion)) {
+if (reactVersion === '17') {
   config.moduleNameMapper[
     '^@testing-library/react((\\\\/.*)?)$'
-  ] = `@testing-library/react-16-17$1`;
+  ] = `@testing-library/react-17$1`;
   config.moduleNameMapper['^react((\\/.*)?)$'] = `react-${reactVersion}$1`;
 
   // This import override is here just to make jest module resolver happy.

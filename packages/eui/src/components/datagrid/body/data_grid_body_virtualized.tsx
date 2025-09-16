@@ -24,6 +24,7 @@ import {
   VariableSizeGrid as Grid,
   VariableSizeGridProps,
   GridOnItemsRenderedProps,
+  GridOnScrollProps,
 } from 'react-window';
 import { useDeepEqual } from '../../../services';
 import { useResizeObserver } from '../../observer/resize_observer';
@@ -140,6 +141,8 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
       gridRef,
       gridItemsRendered,
       wrapperRef,
+      className,
+      canDragAndDropColumns,
     }) => {
       /**
        * Grid refs & observers
@@ -193,11 +196,14 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
         columnWidths,
         defaultColumnWidth,
         setColumnWidth,
+        visibleColCount,
         setVisibleColumns,
         switchColumnPos,
         sorting,
         schema,
         schemaDetectors,
+        gridStyles,
+        canDragAndDropColumns,
       });
 
       const { footerRow, footerRowHeight } = useDataGridFooter({
@@ -205,6 +211,7 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
         renderCellPopover,
         rowIndex: visibleRowCount,
         visibleRowIndex: visibleRowCount,
+        visibleColCount,
         interactiveCellId,
         leadingControlColumns,
         trailingControlColumns,
@@ -212,6 +219,7 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
         columnWidths,
         defaultColumnWidth,
         schema,
+        gridStyles,
       });
 
       /**
@@ -225,6 +233,7 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
         footerRowHeight,
         visibleRowCount,
         hasStickyFooter: !!(renderFooterCellValue && gridStyles.stickyFooter),
+        canDragAndDropColumns,
       });
 
       /**
@@ -245,7 +254,6 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
           gridItemsRenderedRef: gridItemsRendered,
         },
         rowHeightsOptions,
-        gridStyles,
         columns,
       });
 
@@ -334,6 +342,7 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
           rowManager,
           pagination,
           headerRowHeight,
+          gridStyles,
         };
       }, [
         schemaDetectors,
@@ -354,11 +363,74 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
         rowManager,
         pagination,
         headerRowHeight,
+        gridStyles,
       ]);
 
       const rowWrapperContextValue = useMemo(() => {
         return { headerRowHeight, headerRow, footerRow };
       }, [headerRowHeight, headerRow, footerRow]);
+
+      const onScroll = useCallback(
+        (args: GridOnScrollProps) => {
+          // check only if a callback is passed
+          if (typeof virtualizationOptions?.onScroll !== 'function') return;
+
+          let enhancedArgs = {
+            ...args,
+            scrollHeight: 0,
+            scrollWidth: 0,
+            clientHeight: 0,
+            clientWidth: 0,
+            isScrolledToBlockStart: args.scrollTop === 0,
+            isScrolledToBlockEnd: false,
+            isScrolledToInlineStart: args.scrollLeft === 0,
+            isScrolledToInlineEnd: false,
+          };
+
+          if (outerGridRef.current) {
+            const {
+              scrollTop,
+              scrollLeft,
+              scrollHeight,
+              scrollWidth,
+              clientHeight,
+              clientWidth,
+            } = outerGridRef.current;
+
+            const isScrollableVertical = scrollHeight > clientHeight;
+            const isScrolledToBlockStart = scrollTop === 0;
+
+            const isScrollableHorizontal = scrollWidth > clientWidth;
+            const isScrolledToInlineStart = scrollLeft === 0;
+
+            const isScrolledToBlockEnd =
+              isScrollableVertical &&
+              !isScrolledToBlockStart &&
+              scrollHeight - scrollTop <= clientHeight;
+            const isScrolledToInlineEnd =
+              isScrollableHorizontal &&
+              !isScrolledToInlineStart &&
+              scrollWidth - scrollLeft <= clientWidth;
+
+            enhancedArgs = {
+              ...enhancedArgs,
+              scrollTop,
+              scrollLeft,
+              scrollHeight,
+              scrollWidth,
+              clientHeight,
+              clientWidth,
+              isScrolledToBlockStart,
+              isScrolledToBlockEnd,
+              isScrolledToInlineStart,
+              isScrolledToInlineEnd,
+            };
+          }
+
+          return virtualizationOptions?.onScroll(enhancedArgs);
+        },
+        [outerGridRef, virtualizationOptions]
+      );
 
       return IS_JEST_ENVIRONMENT || finalWidth > 0 ? (
         <DataGridWrapperRowsContext.Provider value={rowWrapperContextValue}>
@@ -367,6 +439,7 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
             ref={gridRef}
             className={classNames(
               'euiDataGrid__virtualized',
+              className,
               virtualizationOptions?.className
             )}
             onItemsRendered={onItemsRendered}
@@ -382,6 +455,7 @@ export const EuiDataGridBodyVirtualized: FunctionComponent<EuiDataGridBodyProps>
             rowCount={
               IS_JEST_ENVIRONMENT || headerRowHeight > 0 ? visibleRowCount : 0
             }
+            onScroll={onScroll}
           >
             {Cell}
           </Grid>

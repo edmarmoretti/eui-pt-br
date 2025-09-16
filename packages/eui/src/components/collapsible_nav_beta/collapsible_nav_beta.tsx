@@ -47,9 +47,16 @@ export type EuiCollapsibleNavBetaProps = CommonProps &
      */
     children?: ReactNode;
     /**
-     * Whether the navigation flyout should default to initially collapsed or expanded
+     * Whether the navigation flyout should default to initially collapsed or expanded.
+     * Used for **uncontrolled** state.
      */
     initialIsCollapsed?: boolean;
+    /**
+     * If defined, the navigation collapsed/expanded state is **controlled**
+     * by the consumer and `onCollapseToggle` must be passed as well.
+     * This prop supercedes `initialIsCollapsed`.
+     */
+    isCollapsed?: boolean;
     /**
      * Optional callback that fires when the user toggles the nav between
      * collapsed and uncollapsed states
@@ -87,6 +94,7 @@ const _EuiCollapsibleNavBeta: FunctionComponent<EuiCollapsibleNavBetaProps> = ({
   children,
   className,
   initialIsCollapsed = false,
+  isCollapsed: propsIsCollapsed,
   onCollapseToggle,
   width: _width = 248,
   side = 'left',
@@ -108,7 +116,17 @@ const _EuiCollapsibleNavBeta: FunctionComponent<EuiCollapsibleNavBetaProps> = ({
       }),
     [onCollapseToggle]
   );
-  const onClose = useCallback(() => setIsCollapsed(true), []);
+  const onClose = useCallback(() => {
+    setIsCollapsed(true);
+    onCollapseToggle?.(true);
+  }, [onCollapseToggle]);
+
+  // Controlled state
+  useEffect(() => {
+    if (propsIsCollapsed !== undefined) {
+      setIsCollapsed(propsIsCollapsed);
+    }
+  }, [propsIsCollapsed]);
 
   /**
    * Responsive behavior
@@ -121,6 +139,7 @@ const _EuiCollapsibleNavBeta: FunctionComponent<EuiCollapsibleNavBetaProps> = ({
   const toggleOverlayFlyout = useCallback(() => {
     setIsOverlayOpen((isOpen) => !isOpen);
   }, []);
+  const closeOverlayFlyout = useCallback(() => setIsOverlayOpen(false), []);
 
   const flyoutType = isOverlay ? 'overlay' : 'push';
   const isPush = !isOverlay;
@@ -201,7 +220,7 @@ const _EuiCollapsibleNavBeta: FunctionComponent<EuiCollapsibleNavBetaProps> = ({
       type={flyoutType}
       paddingSize="none"
       pushMinBreakpoint="xs"
-      onClose={onClose}
+      onClose={isPush ? onClose : closeOverlayFlyout}
       hideCloseButton={true}
     >
       {children}
@@ -212,7 +231,13 @@ const _EuiCollapsibleNavBeta: FunctionComponent<EuiCollapsibleNavBetaProps> = ({
 
   return (
     <EuiCollapsibleNavContext.Provider
-      value={{ isPush, isCollapsed, isOverlayOpen, side }}
+      value={{
+        isPush,
+        isCollapsed,
+        isOverlayOpen,
+        side,
+        closePortals: closeOverlayFlyout,
+      }}
     >
       <EuiCollapsibleNavButton
         ref={buttonRef}

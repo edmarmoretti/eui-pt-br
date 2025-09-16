@@ -1,0 +1,31 @@
+---
+keywords: [EuiBeacon]
+---
+
+# Beacon
+
+Use the `EuiBeacon` component to draw visual attention to a specific location or element.
+
+## Component
+
+:::tip
+It is strongly encouraged to use **EuiBeacon** in conjunction with [**EuiTour**](./tour/index.mdx). Standalone, the beacon is a visual cue that may lack context.
+:::
+
+<Demo>
+  ```tsx
+  import React from 'react';
+
+  import { EuiBeacon } from '@elastic/eui';
+
+  export default () => {
+    return <EuiBeacon />;
+  }
+  ```
+</Demo>
+
+## Props
+
+import docgen from '@elastic/eui-docgen/dist/components/beacon';
+
+<PropTable definition={docgen.EuiBeacon} />

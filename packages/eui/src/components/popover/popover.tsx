@@ -141,7 +141,7 @@ export interface EuiPopoverProps extends PropsWithChildren, CommonProps {
    */
   panelStyle?: CSSProperties;
   /**
-   * Object of props passed to EuiPanel. See #EuiPopoverPanelProps
+   * Object of props passed to EuiPanel. See {@link EuiPopoverPanelProps}
    */
   panelProps?: Omit<
     EuiPopoverPanelProps,
@@ -174,11 +174,6 @@ export interface EuiPopoverProps extends PropsWithChildren, CommonProps {
    * @default true
    */
   repositionToCrossAxis?: boolean;
-  /**
-   * Must be set to true if using `EuiDragDropContext` within a popover,
-   * otherwise your nested drag & drop will have incorrect positioning
-   */
-  hasDragDrop?: boolean;
   /**
    * By default, popover content inherits the z-index of the anchor
    * component; pass `zIndex` to override
@@ -373,7 +368,7 @@ export class EuiPopover extends Component<Props, State> {
       // it will be on the panel instead on mount when isOpen=true
       if (
         document.activeElement === document.body ||
-        document.activeElement === this.panel
+        this.panel?.contains(document.activeElement) // if focus is on OR within this.panel
       ) {
         if (!this.button) return;
 
@@ -411,6 +406,7 @@ export class EuiPopover extends Component<Props, State> {
     this.closingTransitionAnimationFrame = window.requestAnimationFrame(() => {
       this.setState({
         isOpening: true,
+        isClosing: false,
       });
     });
 
@@ -541,7 +537,7 @@ export class EuiPopover extends Component<Props, State> {
         ? 16 + offset
         : 8 + offset,
       arrowConfig: this.props.hasArrow
-        ? { arrowWidth: 24, arrowBuffer: 10 }
+        ? { arrowWidth: 16, arrowBuffer: 10 }
         : { arrowWidth: 0, arrowBuffer: 0 },
       returnBoundingBox: this.props.attachToAnchor,
       allowCrossAxis: this.props.repositionToCrossAxis,
@@ -633,7 +629,6 @@ export class EuiPopover extends Component<Props, State> {
       arrowChildren,
       repositionOnScroll,
       repositionToCrossAxis,
-      hasDragDrop,
       zIndex,
       attachToAnchor,
       display,
@@ -642,6 +637,7 @@ export class EuiPopover extends Component<Props, State> {
       buffer,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledBy,
+      'aria-live': ariaLiveProp,
       container,
       focusTrapProps,
       initialFocus: initialFocusProp,
@@ -684,7 +680,7 @@ export class EuiPopover extends Component<Props, State> {
           initialFocus = () => this.panel!;
         }
       } else {
-        ariaLive = 'assertive';
+        ariaLive = ariaLiveProp ?? 'assertive';
       }
 
       let focusTrapScreenReaderText;
@@ -709,7 +705,7 @@ export class EuiPopover extends Component<Props, State> {
       const returnFocus = this.state.isOpenStable ? returnFocusConfig : false;
 
       panel = (
-        <EuiPortal insert={insert}>
+        <EuiPortal {...(insert && { insert })}>
           <EuiFocusTrap
             clickOutsideDisables={true}
             onClickOutside={this.onClickOutside}
@@ -728,7 +724,6 @@ export class EuiPopover extends Component<Props, State> {
               position={this.state.arrowPosition}
               isAttached={attachToAnchor}
               className={classNames(panelClassName, panelProps?.className)}
-              hasDragDrop={hasDragDrop}
               hasShadow={false}
               paddingSize={panelPaddingSize}
               tabIndex={tabIndex}

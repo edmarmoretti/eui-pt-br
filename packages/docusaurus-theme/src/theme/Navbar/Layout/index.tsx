@@ -1,4 +1,4 @@
-import React, { type ComponentProps } from 'react';
+import { type ComponentProps, JSX } from 'react';
 import clsx from 'clsx';
 import { css } from '@emotion/react';
 import { useThemeConfig } from '@docusaurus/theme-common';
@@ -19,7 +19,7 @@ const getStyles = ({ euiTheme }: UseEuiTheme) => {
       --ifm-navbar-item-padding-horizontal: 0;
       --ifm-navbar-item-padding-vertical: 0;
 
-      --ifm-navbar-background-color: ${euiTheme.colors.body};
+      --ifm-navbar-background-color: ${euiTheme.colors.textInverse};
 
       flex-grow: 0;
       flex-shrink: 0;

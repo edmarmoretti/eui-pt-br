@@ -14,10 +14,11 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  JSX,
 } from 'react';
 import classNames from 'classnames';
 
-import { useEuiTheme, getSecureRelForTarget } from '../../services';
+import { useEuiMemoizedStyles, getSecureRelForTarget } from '../../services';
 import { validateHref } from '../../services/security/href_validator';
 import { CommonProps } from '../common';
 import { EuiInnerText } from '../inner_text';
@@ -178,8 +179,6 @@ export const EuiSideNavItem = <
   childrenOnly,
   ...rest
 }: EuiSideNavItemProps<T>) => {
-  const euiTheme = useEuiTheme();
-
   const isHrefValid = !_href || validateHref(_href);
   const href = isHrefValid ? _href : '';
 
@@ -210,7 +209,7 @@ export const EuiSideNavItem = <
     },
     className
   );
-  const styles = euiSideNavItemStyles(euiTheme);
+  const styles = useEuiMemoizedStyles(euiSideNavItemStyles);
   const cssStyles = [
     styles.euiSideNavItem,
     isRoot && styles.root,
@@ -234,7 +233,7 @@ export const EuiSideNavItem = <
     },
     buttonClassName
   );
-  const buttonStyles = euiSideNavItemButtonStyles(euiTheme);
+  const buttonStyles = useEuiMemoizedStyles(euiSideNavItemButtonStyles);
   const buttonCssStyles = [
     buttonStyles.euiSideNavItemButton,
     isSelected && buttonStyles.selected,

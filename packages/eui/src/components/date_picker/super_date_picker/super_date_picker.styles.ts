@@ -10,8 +10,7 @@ import { css } from '@emotion/react';
 
 import {
   UseEuiTheme,
-  tint,
-  shade,
+  isEuiThemeRefreshVariant,
   makeHighContrastColor,
 } from '../../../services';
 import {
@@ -20,15 +19,24 @@ import {
   logicalCSS,
   mathWithUnits,
 } from '../../../global_styling';
+import { highContrastModeStyles } from '../../../global_styling/functions/high_contrast';
 import {
   euiFormVariables,
   euiFormControlDefaultShadow,
   euiFormControlInvalidStyles,
   euiFormControlDisabledStyles,
+  euiFormControlShowBackgroundLine,
+  euiFormControlFocusStyles,
+  euiFormControlHighlightBorderStyles,
 } from '../../form/form.styles';
 
 export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
-  const { euiTheme, colorMode } = euiThemeContext;
+  const { euiTheme } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'formVariant'
+  );
+
   const forms = euiFormVariables(euiThemeContext);
 
   const inputWidth = euiTheme.base * 30;
@@ -50,12 +58,120 @@ export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
 
   // Needs updating colors
   const needsUpdatingBackgroundColor =
-    colorMode === 'DARK'
-      ? shade(euiTheme.colors.success, 0.7)
-      : tint(euiTheme.colors.success, 0.9);
+    euiTheme.components.superDatePickerBackgroundSuccees;
   const needsUpdatingTextColor = makeHighContrastColor(euiTheme.colors.success)(
     needsUpdatingBackgroundColor
   );
+
+  const formLayoutStyles = `
+      /* using wrapper hover styles instead */
+      .euiDatePopoverButton:not(.euiDatePopoverButton-isSelected):hover {
+        outline: none;
+      }
+
+      .euiPopover {
+        /* mimic input border-radius */
+        border-radius: ${forms.controlBorderRadius};
+
+        &:first-child {
+          ${logicalCSS('border-top-left-radius', 'inherit')}
+          ${logicalCSS('border-bottom-left-radius', 'inherit')}
+        }
+
+        &:last-child {
+          ${logicalCSS('border-top-right-radius', 'inherit')}
+          ${logicalCSS('border-bottom-right-radius', 'inherit')}
+        }
+      }
+
+      .euiDatePopoverButton {
+        background-color: transparent;
+        border-radius: inherit;
+      }
+    `;
+
+  const popoverButtonFocusStyles = isRefreshVariant
+    ? `
+       ${euiFormControlFocusStyles(euiThemeContext)}
+    `
+    : `
+      --euiFormControlStateColor: ${euiTheme.colors.primary};
+      ${euiFormControlShowBackgroundLine(
+        euiThemeContext,
+        euiTheme.colors.primary
+      )}
+    `;
+
+  const invalidStyles = isRefreshVariant
+    ? `
+      &:has(.euiPopover-isOpen, .euiDatePopoverButton:focus) {
+        --euiFormControlStateColor: ${forms.borderColor};
+        --euiFormControlStateHoverColor: ${forms.borderHovered};
+      }
+
+      &:not(:has(.euiPopover-isOpen, .euiDatePopoverButton:focus)) {
+        ${euiFormControlInvalidStyles(euiThemeContext)}
+      }
+
+      .euiDatePopoverButton:focus,
+      .euiPopover-isOpen .euiDatePopoverButton {
+        ${euiFormControlFocusStyles(euiThemeContext)}
+      }
+    `
+    : `
+      ${euiFormControlInvalidStyles(euiThemeContext)}
+    `;
+
+  const needsUpdatingStyles = `
+      --euiFormControlStateColor: ${euiTheme.colors.success};
+      --euiFormControlStateHoverColor: ${euiTheme.colors.success};
+      --euiFormControlStateWidth: ${euiTheme.border.width.thin};
+      ${euiFormControlHighlightBorderStyles}
+  
+      &:has(.euiPopover-isOpen),
+      &:focus-within {
+        --euiFormControlStateColor: ${forms.borderColor};
+        --euiFormControlStateHoverColor: ${forms.borderHovered};
+      }
+    `;
+
+  const needsUpdatingPopoverButtonFocusStyles = isRefreshVariant
+    ? `
+      ${euiFormControlFocusStyles(euiThemeContext)}
+    `
+    : `
+      --euiFormControlStateColor: ${euiTheme.colors.success};
+      ${euiFormControlShowBackgroundLine(
+        euiThemeContext,
+        euiTheme.colors.success
+      )}
+
+      ${highContrastModeStyles(euiThemeContext, {
+        // Force the fill color of all icons/svgs to give a bit more indication of state,
+        // since Windows high contrast themes otherwise override background/text color
+        forced: `
+          svg,
+          & + * svg {
+            fill: ${euiTheme.colors.success};
+          }
+        `,
+      })}
+    `;
+
+  const prettyFormatStyles = `
+      --euiFormControlStateHoverColor: ${forms.borderHovered};
+      ${euiFormControlDefaultShadow(euiThemeContext)}
+      
+      ${highContrastModeStyles(euiThemeContext, {
+        preferred: `
+          border: none;
+        `,
+      })}
+
+      &:focus {
+        ${euiFormControlFocusStyles(euiThemeContext)}
+      }
+    `;
 
   return {
     euiSuperDatePicker: css`
@@ -65,12 +181,6 @@ export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
 
       ${euiMaxBreakpoint(euiThemeContext, 'm')} {
         ${logicalCSS('width', '100%')}
-      }
-
-      /* Fix border radius clipping, but only if the auto refresh append item isn't rendered */
-      .euiFormControlLayout__childrenWrapper:last-child {
-        ${logicalCSS('border-top-right-radius', 'inherit')}
-        ${logicalCSS('border-bottom-right-radius', 'inherit')}
       }
     `,
 
@@ -121,6 +231,15 @@ export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
     // isQuickSelectOnly forces `width` to be `auto`
     isQuickSelectOnly: css`
       ${logicalCSS('min-width', 0)}
+
+      /* Override default EuiFormControlLayout styles that prevents side nodes from overwhelming the main control */
+      .euiFormControlLayout__prepend {
+        ${logicalCSS('max-width', 'none')}
+      }
+
+      .euiFormControlLayoutDelimited__delimiter:first-child {
+        ${logicalCSS('padding-horizontal', 0)}
+      }
     `,
 
     euiSuperDatePicker__range: css`
@@ -129,20 +248,28 @@ export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
     `,
     euiSuperDatePicker__rangeInput: css`
       flex-grow: 1;
-      /* Needs !important to override EuiFormControlLayoutDelimited's fullWidth CSS */
-      ${logicalCSS('width', 'auto !important')}
+      ${logicalCSS('width', 'auto')}
+      overflow: hidden;
     `,
     euiSuperDatePicker__prettyFormat: css`
       ${_buttonStyles(euiThemeContext)}
       text-align: start;
+
+      ${isRefreshVariant && prettyFormatStyles}
     `,
 
     // Form states
     states: {
       euiSuperDatePicker__formControlLayout: css`
         .euiFormControlLayout__childrenWrapper {
+          --euiFormControlStateHoverColor: ${forms.borderHovered};
           ${euiFormControlDefaultShadow(euiThemeContext)}
-          box-shadow: none;
+          ${highContrastModeStyles(euiThemeContext, {
+            none: 'box-shadow: none;',
+            preferred: 'border: none;',
+          })}
+
+          ${isRefreshVariant && formLayoutStyles}
         }
       `,
       default: css`
@@ -153,14 +280,18 @@ export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
 
         /* Focus/selection underline per-button */
         .euiDatePopoverButton {
-          ${euiFormControlDefaultShadow(euiThemeContext)}
+          --euiFormControlStateHoverColor: ${forms.borderHovered};
+          ${!isRefreshVariant &&
+          euiFormControlDefaultShadow(euiThemeContext, {
+            withBorder: false,
+            withBackgroundColor: false,
+          })}
           box-shadow: none;
         }
 
         .euiDatePopoverButton:focus,
         .euiPopover-isOpen .euiDatePopoverButton {
-          --euiFormControlStateColor: ${euiTheme.colors.primary};
-          background-size: 100% 100%;
+          ${popoverButtonFocusStyles}
         }
       `,
       disabled: css`
@@ -170,16 +301,18 @@ export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
       `,
       invalid: css`
         .euiFormControlLayout__childrenWrapper {
-          color: ${euiTheme.colors.dangerText};
+          color: ${euiTheme.colors.textDanger};
           background-color: ${forms.backgroundColor};
-          ${euiFormControlInvalidStyles(euiThemeContext)}
+
+          ${invalidStyles}
         }
       `,
       needsUpdating: css`
-        /* Extra specificity needed to override default delimited styles */
-        .euiFormControlLayoutDelimited .euiFormControlLayout__childrenWrapper {
+        .euiFormControlLayout__childrenWrapper {
           color: ${needsUpdatingTextColor};
           background-color: ${needsUpdatingBackgroundColor};
+
+          ${isRefreshVariant && needsUpdatingStyles}
         }
 
         .euiFormControlLayoutDelimited__delimiter {
@@ -188,15 +321,17 @@ export const euiSuperDatePickerStyles = (euiThemeContext: UseEuiTheme) => {
 
         /* Focus/selection underline per-button */
         .euiDatePopoverButton {
-          ${euiFormControlDefaultShadow(euiThemeContext)}
+          ${euiFormControlDefaultShadow(euiThemeContext, {
+            withBorder: false,
+            withBackgroundColor: false,
+          })}
           background-color: inherit;
           box-shadow: none;
         }
 
         .euiDatePopoverButton:focus,
         .euiPopover-isOpen .euiDatePopoverButton {
-          --euiFormControlStateColor: ${euiTheme.colors.success};
-          background-size: 100% 100%;
+          ${needsUpdatingPopoverButtonFocusStyles}
         }
       `,
     },

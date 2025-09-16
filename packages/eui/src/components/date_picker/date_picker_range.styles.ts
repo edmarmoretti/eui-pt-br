@@ -7,25 +7,57 @@
  */
 
 import { css } from '@emotion/react';
-import { logicalCSS } from '../../global_styling';
-import { euiShadowMedium } from '../../themes/amsterdam/global_styling/mixins';
-import { UseEuiTheme } from '../../services';
+import { euiShadowMedium } from '@elastic/eui-theme-common';
 
-export const euiDatePickerRangeStyles = {
-  euiDatePickerRange: css`
-    /* Needed for correct focus/invalid underline/linear-gradient styles */
-    .euiPopover,
-    .react-datepicker__input-container,
-    .euiDatePicker {
-      ${logicalCSS('height', '100%')}
-    }
-  `,
+import { logicalCSS } from '../../global_styling';
+import { isEuiThemeRefreshVariant, UseEuiTheme } from '../../services';
+import { disableFormControlHoverStyles } from '../form/form.styles';
+
+export const euiDatePickerRangeStyles = (euiThemeContext: UseEuiTheme) => {
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'formVariant'
+  );
+
+  const refreshStyles = `
+      .euiPopover:last-child {
+        ${logicalCSS('border-top-right-radius', 'inherit')}
+        ${logicalCSS('border-bottom-right-radius', 'inherit')}
+
+        * {
+          ${logicalCSS('border-top-right-radius', 'inherit')}
+          ${logicalCSS('border-bottom-right-radius', 'inherit')}
+        }
+      }
+    `;
+
+  return {
+    euiDatePickerRange: css`
+      /* Needed for correct focus/invalid underline/linear-gradient styles */
+      .euiPopover,
+      .react-datepicker__input-container,
+      .euiDatePicker {
+        ${logicalCSS('height', '100%')}
+      }
+
+      /* Needed for the fullWidth prop: makes inputs take the whole available space */
+      .euiPopover {
+        flex: 1;
+      }
+
+      ${isRefreshVariant && refreshStyles}
+    `,
+  };
 };
 
 export const euiDatePickerRangeInlineStyles = (
   euiThemeContext: UseEuiTheme
 ) => {
   const { euiTheme } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'formVariant'
+  );
 
   // Use a container query to stack date pickers vertically if the container is
   // not wide enough to fit both. We need a fn for this to render two width queries,
@@ -58,8 +90,7 @@ export const euiDatePickerRangeInlineStyles = (
         ${logicalCSS('height', 'auto')}
         ${logicalCSS('width', 'fit-content')}
         ${logicalCSS('max-width', '100%')}
-        background-color: transparent;
-        box-shadow: none;
+        border: none;
         padding: 0;
 
         .euiFormControlLayout__childrenWrapper {
@@ -70,14 +101,6 @@ export const euiDatePickerRangeInlineStyles = (
           background-color: transparent;
         }
 
-        /* Fix --group height when append/prepend are present */
-        &.euiFormControlLayout--group {
-          & > *,
-          .euiFormControlLayoutDelimited__delimiter {
-            ${logicalCSS('height', 'auto')}
-          }
-        }
-
         /* Display form control icons below both date pickers */
         .euiFormControlLayoutIcons {
           justify-content: center;
@@ -85,6 +108,13 @@ export const euiDatePickerRangeInlineStyles = (
           ${logicalCSS('height', 'auto')}
           ${logicalCSS('padding-bottom', euiTheme.size.s)}
         }
+
+        ${isRefreshVariant &&
+        `
+          &::after {
+            display: none;
+          }
+        `}
       }
 
       /* Make sure the inline date picker sets its absolute positioning based off the correct parent */
@@ -100,12 +130,32 @@ export const euiDatePickerRangeInlineStyles = (
     `,
     shadow: css`
       .euiFormControlLayoutDelimited {
-        ${euiShadowMedium(euiThemeContext)}
+        ${euiShadowMedium(euiThemeContext, {
+          borderAllInHighContrastMode: true,
+        })}
 
-        .euiFormControlLayout__childrenWrapper {
-          background-color: ${euiTheme.colors.emptyShade};
-        }
+        ${isRefreshVariant &&
+        `
+          /* the form layout is not part of the interactive behavior but rather a container in this variant  */
+          ${disableFormControlHoverStyles()}
+
+          .euiFormControlLayout__childrenWrapper {
+            box-shadow: none;
+            ${disableFormControlHoverStyles()}
+          }
+        `}
       }
     `,
+
+    // Applied directly to EuiFormControlLayout so we can check if `disabled`
+    // and allow the disabled background-color to take precedence
+    formLayout: {
+      noShadow: css`
+        background-color: transparent;
+      `,
+      shadow: css`
+        background-color: ${euiTheme.colors.emptyShade};
+      `,
+    },
   };
 };

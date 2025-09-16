@@ -113,9 +113,10 @@ export interface _EuiComboBoxProps<T>
    */
   placeholder?: string;
   /**
-   * Every option must be the same height and must be explicitly set if using a custom render
+   *  The height of each option in pixels. When using a custom render (`renderOption` prop) it's recommended to set it explicitly.
+   * `auto` will disable virtualization, enabling text to wrap onto multiple lines.
    */
-  rowHeight?: number;
+  rowHeight?: number | 'auto';
   /**
    * When `true` only allows the user to select a single option. Set to `{ asPlainText: true }` to not render input selection as pills
    */
@@ -212,6 +213,7 @@ interface EuiComboBoxState<T> {
   hasFocus: boolean;
   isListOpen: boolean;
   matchingOptions: Array<EuiComboBoxOptionOption<T>>;
+  listOptionRefs: Array<HTMLButtonElement | null>;
   searchValue: string;
 }
 
@@ -249,6 +251,7 @@ export class EuiComboBox<T> extends Component<
       showPrevSelected: Boolean(this.props.singleSelection),
       sortMatchesBy: this.props.sortMatchesBy,
     }),
+    listOptionRefs: [],
     searchValue: initialSearchValue,
   };
 
@@ -269,6 +272,17 @@ export class EuiComboBox<T> extends Component<
   listRefInstance: RefInstance<HTMLDivElement> = null;
   listRefCallback: RefCallback<HTMLDivElement> = (ref) => {
     this.listRefInstance = ref;
+  };
+
+  setListOptionRefs = (node: HTMLButtonElement | null, index: number) => {
+    this.setState(({ listOptionRefs }) => {
+      const _listOptionRefs = listOptionRefs;
+      _listOptionRefs[index] = node;
+
+      return {
+        listOptionRefs: _listOptionRefs,
+      };
+    });
   };
 
   openList = () => {
@@ -460,7 +474,10 @@ export class EuiComboBox<T> extends Component<
     const { searchValue } = this.state;
     const { delimiter } = this.props;
     if (delimiter) {
-      searchValue.split(delimiter).forEach((option: string) => {
+      const trimmed = searchValue.split(delimiter).map((value) => value.trim());
+      const values = [...new Set([...trimmed])];
+
+      values.forEach((option: string) => {
         if (option.length > 0) this.addCustomOption(isContainerBlur, option);
       });
     } else {
@@ -536,14 +553,17 @@ export class EuiComboBox<T> extends Component<
         break;
 
       case keys.ENTER:
-        event.preventDefault();
-        event.stopPropagation();
-        if (this.hasActiveOption()) {
-          this.onAddOption(
-            this.state.matchingOptions[this.state.activeOptionIndex]
-          );
-        } else {
-          this.setCustomOptions(false);
+        // Do not block enter keypresses for the clear button or delete selection buttons
+        if (event.target === this.searchInputRefInstance) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (this.hasActiveOption()) {
+            this.onAddOption(
+              this.state.matchingOptions[this.state.activeOptionIndex]
+            );
+          } else {
+            this.setCustomOptions(false);
+          }
         }
         break;
 
@@ -598,9 +618,10 @@ export class EuiComboBox<T> extends Component<
     if (singleSelection) {
       requestAnimationFrame(() => this.closeList());
     } else {
-      this.setState({
-        activeOptionIndex: this.state.matchingOptions.indexOf(addedOption),
-      });
+      this.setState(({ listOptionRefs, matchingOptions }) => ({
+        listOptionRefs: listOptionRefs.slice(0, matchingOptions.length - 1),
+        activeOptionIndex: matchingOptions.indexOf(addedOption),
+      }));
     }
   };
 
@@ -749,6 +770,7 @@ export class EuiComboBox<T> extends Component<
       optionMatcher,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledby,
+      'aria-describedby': ariaDescribedby,
       ...rest
     } = this.props;
     const {
@@ -802,6 +824,7 @@ export class EuiComboBox<T> extends Component<
               isCaseSensitive={isCaseSensitive}
               isLoading={isLoading}
               listRef={this.listRefCallback}
+              setListOptionRefs={this.setListOptionRefs}
               matchingOptions={matchingOptions}
               onCloseList={this.closeList}
               onCreateOption={onCreateOption}
@@ -860,12 +883,19 @@ export class EuiComboBox<T> extends Component<
                 {...inputPopoverProps}
                 isOpen={isListOpen}
                 closePopover={this.closeList}
+                /* we don't want content changes to be announced via aria-live 
+                because ComboBox uses a virtualized list that updates itself
+                on scroll and would result in unexpected screen reader output */
+                aria-live="off"
                 input={
                   <EuiComboBoxInput
                     compressed={compressed}
                     focusedOptionId={
                       this.hasActiveOption()
-                        ? this.rootId(`_option-${this.state.activeOptionIndex}`)
+                        ? this.state.listOptionRefs[
+                            this.state.activeOptionIndex
+                          ]?.id ??
+                          this.rootId(`_option-${this.state.activeOptionIndex}`)
                         : undefined
                     }
                     fullWidth={fullWidth}
@@ -899,6 +929,7 @@ export class EuiComboBox<T> extends Component<
                     autoFocus={autoFocus}
                     aria-label={ariaLabel}
                     aria-labelledby={ariaLabelledby}
+                    aria-describedby={ariaDescribedby}
                   />
                 }
               >

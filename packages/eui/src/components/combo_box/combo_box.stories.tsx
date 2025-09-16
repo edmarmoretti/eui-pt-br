@@ -20,6 +20,7 @@ import { EuiFlexItem } from '../flex';
 
 import { EuiComboBoxOptionMatcher } from './types';
 import { EuiComboBox, EuiComboBoxProps } from './combo_box';
+import { EuiHighlight } from '../highlight';
 
 const options = [
   { label: 'Item 1' },
@@ -27,6 +28,11 @@ const options = [
   { label: 'Item 3' },
   { label: 'Item 4', disabled: true },
   { label: 'Item 5' },
+  { label: 'Item 6' },
+  { label: 'Item 7' },
+  { label: 'Item 8' },
+  { label: 'Item 9' },
+  { label: 'Item 10' },
 ];
 
 const meta: Meta<EuiComboBoxProps<{}>> = {
@@ -43,7 +49,7 @@ const meta: Meta<EuiComboBoxProps<{}>> = {
     // Storybook is skipping the Pick<> props from EuiComboBoxList for some annoying reason
     onCreateOption: { control: 'boolean' }, // Set to a true/false for ease of testing
     customOptionText: { control: 'text' },
-    renderOption: { control: 'function' },
+    renderOption: { control: false }, // Storybook doesn't have a function control type
   },
   args: {
     // Pass options in by default for ease of testing
@@ -72,6 +78,99 @@ export default meta;
 type Story = StoryObj<EuiComboBoxProps<{}>>;
 
 export const Playground: Story = {
+  render: (args) => <StatefulComboBox {...args} />,
+};
+
+export const WithCustomOptionIds: Story = {
+  parameters: {
+    controls: {
+      include: ['options', 'selectedOptions', 'onChange'],
+    },
+    // This story is visually effectively the same as Playground
+    loki: { skip: true },
+  },
+  args: {
+    options: [
+      { id: 'item-1', label: 'Item 1' },
+      { id: 'item-2', label: 'Item 2' },
+      { id: 'item-3', label: 'Item 3' },
+      { id: 'item-4', label: 'Item 4', disabled: true },
+      { id: 'item-5', label: 'Item 5' },
+      { id: 'item-6', label: 'Item 6' },
+      { id: 'item-7', label: 'Item 7' },
+      { id: 'item-8', label: 'Item 8' },
+      { id: 'item-9', label: 'Item 9' },
+      { id: 'item-10', label: 'Item 10' },
+    ],
+  },
+  render: (args) => <StatefulComboBox {...args} />,
+};
+
+export const RowHeightAuto: Story = {
+  parameters: {
+    controls: {
+      include: ['rowHeight', 'singleSelection', 'options', 'onChange'],
+    },
+    loki: {
+      chromeSelector: LOKI_SELECTORS.portal,
+    },
+  },
+  args: {
+    autoFocus: true,
+    singleSelection: false,
+    rowHeight: 'auto',
+    selectedOptions: [
+      { label: 'elastic.task_manager_metrics.metrics.message' },
+    ],
+    options: [
+      { label: 'elastic.task_manager_metrics.metrics.error' },
+      { label: 'elastic.task_manager_metrics.metrics.last_update' },
+      { label: 'elastic.task_manager_metrics.metrics.message' },
+      {
+        label:
+          'elastic.task_manager_metrics.metrics.task_overdue.value.by_type.insolence',
+      },
+      {
+        label:
+          'elastic.task_manager_metrics.metrics.task_overdue.value.by_type.nudge',
+      },
+      {
+        label:
+          'elastic.task_manager_metrics.metrics.task_overdue.value.by_type.advancement',
+      },
+      {
+        label:
+          'elastic.task_manager_metrics.metrics.task_overdue.value.by_type.outlaw',
+      },
+      {
+        label:
+          'elastic.task_manager_metrics.metrics.task_overdue.value.by_type.representation',
+      },
+      {
+        label:
+          'elastic.task_manager_metrics.metrics.task_overdue.value.by_type.tomb',
+      },
+      {
+        label:
+          'elastic.task_manager_metrics.metrics.task_overdue.value.by_type.march',
+      },
+      { label: 'elastic.task_manager_metrics.metrics.task_claim.timestamp' },
+      {
+        label: 'elastic.task_manager_metrics.metrics.task_claim.value.duration',
+      },
+      {
+        label: 'elastic.task_manager_metrics.metrics.task_claim.value.success',
+      },
+      { label: 'elastic.task_manager_metrics.metrics.task_claim.value.total' },
+    ],
+    renderOption: (option, searchValue) => {
+      return (
+        <EuiHighlight search={searchValue} style={{ wordBreak: 'break-word' }}>
+          {option.label}
+        </EuiHighlight>
+      );
+    },
+  },
   render: (args) => <StatefulComboBox {...args} />,
 };
 
@@ -139,7 +238,7 @@ export const Groups: Story = {
       include: ['options'],
     },
     loki: {
-      chromeSelector: LOKI_SELECTORS.body,
+      chromeSelector: LOKI_SELECTORS.portal,
     },
   },
   args: {
@@ -167,7 +266,7 @@ export const NestedOptionsGroups: Story = {
       include: ['options'],
     },
     loki: {
-      chromeSelector: LOKI_SELECTORS.body,
+      chromeSelector: LOKI_SELECTORS.portal,
     },
   },
   args: {
@@ -191,6 +290,23 @@ export const NestedOptionsGroups: Story = {
   },
   render: (args) => <StatefulComboBox {...args} />,
 };
+
+/**
+ * VRT only
+ */
+
+export const IconsAndManyOptionsSelected: Story = {
+  tags: ['vrt-only'],
+  args: {
+    singleSelection: false,
+    selectedOptions: options,
+  },
+  render: (args) => <StatefulComboBox {...args} />,
+};
+
+/**
+ * Helpers
+ */
 
 const StatefulComboBox = ({
   singleSelection,

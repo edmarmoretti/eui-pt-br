@@ -71,10 +71,17 @@ export const Playground: Story = {
   // Several props need to be manually applied to the child EuiFieldText as well to render correctly
   render: ({ children, ...args }) => {
     const { readOnly, isDisabled, fullWidth, compressed } = args;
-    const childProps = { readOnly, isDisabled, fullWidth, compressed };
+    const childProps = {
+      readOnly,
+      isDisabled,
+      fullWidth,
+      compressed,
+      isInvalid: args.isInvalid,
+    };
     return (
       <EuiFormControlLayout {...args}>
         <EuiFieldText
+          type="text"
           aria-label="EuiFormControlLayout demo"
           controlOnly
           {...childProps}
@@ -87,7 +94,14 @@ export const Playground: Story = {
 export const IconShape: Story = {
   parameters: {
     controls: {
-      include: ['icon', 'isInvalid', 'isLoading', 'iconsPosition', 'clear'],
+      include: [
+        'icon',
+        'isInvalid',
+        'isLoading',
+        'isDisabled',
+        'iconsPosition',
+        'clear',
+      ],
     },
   },
   args: {
@@ -124,6 +138,7 @@ export const AppendPrepend: Story = {
               <EuiText size="s">Tooltip</EuiText>
             </EuiToolTip>
           }
+          autoFocus
         />
         <EuiFieldText
           placeholder="XS empty button in a popover & tooltip"
@@ -255,4 +270,16 @@ export const AppendPrepend: Story = {
       </EuiForm>
     );
   },
+};
+
+export const HighContrast: Story = {
+  ...AppendPrepend,
+  tags: ['vrt-only'],
+  globals: { highContrastMode: true },
+};
+
+export const HighContrastDarkMode: Story = {
+  ...AppendPrepend,
+  tags: ['vrt-only'],
+  globals: { highContrastMode: true, colorMode: 'dark' },
 };

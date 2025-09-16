@@ -100,6 +100,7 @@ export const EuiTab: FunctionComponent<Props> = ({
       <a
         role="tab"
         aria-selected={!!isSelected}
+        tabIndex={isSelected ? 0 : -1}
         className={classes}
         css={cssTabStyles}
         href={href}
@@ -108,7 +109,10 @@ export const EuiTab: FunctionComponent<Props> = ({
         {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
         {prependNode}
-        <span className="euiTab__content" css={cssTabContentStyles}>
+        <span
+          className="euiTab__content eui-textTruncate"
+          css={cssTabContentStyles}
+        >
           {children}
         </span>
         {appendNode}
@@ -120,6 +124,7 @@ export const EuiTab: FunctionComponent<Props> = ({
     <button
       role="tab"
       aria-selected={!!isSelected}
+      tabIndex={isSelected ? 0 : -1}
       type="button"
       className={classes}
       css={cssTabStyles}

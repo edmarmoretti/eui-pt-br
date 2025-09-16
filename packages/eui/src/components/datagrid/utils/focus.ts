@@ -9,7 +9,7 @@
 import {
   createContext,
   useCallback,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -61,11 +61,12 @@ export const useFocus = (): DataGridFocusContextShape & {
   >(undefined);
 
   const setFocusedCell = useCallback(
-    (nextFocusedCell: EuiDataGridFocusedCell) => {
+    (nextFocusedCell: EuiDataGridFocusedCell, forceUpdate?: boolean) => {
       _setFocusedCell((prevFocusedCell) => {
         // If the x/y coordinates remained the same, don't update. This keeps the focusedCell
         // reference stable, and allows it to be used in places that need reference equality.
         if (
+          !forceUpdate &&
           nextFocusedCell[0] === prevFocusedCell?.[0] &&
           nextFocusedCell[1] === prevFocusedCell?.[1]
         ) {
@@ -80,7 +81,7 @@ export const useFocus = (): DataGridFocusContextShape & {
   );
 
   const previousCell = useRef<EuiDataGridFocusedCell | undefined>(undefined);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (previousCell.current) {
       notifyCellOfFocusState(
         cellsUpdateFocus.current,

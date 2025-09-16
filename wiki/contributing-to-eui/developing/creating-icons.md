@@ -65,12 +65,12 @@ _1. Add your glyph to the `EuiIcon` component_
 - Add a reference in the `/packages/eui/src/components/icon/icon_map.ts` file (in alphabetical order)
 
 _2. Display the icon in the docs_
-- Add the icon name to `/packages/eui/src-docs/src/views/icon/icons.js` *
+- Add the icon name to `/packages/website/docs/components/display/icons/icon_types.ts` *
 
 _3. Compile and test_
 - Go to the `packages/eui` directory
 - Run `yarn compile-icons`
-- Preview your icon locally at `http://localhost:8030/#/display/icons` **
+- Preview your icon locally by running `yarn workspace @elastic/eui-website build:workspaces && yarn workspace @elastic/eui-website start` and opening http://localhost:3000/docs/components/display/icons/
 - Switch the docs to dark mode and verify that the icon is visible (all paths should be filled with the reverse color)
 - Run `yarn run test-unit icon -u` to create/update the jest snapshots
 
@@ -85,9 +85,9 @@ Once your PR is approved, you will be able to merge it and give yourself a well-
 
 ---
 
-_\* The Icons page actually contains several sections. In most cases, you will be adding your icon to the base set. However, if your icon should appear in a different set, then add it to the appropriate section file in `/packages/eui/src-docs/src/views/icon`._
+_\* The Icons page actually contains several sections. In most cases, you will be adding your icon to the base set. However, if your icon should appear in a different set, then add it to the appropriate section file in `/packages/website/docs/components/display/icons`._
 
-_\** Run `yarn && yarn start` to view the EUI docs site locally._
+_\** Run `yarn workspace @elastic/eui-website start` to view the EUI docs site locally._
 
 
 [icons]: https://elastic.github.io/eui/#/display/icons

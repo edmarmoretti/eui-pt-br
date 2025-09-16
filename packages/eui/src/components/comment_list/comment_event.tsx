@@ -9,7 +9,7 @@
 import React, { FunctionComponent, ReactNode, useMemo } from 'react';
 import classNames from 'classnames';
 
-import { useEuiMemoizedStyles } from '../../services';
+import { useEuiMemoizedStyles, useEuiTheme } from '../../services';
 import { useEuiBorderColorCSS } from '../../global_styling';
 import { CommonProps } from '../common';
 import { IconType } from '../icon';
@@ -94,12 +94,11 @@ export const EuiCommentEvent: FunctionComponent<EuiCommentEventProps> = ({
   }
 
   if (isTypeRegular && !eventColor) {
-    eventColor = 'subdued';
+    eventColor = 'highlighted';
   }
   if (isTypeUpdate && !eventColor) {
     eventColor = 'transparent';
   }
-  const showEventBorders = isTypeRegular;
 
   const panelProps: EuiPanelProps = useMemo(
     () => ({
@@ -118,20 +117,24 @@ export const EuiCommentEvent: FunctionComponent<EuiCommentEventProps> = ({
   /**
    * Styles
    */
-  const borderStyles = useEuiBorderColorCSS();
+  const { highContrastMode } = useEuiTheme();
+  const showEventBorders = isTypeRegular;
+  const showHighContrastBorder = isTypeUpdate && highContrastMode;
+  const borderColor = eventColor === 'highlighted' ? 'subdued' : eventColor;
 
+  const borderStyles = useEuiBorderColorCSS();
   const styles = useEuiMemoizedStyles(euiCommentEventStyles);
   const cssStyles = [
     styles.euiCommentEvent,
-    showEventBorders && styles.border,
-    showEventBorders && borderStyles[eventColor!],
+    (showEventBorders || showHighContrastBorder) && styles.border,
+    (showEventBorders || showHighContrastBorder) && borderStyles[borderColor!],
   ];
 
   const headerStyles = useEuiMemoizedStyles(euiCommentEventHeaderStyles);
   const cssHeaderStyles = [
     headerStyles.euiCommentEvent__header,
     showEventBorders && headerStyles.border,
-    showEventBorders && borderStyles[eventColor!],
+    showEventBorders && borderStyles[borderColor!],
   ];
 
   const bodyStyles = useEuiMemoizedStyles(euiCommentEventBodyStyles);

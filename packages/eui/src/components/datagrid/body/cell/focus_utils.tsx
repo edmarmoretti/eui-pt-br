@@ -13,12 +13,14 @@ import React, {
   useState,
   useMemo,
 } from 'react';
-import { tabbable } from 'tabbable';
+import { FocusableElement, tabbable } from 'tabbable';
+import classNames from 'classnames';
 
-import { keys } from '../../../../services';
+import { keys, useGeneratedHtmlId } from '../../../../services';
+import { isDOMNode } from '../../../../utils';
 import { EuiFocusTrap } from '../../../focus_trap';
-import { EuiScreenReaderOnly } from '../../../accessibility';
 import { EuiI18n } from '../../../i18n';
+import { EuiLiveAnnouncer } from '../../../accessibility';
 
 /**
  * This internal utility component is used by all cells, both header and body/footer cells.
@@ -35,20 +37,27 @@ export const HandleInteractiveChildren: FunctionComponent<
     cellEl?: HTMLElement | null;
     updateCellFocusContext: Function;
     renderFocusTrap?: boolean;
+    onInteractiveChildrenFound?: (
+      interactiveChildren: FocusableElement[]
+    ) => void;
   }
-> = ({ cellEl, children, updateCellFocusContext, renderFocusTrap }) => {
+> = ({
+  cellEl,
+  children,
+  updateCellFocusContext,
+  renderFocusTrap,
+  onInteractiveChildrenFound,
+}) => {
   const [hasInteractiveChildren, setHasInteractiveChildren] = useState(false);
 
   // On mount, disable all interactive children
   useEffect(() => {
     if (cellEl) {
-      const interactiveChildren = disableInteractives(cellEl);
-
-      if (renderFocusTrap) {
-        setHasInteractiveChildren(interactiveChildren!.length > 0);
-      }
+      const interactives = disableInteractives(cellEl);
+      onInteractiveChildrenFound?.(interactives);
+      setHasInteractiveChildren(interactives.length > 0);
     }
-  }, [cellEl, renderFocusTrap]);
+  }, [cellEl, onInteractiveChildrenFound]);
 
   // Ensure that any interactive children that are clicked update the latest cell focus context
   useEffect(() => {
@@ -80,6 +89,34 @@ export const FocusTrappedChildren: FunctionComponent<
   PropsWithChildren & { cellEl: HTMLElement }
 > = ({ cellEl, children }) => {
   const [isCellEntered, setIsCellEntered] = useState(false);
+  const [isExited, setExited] = useState(false);
+
+  const ariaDescribedById = useGeneratedHtmlId({
+    suffix: 'focusTrapHint',
+  });
+
+  // direct DOM manipulation as workaround to attach required hints
+  useEffect(() => {
+    const currentAriaDescribedbyId = cellEl.getAttribute('aria-describedby');
+    // A11y: splitting ids to be able to append the first hint (sorting)
+    // while other hints should follow the keyboard navigation hints
+    const [sortingId, ...rest] = currentAriaDescribedbyId?.split(' ') ?? [];
+    const remainingIds = rest.join(' ');
+
+    cellEl.setAttribute(
+      'aria-describedby',
+      classNames(sortingId, ariaDescribedById, !isCellEntered && remainingIds)
+    );
+
+    return () => {
+      if (currentAriaDescribedbyId) {
+        cellEl.setAttribute('aria-describedby', currentAriaDescribedbyId);
+      } else {
+        cellEl.removeAttribute('aria-describedby');
+      }
+    };
+  }, [cellEl, ariaDescribedById, isCellEntered]);
+
   useEffect(() => {
     if (isCellEntered) {
       enableAndFocusInteractives(cellEl);
@@ -101,38 +138,81 @@ export const FocusTrappedChildren: FunctionComponent<
           event.preventDefault();
           setIsCellEntered((isCellEntered) => {
             if (isCellEntered === true) {
+              setExited(true);
               requestAnimationFrame(() => cellEl.focus()); // move focus to cell
               return false;
+            } else if (
+              // when opened content is closed, we don't want Escape to return to the cell
+              // immediately but instead return focus to a trigger as expected
+              isCellEntered === false &&
+              isDOMNode(event.target) &&
+              isDOMNode(event.currentTarget) &&
+              event.currentTarget !== event.target &&
+              event.currentTarget.contains(event.target)
+            ) {
+              return true;
             }
+
             return isCellEntered;
           });
           break;
       }
     };
+
+    // ensures the SR text is reset when navigating to a different cell
+    const onBlur = () => setExited(false);
+
     cellEl.addEventListener('keyup', onKeyUp);
+    cellEl.addEventListener('blur', onBlur);
+
     return () => {
       cellEl.removeEventListener('keyup', onKeyUp);
+      cellEl.removeEventListener('blur', onBlur);
     };
   }, [cellEl]);
 
   return (
     <EuiFocusTrap
       disabled={!isCellEntered}
-      onDeactivation={() => setIsCellEntered(false)}
       clickOutsideDisables={true}
+      onDeactivation={() => setIsCellEntered(false)}
     >
       {children}
 
-      <EuiScreenReaderOnly>
-        <p>
-          {' - '}
+      {/**
+       * Hints use `hidden` to prevent them from being read by screen readers as regular content.
+       * They are still read in JAWS and NVDA via the linking with aria-describedby.
+       * VoiceOver does generally not read the column on re-focus after exiting a cell,
+       * which mean the exited hint is not read.
+       * VoiceOver does react to aria-live (without aria-hidden) but that would causes
+       * duplicate output in JAWS/NVDA (reading content & live announcement).
+       * Optimizing for Windows screen readers as they have a larger usages.
+       */}
+      <p id={ariaDescribedById} hidden>
+        {isExited && (
+          <EuiI18n
+            // eslint-disable-next-line local/i18n
+            token="euiDataGridCell.focusTrapExitPrompt"
+            default="Exited cell content."
+          />
+        )}
+        {!isCellEntered && (
           <EuiI18n
             // eslint-disable-next-line local/i18n
             token="euiDataGridCell.focusTrapEnterPrompt"
             default="Press the Enter key to interact with this cell's contents."
           />
-        </p>
-      </EuiScreenReaderOnly>
+        )}
+      </p>
+      <EuiLiveAnnouncer clearAfterMs={1000}>
+        {isCellEntered && (
+          <EuiI18n
+            // eslint-disable-next-line local/i18n
+            token="euiDataGridCell.focusTrapEnteredExitPrompt"
+            default="Press the Escape key to exit the cell."
+          />
+        )}
+      </EuiLiveAnnouncer>
     </EuiFocusTrap>
   );
 };
@@ -145,7 +225,7 @@ const disableInteractives = (cell: HTMLElement) => {
   const interactives = tabbable(cell);
   interactives.forEach((element) => {
     element.setAttribute('data-euigrid-tab-managed', 'true');
-    element.setAttribute('tabIndex', '-1');
+    element.setAttribute('tabindex', '-1');
   });
   return interactives;
 };
@@ -153,8 +233,9 @@ const disableInteractives = (cell: HTMLElement) => {
 const enableAndFocusInteractives = (cell: HTMLElement) => {
   const interactives = cell.querySelectorAll('[data-euigrid-tab-managed]');
   interactives.forEach((element, i) => {
-    element.setAttribute('tabIndex', '0');
-    if (i === 0) {
+    element.setAttribute('tabindex', '0');
+    // focus the first element only if we're on the cell and not inside of it
+    if (i === 0 && !cell.contains(document.activeElement)) {
       (element as HTMLElement).focus();
     }
   });

@@ -8,13 +8,13 @@
 
 import { css } from '@emotion/react';
 
-import { UseEuiTheme } from '../../../services';
+import { isEuiThemeRefreshVariant, UseEuiTheme } from '../../../services';
 import {
   logicalCSS,
   mathWithUnits,
   euiFontSize,
 } from '../../../global_styling';
-import { euiButtonColor } from '../../../themes/amsterdam/global_styling/mixins/button';
+import { euiButtonColor } from '../../../global_styling/mixins/_button';
 
 /**
  * Style variables shared between accordion, link, and sub items
@@ -23,6 +23,10 @@ export const euiCollapsibleNavItemVariables = (
   euiThemeContext: UseEuiTheme
 ) => {
   const { euiTheme } = euiThemeContext;
+  const isRefreshVariant = isEuiThemeRefreshVariant(
+    euiThemeContext,
+    'buttonVariant'
+  );
 
   return {
     height: euiTheme.size.xl,
@@ -31,10 +35,11 @@ export const euiCollapsibleNavItemVariables = (
     animation: `${euiTheme.animation.normal} ease-in-out`, // Matches EuiButton
     borderRadius: euiTheme.border.radius.small,
     backgroundHoverColor: euiTheme.colors.lightestShade,
-    backgroundSelectedColor: euiButtonColor(euiThemeContext, 'text')
-      .backgroundColor,
-    color: euiTheme.colors.text,
-    rightIconColor: euiTheme.colors.disabledText,
+    backgroundSelectedColor: isRefreshVariant
+      ? euiTheme.colors.backgroundBaseInteractiveSelect
+      : euiButtonColor(euiThemeContext, 'text').backgroundColor,
+    color: euiTheme.colors.textParagraph,
+    rightIconColor: euiTheme.colors.textDisabled,
   };
 };
 
@@ -61,8 +66,11 @@ export const euiCollapsibleNavSubItemsStyles = ({ euiTheme }: UseEuiTheme) => {
     `,
     isSubItem: css`
       ${logicalCSS('border-left', euiTheme.border.thin)}
-      ${logicalCSS('margin-left', euiTheme.size.s)}
-        ${logicalCSS(
+      ${logicalCSS(
+        'margin-left',
+        mathWithUnits([euiTheme.size.xs], (x) => x * 4)
+      )}
+      ${logicalCSS(
         'padding-left',
         mathWithUnits(
           [euiTheme.size.s, euiTheme.border.width.thin],
@@ -77,14 +85,16 @@ export const euiCollapsibleNavSubItemsStyles = ({ euiTheme }: UseEuiTheme) => {
  * Top-level item only styles
  */
 
-export const euiCollapsibleNavTopItemStyles = ({ euiTheme }: UseEuiTheme) => {
+export const euiCollapsibleNavTopItemStyles = ({
+  euiTheme: _euiTheme,
+}: UseEuiTheme) => {
   return {
-    // If this is the only top-level item in the list, assume it's a solution nav and
-    // reduce its default left padding + increase its relative icon size
+    // If this is the only top-level item in the list, assume the nav is showing a single solution and
+    // use no left padding + increase its relative icon size
     euiCollapsibleNavTopItem: css`
       &:only-child {
         .euiCollapsibleNavItem__items {
-          ${logicalCSS('padding-left', euiTheme.size.s)}
+          ${logicalCSS('padding-left', 0)}
         }
 
         .euiCollapsibleNavItem__icon {

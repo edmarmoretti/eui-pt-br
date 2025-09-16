@@ -9,10 +9,8 @@
 import type { MutableRefObject } from 'react';
 import { act } from '@testing-library/react';
 import { renderHook } from '../../../test/rtl';
-import { startingStyles } from '../controls';
 import type { ImperativeGridApi } from '../data_grid_types';
 import {
-  cellPaddingsMap,
   RowHeightUtils,
   RowHeightVirtualizationUtils,
   useRowHeightUtils,
@@ -109,6 +107,23 @@ describe('RowHeightUtils', () => {
         });
       });
 
+      describe('autoBelowLineCount', () => {
+        it('uses the auto height cache', () => {
+          const rowIndex = 3;
+          const autoRowHeight = 100;
+          rowHeightUtils.setRowHeight(rowIndex, 'a', autoRowHeight, 0);
+
+          expect(
+            rowHeightUtils.getCalculatedHeight(
+              { lineCount: 10 },
+              34,
+              rowIndex,
+              { rowHeights: { [rowIndex]: autoRowHeight } }
+            )
+          ).toEqual(autoRowHeight);
+        });
+      });
+
       describe('row-specific overrides', () => {
         it('returns the height set in the cache', () => {
           const rowIndex = 5;
@@ -120,7 +135,7 @@ describe('RowHeightUtils', () => {
               { lineCount: 10 },
               34,
               rowIndex,
-              true
+              { rowHeights: { [rowIndex]: rowHeightOverride } }
             )
           ).toEqual(rowHeightOverride);
         });
@@ -160,32 +175,6 @@ describe('RowHeightUtils', () => {
     });
   });
 
-  describe('styles utils', () => {
-    describe('cacheStyles', () => {
-      it('stores a styles instance variable based on the grid density', () => {
-        Object.entries(cellPaddingsMap).forEach(([densitySize, padding]) => {
-          rowHeightUtils.cacheStyles({ cellPadding: densitySize as any });
-
-          // @ts-ignore this var is private, but we're inspecting it for the sake of the unit test
-          expect(rowHeightUtils.styles).toEqual({
-            paddingTop: padding,
-            paddingBottom: padding,
-          });
-        });
-      });
-
-      it('falls back to m-sized cellPadding if gridStyle.cellPadding is undefined', () => {
-        rowHeightUtils.cacheStyles({ cellPadding: undefined });
-
-        // @ts-ignore this var is private, but we're inspecting it for the sake of the unit test
-        expect(rowHeightUtils.styles).toEqual({
-          paddingTop: 6,
-          paddingBottom: 6,
-        });
-      });
-    });
-  });
-
   describe('getHeightType', () => {
     it('returns a string enum based on rowHeightsOptions', () => {
       expect(rowHeightUtils.getHeightType(undefined)).toEqual('default');
@@ -193,13 +182,21 @@ describe('RowHeightUtils', () => {
       expect(rowHeightUtils.getHeightType({ lineCount: 3 })).toEqual(
         'lineCount'
       );
-      expect(rowHeightUtils.getHeightType({ lineCount: 0 })).toEqual(
-        'lineCount'
-      );
       expect(rowHeightUtils.getHeightType({ height: 100 })).toEqual(
         'numerical'
       );
       expect(rowHeightUtils.getHeightType(100)).toEqual('numerical');
+    });
+
+    it("returns the default height type for lineCounts of 1, as they're functionally equivalent", () => {
+      expect(rowHeightUtils.getHeightType({ lineCount: 1 })).toEqual('default');
+    });
+
+    it('falls back to a default height type for invalid lineCounts', () => {
+      expect(rowHeightUtils.getHeightType({ lineCount: 0 })).toEqual('default');
+      expect(rowHeightUtils.getHeightType({ lineCount: -1 })).toEqual(
+        'default'
+      );
     });
   });
 
@@ -222,10 +219,12 @@ describe('RowHeightUtils', () => {
       const cell = document.createElement('div');
 
       beforeEach(() => {
-        rowHeightUtils.cacheStyles({ cellPadding: 'm' });
         getComputedStyleSpy = jest
           .spyOn(window, 'getComputedStyle')
-          .mockReturnValue({ lineHeight: '24px' } as CSSStyleDeclaration);
+          .mockReturnValue({
+            lineHeight: '24px',
+            paddingTop: '6px',
+          } as CSSStyleDeclaration);
       });
 
       afterEach(() => {
@@ -239,19 +238,55 @@ describe('RowHeightUtils', () => {
           132
         ); // 5 * 24 + 6 + 6
       });
+    });
 
-      it('excludes padding calculations when the excludePadding flag is true', () => {
-        // This is primarily used for rowHeight lineCount overrides that use the height cache,
-        // which already has padding calculations built in
+    describe('isAutoBelowLineCount', () => {
+      it('returns true when the feature flag is enabled and a lineCount above 1 exists', () => {
         expect(
-          rowHeightUtils.calculateHeightForLineCount(cell, 1, true)
-        ).toEqual(24); // 1 * 24
+          rowHeightUtils.isAutoBelowLineCount(
+            { autoBelowLineCount: true },
+            { lineCount: 3 }
+          )
+        ).toEqual(true);
+      });
+
+      it('returns false if the feature flag is not enabled', () => {
         expect(
-          rowHeightUtils.calculateHeightForLineCount(cell, 3, true)
-        ).toEqual(72); // 3 * 24
+          rowHeightUtils.isAutoBelowLineCount(
+            { autoBelowLineCount: false },
+            { lineCount: 3 }
+          )
+        ).toEqual(false);
         expect(
-          rowHeightUtils.calculateHeightForLineCount(cell, 5, true)
-        ).toEqual(120); // 5 * 24
+          rowHeightUtils.isAutoBelowLineCount(undefined, { lineCount: 3 })
+        ).toEqual(false);
+      });
+
+      it('returns false if height type is not lineCount', () => {
+        expect(
+          rowHeightUtils.isAutoBelowLineCount({ autoBelowLineCount: true }, 50)
+        ).toEqual(false);
+        expect(
+          rowHeightUtils.isAutoBelowLineCount(
+            { autoBelowLineCount: true },
+            'auto'
+          )
+        ).toEqual(false);
+      });
+
+      it('returns false if lineCount is 1 (treated as single line/undefined)', () => {
+        expect(
+          rowHeightUtils.isAutoBelowLineCount(
+            { autoBelowLineCount: true },
+            { lineCount: 1 }
+          )
+        ).toEqual(false);
+        expect(
+          rowHeightUtils.isAutoBelowLineCount(
+            { autoBelowLineCount: true },
+            undefined
+          )
+        ).toEqual(false);
       });
     });
   });
@@ -267,6 +302,15 @@ describe('RowHeightUtils', () => {
         expect(
           rowHeightUtils.isAutoHeight(1, {
             defaultHeight: 'auto',
+          })
+        ).toEqual(true);
+      });
+
+      it('returns true if the conditions for `.isAutoBelowLineCount` are met', () => {
+        expect(
+          rowHeightUtils.isAutoHeight(1, {
+            autoBelowLineCount: true,
+            defaultHeight: { lineCount: 2 },
           })
         ).toEqual(true);
       });
@@ -570,10 +614,8 @@ describe('RowHeightVirtualizationUtils', () => {
 });
 
 describe('useRowHeightUtils', () => {
-  const mockArgs = {
-    gridStyles: startingStyles,
+  const mockArgs: Parameters<typeof useRowHeightUtils>[0] = {
     columns: [{ id: 'A' }, { id: 'B' }],
-    rowHeightOptions: undefined,
   };
   const mockVirtualizationArgs = {
     ...mockArgs,
@@ -632,23 +674,6 @@ describe('useRowHeightUtils', () => {
       rowHeightsOptions: { defaultHeight: 300, rowHeights: { 0: 200 } },
     });
     expect(requestAnimationFrameSpy).toHaveBeenCalledTimes(3);
-  });
-
-  it('updates internal cached styles whenever gridStyle.cellPadding changes', () => {
-    const { result, rerender } = renderHook(useRowHeightUtils, {
-      initialProps: mockArgs,
-    });
-
-    rerender({
-      ...mockArgs,
-      gridStyles: { ...startingStyles, cellPadding: 's' },
-    });
-
-    // @ts-ignore - intentionally inspecting private var for test
-    expect(result.current.styles).toEqual({
-      paddingTop: 4,
-      paddingBottom: 4,
-    });
   });
 
   it('prunes columns from the row heights cache if a column is hidden', () => {

@@ -134,14 +134,14 @@ export const useUnconstrainedHeight = ({
         rowHeightsOptions
       );
 
-      if (rowHeightOption) {
+      if (rowHeightOption && rowHeightOption !== 'auto') {
         // this row's height is known
         knownRowCount++;
         knownHeight += rowHeightUtils.getCalculatedHeight(
           rowHeightOption,
           defaultRowHeight,
           correctRowIndex,
-          rowHeightUtils.isRowHeightOverride(correctRowIndex, rowHeightsOptions)
+          rowHeightsOptions
         );
       }
     }

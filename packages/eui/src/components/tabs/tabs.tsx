@@ -9,16 +9,17 @@
 import React, {
   forwardRef,
   HTMLAttributes,
+  KeyboardEventHandler,
   PropsWithChildren,
   ReactNode,
 } from 'react';
 import classNames from 'classnames';
-import { useEuiMemoizedStyles } from '../../services';
+import { keys, useEuiMemoizedStyles } from '../../services';
 import { CommonProps } from '../common';
 import { euiTabsStyles } from './tabs.styles';
 import { EuiTabsContext } from './tabs_context';
 
-export const SIZES = ['s', 'm', 'l', 'xl'] as const;
+export const SIZES = ['s', 'm', 'l'] as const;
 export type EuiTabsSizes = (typeof SIZES)[number];
 
 export type EuiTabsProps = HTMLAttributes<HTMLDivElement> &
@@ -39,7 +40,6 @@ export type EuiTabsProps = HTMLAttributes<HTMLDivElement> &
     bottomBorder?: boolean;
     /**
      * Sizes affect both font size and overall size.
-     * Only use the `xl` size when displayed as page titles.
      */
     size?: EuiTabsSizes;
   };
@@ -67,11 +67,34 @@ export const EuiTabs = forwardRef<EuiTabRef, EuiTabsProps>(
       bottomBorder && styles.bottomBorder,
     ];
 
+    const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+      const tablist = event.currentTarget;
+      const tabs = tablist?.querySelectorAll<HTMLButtonElement>(
+        '[role="tab"]:not(:disabled, [inert])'
+      );
+      if (!tabs?.length) return;
+
+      const currentIndex = Array.from(tabs).findIndex((tab) =>
+        tab.matches(':focus')
+      );
+
+      if (event.key === keys.ARROW_LEFT) {
+        const previousIndex =
+          (currentIndex === 0 ? tabs.length : currentIndex) - 1;
+        tabs[previousIndex].focus();
+      } else if (event.key === keys.ARROW_RIGHT) {
+        const nextIndex =
+          currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+        tabs[nextIndex].focus();
+      }
+    };
+
     return (
       <div
         ref={ref}
         className={classes}
         css={cssStyles}
+        onKeyDown={handleKeyDown}
         {...(children && { role: 'tablist' })}
         {...rest}
       >

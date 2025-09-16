@@ -9,17 +9,21 @@
 import React, { HTMLAttributes, FunctionComponent, useMemo } from 'react';
 import { CommonProps, ExclusiveUnion } from '../common';
 import classNames from 'classnames';
-
-import { isColorDark, hexToRgb, isValidHex } from '../../services/color';
 import {
-  euiPaletteColorBlindBehindText,
-  toInitials,
-  useEuiMemoizedStyles,
-} from '../../services';
+  warnIfContrastBelowMin,
+  wcagContrastMin,
+} from '../../services/color/contrast';
+
+import {
+  isColorDark,
+  hexToRgb,
+  isValidHex,
+  useEuiPaletteColorBlindBehindText,
+} from '../../services/color';
+import { toInitials, useEuiMemoizedStyles, useEuiTheme } from '../../services';
 import { IconType, EuiIcon, IconSize, IconColor } from '../icon';
 
 import { euiAvatarStyles } from './avatar.styles';
-const visColors = euiPaletteColorBlindBehindText();
 
 export const SIZES = ['s', 'm', 'l', 'xl'] as const;
 export type EuiAvatarSize = (typeof SIZES)[number];
@@ -126,10 +130,14 @@ export const EuiAvatar: FunctionComponent<EuiAvatarProps> = ({
 }) => {
   checkValidInitials(initials);
   const { casing = type === 'space' ? 'none' : 'uppercase', ...rest } = props;
+  const { highContrastMode, euiTheme } = useEuiTheme();
+
+  const visColors = useEuiPaletteColorBlindBehindText();
 
   const isPlain = color === 'plain';
   const isSubdued = color === 'subdued';
   const isNamedColor = isPlain || isSubdued || color === null;
+  const isForcedColors = highContrastMode === 'forced';
 
   const classes = classNames(
     'euiAvatar',
@@ -166,28 +174,37 @@ export const EuiAvatar: FunctionComponent<EuiAvatarProps> = ({
       const textColor = isColorDark(...hexToRgb(assignedColor))
         ? '#FFFFFF'
         : '#000000';
+      warnIfContrastBelowMin(textColor, assignedColor, wcagContrastMin);
 
       return {
         backgroundColor: assignedColor,
         color: textColor,
       };
     }
-  }, [imageUrl, color, isNamedColor, name.length]);
+  }, [imageUrl, color, isNamedColor, name.length, visColors]);
+
+  const highContrastBorder = useMemo(
+    // Render a border since background-colors are ignored in Windows forced contrast themes
+    () => (isForcedColors ? { border: euiTheme.border.thin } : undefined),
+    [isForcedColors, euiTheme]
+  );
 
   const iconCustomColor = useMemo(() => {
+    // Force icons to single colors in forced high contrast mode
+    if (isForcedColors) return euiTheme.colors.fullShade;
     // `null` allows icons to keep their default color (e.g. app icons)
     if (iconColor === null) return undefined;
     // Otherwise continue to pass on `iconColor`
     if (iconColor) return iconColor;
     // Fall back to the adjusted text color if it exists
     return avatarStyle?.color;
-  }, [iconColor, avatarStyle?.color]);
+  }, [iconColor, avatarStyle?.color, isForcedColors, euiTheme]);
 
   return (
     <div
       css={cssStyles}
       className={classes}
-      style={{ ...style, ...avatarStyle }}
+      style={{ ...style, ...avatarStyle, ...highContrastBorder }}
       aria-label={isDisabled ? undefined : name}
       role={isDisabled ? 'presentation' : 'img'}
       title={name}

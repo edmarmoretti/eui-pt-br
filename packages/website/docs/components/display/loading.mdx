@@ -1,0 +1,98 @@
+---
+keywords: [EuiLoadingElastic, EuiLoadingLogo, EuiLoadingChart, EuiLoadingSpinner]
+---
+
+# Loading
+
+Use loading indicators sparingly and opt for showing actual [progress](./progress.mdx#progress-with-values) over infinite spinners. It is ok to use multiple loaders on a page if each section is progressively loaded. However, if the entire page is loaded at once, use a single, larger loading indicator.
+
+## Elastic
+
+The **EuiLoadingElastic** loader is great for full page or Elastic product loading screens.
+
+```tsx interactive
+import React from 'react';
+import { EuiLoadingElastic } from '@elastic/eui';
+
+export default () => (
+  <div>
+    <EuiLoadingElastic />
+    &emsp;
+    <EuiLoadingElastic size="l" />
+    &emsp;
+    <EuiLoadingElastic size="xl" />
+    &emsp;
+    <EuiLoadingElastic size="xxl" />
+  </div>
+);
+```
+
+## Logos
+
+**EuiLoadingLogo** accepts any of our [EuiIcon](./icons/index.mdx#elastic-logos) logos. It should only be used in very large panels, like fullscreen pages.
+
+```tsx interactive
+import React from 'react';
+import { EuiLoadingLogo } from '@elastic/eui';
+
+export default () => (
+  <div>
+    <EuiLoadingLogo />
+    &emsp;
+    <EuiLoadingLogo logo="logoObservability" size="l" />
+    &emsp;
+    <EuiLoadingLogo logo="logoSecurity" size="xl" />
+  </div>
+);
+```
+
+## Chart
+
+To indicate that a visualization is loading, use **EuiLoadingChart**.
+
+```tsx interactive
+import React from 'react';
+import { EuiLoadingChart } from '@elastic/eui';
+
+export default () => (
+  <div>
+    <EuiLoadingChart size="m" />
+    &nbsp;&nbsp;
+    <EuiLoadingChart size="l" />
+    &nbsp;&nbsp;
+    <EuiLoadingChart size="xl" />
+  </div>
+);
+```
+
+## Spinner
+
+**EuiLoadingSpinner** is a simple spinner for most loading contexts.
+
+```tsx interactive
+import React from 'react';
+import { EuiLoadingSpinner } from '@elastic/eui';
+
+export default () => (
+  <div>
+    <EuiLoadingSpinner size="s" />
+    &nbsp;&nbsp;
+    <EuiLoadingSpinner size="m" />
+    &nbsp;&nbsp;
+    <EuiLoadingSpinner size="l" />
+    &nbsp;&nbsp;
+    <EuiLoadingSpinner size="xl" />
+    &nbsp;&nbsp;
+    <EuiLoadingSpinner size="xxl" />
+  </div>
+);
+```
+
+## Props
+
+import docgen from '@elastic/eui-docgen/dist/components/loading';
+
+<PropTable definition={docgen.EuiLoadingChart} />
+<PropTable definition={docgen.EuiLoadingLogo} />
+<PropTable definition={docgen.EuiLoadingSpinner} />
+<PropTable definition={docgen.EuiLoadingElastic} />

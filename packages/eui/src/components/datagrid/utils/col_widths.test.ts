@@ -85,7 +85,7 @@ describe('doesColumnHaveAnInitialWidth', () => {
 describe('useColumnWidths', () => {
   const args = {
     leadingControlColumns: [{ id: 'a', width: 50 }] as any,
-    columns: [{ id: 'b', initialWidth: 75 }, { id: 'c ' }],
+    columns: [{ id: 'b', initialWidth: 75 }, { id: 'c' }],
     trailingControlColumns: [{ id: 'd', width: 25 }] as any,
     defaultColumnWidth: 150,
     onColumnResize: jest.fn(),

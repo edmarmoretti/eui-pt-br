@@ -9,7 +9,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { BUTTON_COLORS } from '../../themes/amsterdam/global_styling/mixins';
+import { BUTTON_COLORS } from '../../global_styling/mixins/_button';
 
 import { EuiFilterGroup } from './filter_group';
 import { EuiFilterButton, EuiFilterButtonProps } from './filter_button';
@@ -19,6 +19,7 @@ const meta: Meta<EuiFilterButtonProps> = {
   component: EuiFilterButton as any,
   argTypes: {
     color: { control: 'select', options: BUTTON_COLORS },
+    numActiveFilters: { control: 'text' },
   },
   args: {
     // Component defaults
@@ -26,6 +27,7 @@ const meta: Meta<EuiFilterButtonProps> = {
     color: 'text',
     badgeColor: 'accent',
     grow: true,
+    isToggle: false,
     isSelected: false,
     isDisabled: false,
     withNext: false,
@@ -66,31 +68,36 @@ export const MultipleButtons: Story = {
 export const FullWidthAndGrow: Story = {
   render: ({ ...args }) => (
     <EuiFilterGroup fullWidth>
-      <EuiFilterButton {...args} grow={false}>
+      <EuiFilterButton {...args} grow={false} isToggle>
         Filter
       </EuiFilterButton>
-      <EuiFilterButton {...args} withNext grow={false}>
+      <EuiFilterButton {...args} withNext grow={false} isToggle>
         On
       </EuiFilterButton>
-      <EuiFilterButton {...args} grow={false}>
+      <EuiFilterButton {...args} grow={false} isToggle>
         Off
       </EuiFilterButton>
-      <EuiFilterButton {...args} grow={false}>
+      <EuiFilterButton {...args} grow={false} isToggle>
         Off
       </EuiFilterButton>
       <EuiFilterButton
         {...args}
         iconType="arrowDown"
-        isSelected={true}
         numFilters={12}
         hasActiveFilters={true}
         numActiveFilters={2}
       >
         Selected filter
       </EuiFilterButton>
-      <EuiFilterButton {...args} numFilters={12}>
+      <EuiFilterButton {...args} numFilters={12} isToggle>
         Filter with a very long name
       </EuiFilterButton>
     </EuiFilterGroup>
   ),
+};
+
+export const HighContrast: Story = {
+  ...FullWidthAndGrow,
+  tags: ['vrt-only'],
+  globals: { highContrastMode: true },
 };

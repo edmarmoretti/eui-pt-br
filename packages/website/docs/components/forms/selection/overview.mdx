@@ -1,0 +1,166 @@
+---
+sidebar_position: 1
+---
+
+# Component comparison
+
+```mdx-code-block
+import { EuiIconTip, EuiTable, EuiTableRow, EuiTableHeader, EuiTableBody, EuiTableRowCell, EuiTableHeaderCell } from '@elastic/eui';
+```
+
+EUI currently offers over 4 ways to select an option from a list (6 including checkboxes and radios).
+
+Choosing the right selection component may seem tricky at first - with so many similar options, it can feel overwhelming figuring out which component to use. This comprehensive guide will help you decide which component to use and when, including detailed explanations and comparisons for each component.
+
+## Summary
+
+When choosing a selection component, consider these key factors:
+
+- **Number of options**: small sets (\<7) work well with radio/checkbox groups, medium sets (\<12) with [EuiSelect](./basic-select.mdx), and larger sets need search functionality.
+- **Selection type**: single vs. multiple selection requirements.
+- **Display needs**: whether you need custom option rendering or simple text options.
+- **User input**: whether users should be able to add custom values.
+- **Accessibility**: native components ([EuiSelect](./basic-select.mdx), radio/checkbox groups) are generally more accessible.
+- **Visual layout**: horizontal pills ([EuiComboBox](./combo-box.mdx)) vs. vertical lists ([EuiSelectable](./selectable.mdx)).
+
+For most use cases, start with the simpler native components ([EuiSelect](./basic-select.mdx), [EuiRadioGroup](./radio-and-radio-group.mdx#radio-group), [EuiCheckboxGroup](./checkbox-and-checkbox-group.mdx#checkbox-group)) and only move to more complex components when you need their specific features.
+
+## Which selection component should I use?
+
+The following decision tree will help you choose the right component based on your specific needs.
+
+### Single selection
+
+- When you have a small set of options (\<7) and all options are equally important in terms of visibility, use [EuiRadioGroup](./radio-and-radio-group.mdx#radio-group).
+- When you have a small set of options (\<12) and only the current selected option has UI importance, reach for [EuiSelect](./basic-select.mdx) first when possible, over other more complex selection components.
+    - **EuiSelect** renders a basic HTML `<select>` element, providing the best cross-browser and cross-device affordances (particularly for mobile devices).
+    - Native form controls are more familiar to end users due to their ubiquity across the internet.
+- When you have a small set of options (\<12) _and_ if you need to customize how the options are rendered and selected, use [EuiSuperSelect](./super-select.mdx).
+    - **EuiSuperSelect** gives you control over option display through the `dropdownDisplay` prop, allowing for multi-line option text or descriptions.
+    - We recommend reaching for **EuiSuperSelect** only if custom option display is absolutely necessary, as **EuiSelect** is natively more accessible.
+- Large sets of options (\>12) should use a selection component that supports searching/filtering options. This requires the use of one of the more advanced multiselect components with `singleSelection` set.
+
+### Multiple selections
+
+- When you have a small set of options (\<7), and all options are equally important in terms of visibility, use [EuiCheckboxGroup](./checkbox-and-checkbox-group.mdx#checkbox-group).
+- In general, we recommend using [EuiSelectable](./selectable.mdx) for most multi-selection purposes. It renders a searchable, vertically-oriented list with icons next to the option representing selection state.
+    - **EuiSelectable** can optionally be rendered with a search box for filtering through many options, or as just a list for fewer options.
+    - **EuiSelectable** is by far our most accessible and flexible selection component (although customization may require extra development). It can be used within popovers and flyouts, or as a standalone list.
+    - If you need the ability to exclude options, **EuiSelectable** is the only component that offers that functionality.
+- In general, for multi-select scenarios, we recommend using [EuiComboBox](./combo-box.mdx) over [EuiSelectable](./selectable.mdx) primarily when selections should be immediately visible and unselected options should not. Selections are rendered as a horizontally-oriented list of pills.
+    - **EuiComboBox** allows users to search through a list of dropdown options. This functionality is core to the component and cannot be removed, unlike **EuiSelectable**.
+    - If you need the ability to dynamically add custom user-generated input outside of the available options, **EuiComboBox** is the only component that offers that functionality.
+
+## Feature comparison chart
+
+Below is a handy reference for comparing the selection components.
+
+```mdx-code-block
+export const tooltipProps = {
+  anchorProps: { css: { position: 'absolute', marginBlockStart: -1 } },
+  color: 'subdued',
+};
+```
+
+<EuiTable>
+  <EuiTableHeader>
+    <EuiTableHeaderCell>Feature</EuiTableHeaderCell>
+    <EuiTableHeaderCell align="center">[EuiSelect](./basic-select.mdx)</EuiTableHeaderCell>
+    <EuiTableHeaderCell align="center">[EuiSuperSelect](./super-select.mdx)</EuiTableHeaderCell>
+    <EuiTableHeaderCell align="center">[EuiSelectable](./selectable.mdx)</EuiTableHeaderCell>
+    <EuiTableHeaderCell align="center">[EuiComboBox](./combo-box.mdx)</EuiTableHeaderCell>
+  </EuiTableHeader>
+  <EuiTableBody>
+    <EuiTableRow>
+      <EuiTableRowCell>Select a single option</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Select multiple options</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Accepts custom values from user input</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Option exclusion</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Customizable option display</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Customizable loading/error messages</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Searchable</EuiTableRowCell>
+      <EuiTableRowCell align="center">
+        ❌&nbsp;<EuiIconTip type="info" content="Native select behavior will jump to options based on user typing" {...tooltipProps} />
+      </EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>`disabled` state</EuiTableRowCell>
+      <EuiTableRowCell align="center">
+        ✅&nbsp;<EuiIconTip type="info" content="Disables whole component" {...tooltipProps} />
+      </EuiTableRowCell>
+      <EuiTableRowCell align="center">
+        ✅&nbsp;<EuiIconTip type="info" content="Disables individual option" {...tooltipProps} />
+      </EuiTableRowCell>
+      <EuiTableRowCell align="center">
+        ✅&nbsp;<EuiIconTip type="info" content="Disables individual option" {...tooltipProps} />
+      </EuiTableRowCell>
+      <EuiTableRowCell align="center">
+        ✅&nbsp;<EuiIconTip type="info" content="Disables whole component" {...tooltipProps} />
+      </EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>`readOnly` state</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Built in utility function for clearing user input</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">
+        ✅&nbsp;<EuiIconTip type="info" content="Clears search input" {...tooltipProps} />
+      </EuiTableRowCell>
+      <EuiTableRowCell align="center">
+        ✅&nbsp;<EuiIconTip type="info" content="Clears all selections" {...tooltipProps} />
+      </EuiTableRowCell>
+    </EuiTableRow>
+    <EuiTableRow>
+      <EuiTableRowCell>Supports virtualization</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">❌</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+      <EuiTableRowCell align="center">✅</EuiTableRowCell>
+    </EuiTableRow>
+  </EuiTableBody>
+</EuiTable>

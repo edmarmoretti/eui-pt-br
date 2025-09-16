@@ -131,16 +131,18 @@ const hasStep = (step) => {
     // Update version switcher data and changelog
     if (!isSpecialRelease) {
       updateDocsVersionSwitcher(versionTarget);
-
-      // TODO: Remove this once EUI is fully on the new website and src-docs has been removed
-      const oldEuiDocsVersions = cwd + '/src-docs/src/components/guide_page/versions.json';
-      updateDocsVersionSwitcher(versionTarget, oldEuiDocsVersions);
     }
     updateChangelog(changelog, versionTarget);
     execSync('git commit -m "Updated changelog" -n');
 
     // Update version number
     execSync(`yarn version ${versionTarget}`, execOptions);
+    // `yarn version` sometimes has a bug with the suffixed releases (e.g. `-backport.*`)
+    // where it doesn't properly set the version target. Running the command twice in a row
+    // appears to fix the issue for some reason ¯\_(ツ)_/¯
+    if (isSpecialRelease) {
+      execSync(`yarn version ${versionTarget}`, execOptions);
+    }
 
     // Commit version number update
     execSync('git add package.json', execOptions);

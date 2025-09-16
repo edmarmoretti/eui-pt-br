@@ -12,6 +12,7 @@ export {
   EuiNestedThemeContext,
   EuiModificationsContext,
   EuiColorModeContext,
+  EuiHighContrastModeContext,
 } from './context';
 export type { UseEuiTheme, WithEuiThemeProps } from './hooks';
 export {
@@ -19,6 +20,7 @@ export {
   withEuiTheme,
   RenderWithEuiTheme,
   useEuiThemeCSSVariables,
+  useIsDarkMode,
 } from './hooks';
 export type { EuiThemeProviderProps } from './provider';
 export { EuiThemeProvider } from './provider';
@@ -44,9 +46,12 @@ export type {
   ComputedThemeShape,
   EuiThemeColorMode,
   EuiThemeColorModeStandard,
+  EuiThemeHighContrastMode,
+  EuiThemeHighContrastModeProp,
   EuiThemeComputed,
   EuiThemeModifications,
   EuiThemeShape,
   EuiThemeSystem,
 } from './types';
 export { COLOR_MODES_STANDARD } from './types';
+export * from './theme_variant';

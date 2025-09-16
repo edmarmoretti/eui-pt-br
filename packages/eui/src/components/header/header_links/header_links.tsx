@@ -17,7 +17,7 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 
-import { useEuiTheme } from '../../../services';
+import { useEuiMemoizedStyles } from '../../../services';
 import { CommonProps } from '../../common';
 import { EuiIcon, IconType } from '../../icon';
 import { EuiPopover, EuiPopoverProps } from '../../popover';
@@ -31,7 +31,7 @@ import { EuiHideFor, EuiShowFor } from '../../responsive';
 
 import { euiHeaderLinksStyles } from './header_links.styles';
 
-export const GUTTER_SIZES = ['xs', 's', 'm', 'l'] as const;
+export const GUTTER_SIZES = ['xxs', 'xs', 's', 'm', 'l'] as const;
 type EuiHeaderLinksGutterSize = (typeof GUTTER_SIZES)[number];
 
 type EuiHeaderLinksPopoverButtonProps =
@@ -76,8 +76,7 @@ export const EuiHeaderLinks: FunctionComponent<EuiHeaderLinksProps> = ({
   popoverProps,
   ...rest
 }) => {
-  const euiTheme = useEuiTheme();
-  const styles = euiHeaderLinksStyles(euiTheme);
+  const styles = useEuiMemoizedStyles(euiHeaderLinksStyles);
 
   const {
     onClick,
@@ -110,20 +109,6 @@ export const EuiHeaderLinks: FunctionComponent<EuiHeaderLinksProps> = ({
 
   const classes = classNames('euiHeaderLinks', className);
 
-  const button = (
-    <EuiI18n token="euiHeaderLinks.openNavigationMenu" default="Open menu">
-      {(openNavigationMenu: string) => (
-        <EuiHeaderSectionItemButton
-          aria-label={openNavigationMenu}
-          onClick={onMenuButtonClick}
-          {...popoverButtonRest}
-        >
-          <EuiIcon type={iconType} size="m" />
-        </EuiHeaderSectionItemButton>
-      )}
-    </EuiI18n>
-  );
-
   const renderedChildren =
     typeof children === 'function' ? children(closeMenu) : children;
 
@@ -150,11 +135,26 @@ export const EuiHeaderLinks: FunctionComponent<EuiHeaderLinksProps> = ({
 
           <EuiShowFor sizes={popoverBreakpoints}>
             <EuiPopover
-              button={button}
+              button={
+                <EuiI18n
+                  token="euiHeaderLinks.openNavigationMenu"
+                  default="Open menu"
+                >
+                  {(openNavigationMenu: string) => (
+                    <EuiHeaderSectionItemButton
+                      aria-label={openNavigationMenu}
+                      onClick={onMenuButtonClick}
+                      {...popoverButtonRest}
+                    >
+                      <EuiIcon type={iconType} size="m" />
+                    </EuiHeaderSectionItemButton>
+                  )}
+                </EuiI18n>
+              }
               isOpen={mobileMenuIsOpen}
               anchorPosition="downRight"
               closePopover={closeMenu}
-              panelPaddingSize="none"
+              panelPaddingSize="s"
               repositionOnScroll
               {...popoverProps}
             >

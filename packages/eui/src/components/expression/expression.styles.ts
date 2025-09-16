@@ -16,6 +16,7 @@ import {
   euiTextTruncate,
   mathWithUnits,
 } from '../../global_styling';
+import { highContrastModeStyles } from '../../global_styling/functions/high_contrast';
 import { transparentize } from '../../services/color';
 import { UseEuiTheme } from '../../services';
 
@@ -34,17 +35,13 @@ export const euiExpressionStyles = (euiThemeContext: UseEuiTheme) => {
       ${euiTextBreakWord()}
       display: inline-block;
       font-family: ${euiTheme.font.familyCode};
-      ${logicalCSS(
-        'border-bottom',
-        `${euiTheme.border.width.thick} solid transparent`
-      )}
       ${euiFontSize(euiThemeContext, 's')}
       ${logicalTextAlignCSS('left')}
       ${logicalShorthandCSS(
         'padding',
         `${mathWithUnits(euiTheme.size.s, (x) => x / 2)} 0`
       )}
-      color: ${euiTheme.colors.text};
+      color: ${euiTheme.colors.textParagraph};
 
       &:focus {
         ${logicalCSS('border-bottom-style', 'solid')}
@@ -57,15 +54,17 @@ export const euiExpressionStyles = (euiThemeContext: UseEuiTheme) => {
 
     // Variants
     columns: css`
-      border-color: transparent;
-      /* Ensures there's no flash of the dashed style before turning solid for the active state */
-      ${logicalCSS('border-bottom-style', 'solid')}
-      ${logicalCSS('margin-bottom', euiTheme.size.xs)}
-
-      ${logicalCSS('width', '100%')}
       display: flex;
+      ${logicalCSS('width', '100%')}
+      ${logicalCSS('margin-bottom', euiTheme.size.xs)}
       padding: ${euiTheme.size.xs};
-      border-radius: ${euiTheme.size.xs};
+      ${highContrastModeStyles(euiThemeContext, {
+        // Render the bottom border in high contrast mode for extra visibility
+        none: `
+          border-radius: ${euiTheme.size.xs};
+          border-color: transparent;
+        `,
+      })}
     `,
 
     truncate: css`
@@ -96,7 +95,7 @@ export const euiExpressionStyles = (euiThemeContext: UseEuiTheme) => {
         ${logicalCSS('border-bottom-style', 'solid')}
       `,
       subdued: css`
-        border-color: ${euiTheme.colors.subduedText};
+        border-color: ${euiTheme.colors.textSubdued};
       `,
       primary: css`
         border-color: ${euiTheme.colors.primary};
@@ -115,12 +114,12 @@ export const euiExpressionStyles = (euiThemeContext: UseEuiTheme) => {
       `,
     },
 
-    subdued: css(_colorCSS(euiTheme.colors.subduedText)),
-    primary: css(_colorCSS(euiTheme.colors.primaryText)),
-    success: css(_colorCSS(euiTheme.colors.successText)),
-    warning: css(_colorCSS(euiTheme.colors.warningText)),
-    danger: css(_colorCSS(euiTheme.colors.dangerText)),
-    accent: css(_colorCSS(euiTheme.colors.accentText)),
+    subdued: css(_colorCSS(euiTheme.colors.textSubdued)),
+    primary: css(_colorCSS(euiTheme.colors.textPrimary)),
+    success: css(_colorCSS(euiTheme.colors.textSuccess)),
+    warning: css(_colorCSS(euiTheme.colors.textWarning)),
+    danger: css(_colorCSS(euiTheme.colors.textDanger)),
+    accent: css(_colorCSS(euiTheme.colors.textAccent)),
   };
 };
 
@@ -133,22 +132,22 @@ export const euiExpressionDescriptionStyles = ({ euiTheme }: UseEuiTheme) => {
       vertical-align: bottom;
     `,
     subdued: css`
-      color: ${euiTheme.colors.subduedText};
+      color: ${euiTheme.colors.textSubdued};
     `,
     primary: css`
-      color: ${euiTheme.colors.primaryText};
+      color: ${euiTheme.colors.textPrimary};
     `,
     success: css`
-      color: ${euiTheme.colors.successText};
+      color: ${euiTheme.colors.textSuccess};
     `,
     warning: css`
-      color: ${euiTheme.colors.warningText};
+      color: ${euiTheme.colors.textWarning};
     `,
     danger: css`
-      color: ${euiTheme.colors.dangerText};
+      color: ${euiTheme.colors.textDanger};
     `,
     accent: css`
-      color: ${euiTheme.colors.accentText};
+      color: ${euiTheme.colors.textAccent};
     `,
     isUppercase: css`
       text-transform: uppercase;
@@ -161,18 +160,16 @@ export const euiExpressionDescriptionStyles = ({ euiTheme }: UseEuiTheme) => {
   };
 };
 
-export const euiExpressionValueStyles = ({}: UseEuiTheme) => {
-  return {
-    euiExpression__value: css``,
-    truncate: css`
-      ${euiTextTruncate()}
-      display: inline-block;
-      vertical-align: bottom;
-    `,
-    columns: css`
-      flex-grow: 1;
-    `,
-  };
+export const euiExpressionValueStyles = {
+  euiExpression__value: css``,
+  truncate: css`
+    ${euiTextTruncate()}
+    display: inline-block;
+    vertical-align: bottom;
+  `,
+  columns: css`
+    flex-grow: 1;
+  `,
 };
 
 export const euiExpressionIconStyles = ({ euiTheme }: UseEuiTheme) => {

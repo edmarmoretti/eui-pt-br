@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, JSX } from 'react';
 import { translate } from '@docusaurus/Translate';
 import type { Props } from '@theme-original/ColorModeToggle';
 
@@ -17,20 +17,20 @@ function ColorModeToggle({
   onChange,
   ...rest
 }: WrappedProps): JSX.Element {
-  const { theme, changeTheme } = useContext(AppThemeContext);
+  const { colorMode, changeColorMode } = useContext(AppThemeContext);
 
   useEffect(() => {
-    changeTheme(value);
+    changeColorMode(value);
   }, []);
 
-  const handleOnChange = (themeName: EuiThemeColorMode) => {
-    changeTheme(themeName);
-    onChange?.(themeName);
+  const handleOnChange = (colorMode: EuiThemeColorMode) => {
+    changeColorMode(colorMode);
+    onChange?.(colorMode);
   };
 
   return (
     <OriginalColorModeToggle
-      value={theme}
+      value={colorMode}
       onChange={handleOnChange}
       {...rest}
     />

@@ -2,7 +2,8 @@
 
 exports[`EuiDataGridHeaderCell renders 1`] = `
 <div
-  class="euiDataGridHeaderCell euiDataGridHeaderCell--numeric euiDataGridHeaderCell--hasColumnActions"
+  aria-describedby="euiDataGridCellHeader_generated-id_sorting"
+  class="euiDataGridHeaderCell euiDataGridHeaderCell--numeric euiDataGridHeaderCell--hasColumnActions emotion-euiDataGridHeaderCell"
   data-gridcell-column-id="someColumn"
   data-gridcell-column-index="0"
   data-gridcell-row-index="-1"
@@ -13,45 +14,40 @@ exports[`EuiDataGridHeaderCell renders 1`] = `
   tabindex="-1"
 >
   <div
-    class="euiDataGridColumnResizer"
+    class="euiDataGridColumnResizer emotion-euiDataGridColumnResizer-isLastColumn"
     data-test-subj="dataGridColumnResizer"
-    style="margin-right: 0px;"
   />
-  <button
-    aria-describedby="euiDataGridCellHeader_generated-id_sorting euiDataGridCellHeader_generated-id_actions"
-    class="euiDataGridHeaderCell__button"
-    data-euigrid-tab-managed="true"
-    data-test-subj="dataGridHeaderCellActionButton-someColumn"
-    tabindex="-1"
+  <div
+    class="euiDataGridHeaderCell__content emotion-euiDataGridHeaderCell__content-right"
+    title="someColumn"
   >
-    <div
-      class="euiDataGridHeaderCell__content"
-      title="someColumn"
-    >
-      someColumn
-    </div>
-    <div
-      class="euiPopover emotion-euiPopover-block-EuiDataGridHeaderCell"
-    >
-      <div
-        class="euiDataGridHeaderCell__icon"
-      >
-        <span
-          color="text"
-          data-euiicon-type="boxesVertical"
-        />
-      </div>
-    </div>
-  </button>
-  <p
-    hidden=""
-    id="euiDataGridCellHeader_generated-id_sorting"
-  />
-  <p
-    hidden=""
-    id="euiDataGridCellHeader_generated-id_actions"
+    someColumn
+  </div>
+  <div
+    class="euiPopover emotion-euiPopover-block-euiDataGridHeaderCell__popover"
   >
-    Click to view column header actions
-  </p>
+    <button
+      aria-label="Press the Enter key to view this column's actions"
+      class="euiButtonIcon euiDataGridHeaderCell__button emotion-euiButtonIcon-xs-empty-text-euiDataGridHeaderCell__actions"
+      data-euigrid-tab-managed="true"
+      data-test-subj="dataGridHeaderCellActionButton-someColumn"
+      tabindex="-1"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+        class="euiButtonIcon__icon"
+        color="inherit"
+        data-euiicon-type="boxesVertical"
+      />
+    </button>
+  </div>
+  <span
+    aria-hidden="true"
+    class="euiScreenReaderOnly"
+    data-tabular-copy-marker="newline"
+  >
+    ↵
+  </span>
 </div>
 `;

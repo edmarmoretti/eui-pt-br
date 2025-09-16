@@ -12,10 +12,10 @@ exports[`EuiColorPicker color empty string 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -35,10 +35,10 @@ exports[`EuiColorPicker color empty string 1`] = `
         value=""
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -64,10 +64,10 @@ exports[`EuiColorPicker color null 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -87,10 +87,10 @@ exports[`EuiColorPicker color null 1`] = `
         value=""
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -116,10 +116,10 @@ exports[`EuiColorPicker color valid string 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -138,10 +138,10 @@ exports[`EuiColorPicker color valid string 1`] = `
         value="#FFFFFF"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -167,10 +167,10 @@ exports[`EuiColorPicker compressed 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-compressed-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -189,10 +189,10 @@ exports[`EuiColorPicker compressed 1`] = `
         value="#FFEEDD"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-compressed-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -218,10 +218,10 @@ exports[`EuiColorPicker disabled 1`] = `
       style="--euiFormControlLeftIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left-disabled"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -257,10 +257,10 @@ exports[`EuiColorPicker fullWidth 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -279,10 +279,10 @@ exports[`EuiColorPicker fullWidth 1`] = `
         value="#FFEEDD"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -313,19 +313,17 @@ exports[`EuiColorPicker inline 1`] = `
         class="euiSaturation__saturation emotion-euiSaturation__saturation"
       />
     </div>
-    <button
-      aria-describedby="generated-id-instructions"
-      aria-label="#ffeedd"
-      aria-roledescription="HSV color mode saturation and value 2-axis slider"
-      class="euiSaturation__indicator emotion-euiSaturation__indicator"
-      id="generated-id-saturationIndicator"
-      style="inset-inline-start: 0; inset-block-start: 0;"
-    />
     <span
-      aria-live="assertive"
-      hidden=""
+      class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-euiSaturation__tooltip"
+      style="inset-inline-start: 0; inset-block-start: 0;"
     >
-      #ffeedd
+      <button
+        aria-describedby="generated-id-instructions"
+        aria-label="Select a color"
+        aria-roledescription="HSV color mode saturation and value 2-axis slider."
+        class="euiSaturation__indicator emotion-euiSaturation__indicator"
+        id="generated-id-saturationIndicator"
+      />
     </span>
     <span
       hidden=""
@@ -343,104 +341,153 @@ exports[`EuiColorPicker inline 1`] = `
     >
       Select the HSV color mode 'hue' value
     </label>
-    <p
-      aria-live="polite"
-      class="emotion-euiScreenReaderOnly"
+    <span
+      class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-euiHue__tooltip"
     >
-      #ffeedd
-    </p>
-    <input
-      class="euiHue__range emotion-euiHue__range"
-      id="undefined-hue"
-      max="359"
-      min="0"
-      step="1"
-      type="range"
-      value="30"
-    />
+      <input
+        aria-roledescription="Hue slider"
+        aria-valuetext="Hue 30°"
+        class="euiHue__range emotion-euiHue__range"
+        id="undefined-hue"
+        max="359"
+        min="0"
+        step="1"
+        type="range"
+        value="30"
+      />
+    </span>
   </div>
+  <p
+    aria-atomic="true"
+    aria-live="polite"
+    class="emotion-euiScreenReaderOnly"
+  >
+    Selected color
+    : 
+    #FFEEDD
+  </p>
   <ul
     class="euiColorPicker__swatches emotion-euiColorPicker__swatches"
   >
     <li>
-      <button
-        aria-label="Select #54B399 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(84, 179, 153);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #16C5C0 as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(22, 197, 192);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #6092C0 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(96, 146, 192);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #A6EDEA as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(166, 237, 234);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #D36086 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(211, 96, 134);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #61A2FF as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(97, 162, 255);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #9170B8 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(145, 112, 184);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #BFDBFF as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(191, 219, 255);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #CA8EAE as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(202, 142, 174);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #EE72A6 as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(238, 114, 166);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #D6BF57 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(214, 191, 87);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #FFC7DB as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(255, 199, 219);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #B9A888 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(185, 168, 136);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #F6726A as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(246, 114, 106);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #DA8B45 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(218, 139, 69);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #FFC9C2 as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(255, 201, 194);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #AA6556 as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(170, 101, 86);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #EAAE01 as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(234, 174, 1);"
+          type="button"
+        />
+      </span>
     </li>
     <li>
-      <button
-        aria-label="Select #E7664C as the color"
-        class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
-        style="background: rgb(231, 102, 76);"
-        type="button"
-      />
+      <span
+        class="euiToolTipAnchor  emotion-euiToolTipAnchor-inlineBlock-tooltip"
+      >
+        <button
+          aria-label="Select #FCD883 as the color"
+          class="euiColorPickerSwatch emotion-euiColorPickerSwatch"
+          style="background: rgb(252, 216, 131);"
+          type="button"
+        />
+      </span>
     </li>
   </ul>
 </div>
@@ -458,10 +505,10 @@ exports[`EuiColorPicker isClearable 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 2;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -480,20 +527,20 @@ exports[`EuiColorPicker isClearable 1`] = `
         value="#FFEEDD"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <button
           aria-label="Clear input"
-          class="euiFormControlLayoutClearButton"
+          class="euiFormControlLayoutClearButton emotion-euiFormControlLayoutClearButton"
           type="button"
         >
           <span
-            class="euiFormControlLayoutClearButton__icon"
+            class="euiFormControlLayoutClearButton__icon emotion-euiFormControlLayoutClearButton__icon-m"
             data-euiicon-type="cross"
           />
         </button>
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -519,10 +566,10 @@ exports[`EuiColorPicker placeholder 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -542,10 +589,10 @@ exports[`EuiColorPicker placeholder 1`] = `
         value=""
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -570,7 +617,7 @@ exports[`EuiColorPicker prepend and append 1`] = `
       class="euiFormControlLayout__prepend emotion-euiFormControlLayout__side-prepend"
     >
       <label
-        class="euiFormLabel"
+        class="euiFormLabel emotion-euiFormLabel"
       >
         prepend
       </label>
@@ -580,10 +627,10 @@ exports[`EuiColorPicker prepend and append 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -602,10 +649,10 @@ exports[`EuiColorPicker prepend and append 1`] = `
         value="#FFEEDD"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -619,7 +666,7 @@ exports[`EuiColorPicker prepend and append 1`] = `
       class="euiFormControlLayout__append emotion-euiFormControlLayout__side-append"
     >
       <label
-        class="euiFormLabel"
+        class="euiFormLabel emotion-euiFormLabel"
       >
         append
       </label>
@@ -640,10 +687,10 @@ exports[`EuiColorPicker readOnly 1`] = `
       style="--euiFormControlLeftIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -679,10 +726,10 @@ exports[`EuiColorPicker renders 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -701,10 +748,10 @@ exports[`EuiColorPicker renders 1`] = `
         value="#FFEEDD"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"
@@ -730,10 +777,10 @@ exports[`EuiColorPicker showAlpha 1`] = `
       style="--euiFormControlLeftIconsCount: 1; --euiFormControlRightIconsCount: 1;"
     >
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--left euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-left"
       >
         <span
-          class="euiFormControlLayoutCustomIcon emotion-euiColorPicker__swatchInputIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon-euiColorPicker__swatchInputIcon"
         >
           <span
             aria-hidden="true"
@@ -752,10 +799,10 @@ exports[`EuiColorPicker showAlpha 1`] = `
         value="#FFEEDD"
       />
       <div
-        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right euiFormControlLayoutIcons--absolute"
+        class="euiFormControlLayoutIcons emotion-euiFormControlLayoutIcons-absolute-right"
       >
         <span
-          class="euiFormControlLayoutCustomIcon"
+          class="euiFormControlLayoutCustomIcon emotion-euiFormControlLayoutCustomIcon"
         >
           <span
             aria-hidden="true"

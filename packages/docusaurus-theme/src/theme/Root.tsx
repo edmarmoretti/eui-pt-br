@@ -14,12 +14,13 @@ import {
 } from 'react';
 import Head from '@docusaurus/Head';
 import { Props } from '@theme/Root';
-import { css, Global } from '@emotion/react';
-import { _EuiThemeFontScale, useEuiTheme } from '@elastic/eui';
-import '@elastic/eui/dist/eui_theme_light.css';
+import { CacheProvider, css, Global } from '@emotion/react';
+import { useEuiTheme } from '@elastic/eui';
 
-import { AppThemeProvider } from '../components/theme_context';
+import { AppThemeProvider, cssGlobalCache } from '../components/theme_context';
 import { getGlobalStyles } from './Root.styles';
+import { getResetStyles } from './reset.styles';
+import { getInfimaStyles } from './infima.styles';
 
 const styles = {
   root: css`
@@ -33,6 +34,8 @@ const _Root: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [mounted, setMounted] = useState(false);
   const euiTheme = useEuiTheme();
   const globalStyles = getGlobalStyles(euiTheme);
+  const resetStyles = getResetStyles(euiTheme);
+  const infimaStyles = getInfimaStyles();
 
   // NOTE: This is a temp. solution
   // Emotion styles are loaded dynamically on client in contrast
@@ -54,7 +57,9 @@ const _Root: FunctionComponent<PropsWithChildren> = ({ children }) => {
           rel="stylesheet"
         />
       </Head>
-      <Global styles={globalStyles} />
+      <CacheProvider value={cssGlobalCache}>
+        <Global styles={[resetStyles, infimaStyles, globalStyles]} />
+      </CacheProvider>
       <div style={!mounted ? { display: 'none' } : undefined} css={styles.root}>
         {children}
       </div>

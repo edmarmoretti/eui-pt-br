@@ -19,16 +19,24 @@ import { EuiPanel } from '../panel';
 import { EuiSpacer } from '../spacer';
 import { EuiTitle } from '../title';
 import { EuiI18n } from '../i18n';
+import { EuiLiveAnnouncer } from '../accessibility/live_announcer';
 
 import { euiCallOutStyles, euiCallOutHeaderStyles } from './call_out.styles';
 
-export const COLORS = ['primary', 'success', 'warning', 'danger'] as const;
+export const COLORS = [
+  'primary',
+  'success',
+  'warning',
+  'danger',
+  'accent',
+] as const;
 export type Color = (typeof COLORS)[number];
 
 export const HEADINGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'] as const;
-type Heading = (typeof HEADINGS)[number];
+export type Heading = (typeof HEADINGS)[number];
 
-type Size = 's' | 'm';
+export const SIZES = ['s', 'm'] as const;
+export type Size = (typeof SIZES)[number];
 
 export type EuiCallOutProps = CommonProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'color'> & {
@@ -45,6 +53,13 @@ export type EuiCallOutProps = CommonProps &
      * removing the callout or other actions.
      */
     onDismiss?: () => void;
+    /**
+     * Enables the content to be read by screen readers on mount.
+     * Use this for callouts that are shown based on a user action.
+     *
+     * @default false
+     */
+    announceOnMount?: boolean;
   };
 
 export const EuiCallOut = forwardRef<HTMLDivElement, EuiCallOutProps>(
@@ -58,6 +73,7 @@ export const EuiCallOut = forwardRef<HTMLDivElement, EuiCallOutProps>(
       className,
       heading = 'p',
       onDismiss,
+      announceOnMount = false,
       ...rest
     },
     ref
@@ -164,6 +180,12 @@ export const EuiCallOut = forwardRef<HTMLDivElement, EuiCallOutProps>(
             </>
           )
         }
+        {announceOnMount && (title || children) && (
+          <EuiLiveAnnouncer>
+            {title && `${title}, `}
+            {children}
+          </EuiLiveAnnouncer>
+        )}
       </EuiPanel>
     );
   }

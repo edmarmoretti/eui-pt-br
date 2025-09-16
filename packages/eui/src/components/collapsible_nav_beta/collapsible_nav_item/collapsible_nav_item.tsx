@@ -9,6 +9,7 @@
 import React, {
   FunctionComponent,
   HTMLAttributes,
+  MouseEventHandler,
   ReactNode,
   useContext,
   useMemo,
@@ -42,26 +43,31 @@ export type _SharedEuiCollapsibleNavItemProps = HTMLAttributes<HTMLElement> &
     isSelected?: boolean;
   };
 
-export type EuiCollapsibleNavItemProps = _SharedEuiCollapsibleNavItemProps & {
-  /**
-   * Required text to render as the nav item title
-   */
-  title: string;
-  /**
-   * Allows customizing the title element.
-   * Consider using a heading element for better accessibility.
-   * Defaults to an unsemantic `span` or `div`, depending on context.
-   */
-  titleElement?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | 'div';
-  /**
-   * Optional icon to render to the left of title content
-   */
-  icon?: IconType;
-  /**
-   * Optional props to pass to the title icon
-   */
-  iconProps?: Partial<EuiIconProps>;
-} & ExclusiveUnion<
+export type EuiCollapsibleNavItemProps = _SharedEuiCollapsibleNavItemProps &
+  ExclusiveUnion<
+    {
+      /**
+       * Required text to render as the nav item title
+       */
+      title: string;
+      /**
+       * Allows customizing the title element.
+       * Consider using a heading element for better accessibility.
+       * Defaults to an unsemantic `span` or `div`, depending on context.
+       */
+      titleElement?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | 'div';
+      /**
+       * Optional icon to render to the left of title content
+       */
+      icon?: IconType;
+      /**
+       * Optional props to pass to the title icon
+       */
+      iconProps?: Partial<EuiIconProps>;
+    },
+    {}
+  > &
+  ExclusiveUnion<
     {
       /**
        * The nav item link.
@@ -82,7 +88,7 @@ export type EuiCollapsibleNavItemProps = _SharedEuiCollapsibleNavItemProps & {
       /**
        * Will render either an accordion or group of nested child item links.
        *
-       * Accepts any #EuiCollapsibleNavItemProps. Or, to render completely custom
+       * Accepts any {@link EuiCollapsibleNavItemProps}. Or, to render completely custom
        * subitem content, pass an object with a `renderItem` callback.
        */
       items: EuiCollapsibleNavSubItemProps[];
@@ -103,7 +109,16 @@ export type EuiCollapsibleNavItemProps = _SharedEuiCollapsibleNavItemProps & {
   >;
 
 export type EuiCollapsibleNavCustomSubItem = {
-  renderItem: () => ReactNode;
+  renderItem: (options: {
+    /**
+     * When the side nav is collapsed on larger screens, the menu appears in an EuiPopover.
+     * When the sidenav is collapsed on smaller screens, the menu appears in an EuiFlyout.
+     *
+     * Use this handler to close either the portalled flyout or popover, depending on which is present.
+     * If the handler is not defined, it means there is no portal onscreen to close.
+     */
+    closePortals?: MouseEventHandler;
+  }) => ReactNode;
 };
 
 export type EuiCollapsibleNavSubItemProps = ExclusiveUnion<
@@ -140,7 +155,7 @@ const EuiCollapsibleNavItemDisplay: FunctionComponent<
   children, // Ensure children isn't spread
   ...props
 }) => {
-  const headerContent = (
+  const headerContent = title != null && (
     <EuiCollapsibleNavItemTitle
       title={title}
       titleElement={titleElement}
@@ -150,7 +165,7 @@ const EuiCollapsibleNavItemDisplay: FunctionComponent<
   );
 
   if (items) {
-    if (isCollapsible) {
+    if (title != null && isCollapsible) {
       return (
         <EuiCollapsibleNavAccordion
           buttonContent={headerContent}
@@ -212,7 +227,7 @@ export const EuiCollapsibleNavItemTitle: FunctionComponent<
       )}
 
       <TitleElement
-        className="euiCollapsibleNavItem__title eui-textTruncate"
+        className="euiCollapsibleNavItem__title"
         css={styles.euiCollapsibleNavItem__title}
       >
         {title}
@@ -229,9 +244,10 @@ export const EuiCollapsibleNavSubItem: FunctionComponent<
   EuiCollapsibleNavSubItemProps
 > = ({ renderItem, className, ...props }) => {
   const classes = classNames('euiCollapsibleNavSubItem', className);
+  const { closePortals } = useContext(EuiCollapsibleNavContext);
 
   if (renderItem) {
-    return <>{renderItem()}</>;
+    return <>{renderItem({ closePortals })}</>;
   }
 
   return (

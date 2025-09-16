@@ -6,53 +6,53 @@
  * Side Public License, v 1.
  */
 
-import {
-  UseEuiTheme,
-  makeHighContrastColor,
-  euiPaletteColorBlind,
-} from '../../services';
+import { UseEuiTheme } from '../../services';
 
-const visColors = euiPaletteColorBlind();
+export const euiCodeTextColors = ({ euiTheme }: UseEuiTheme) => {
+  return {
+    backgroundColor: euiTheme.components.codeBackground,
+    color: euiTheme.components.codeColor,
+  };
+};
 
-// These variables are computationally expensive - do not call them outside `useEuiMemoizedStyles`
-export const euiCodeSyntaxVariables = ({ euiTheme }: UseEuiTheme) => {
-  const backgroundColor = euiTheme.colors.lightestShade;
+/**
+ * These variables are computationally expensive - do not call them outside `useEuiMemoizedStyles`
+ */
+export const euiCodeSyntaxVariables = (euiThemeContext: UseEuiTheme) => {
+  const { euiTheme, highContrastMode } = euiThemeContext;
+  const { backgroundColor, color } = euiCodeTextColors(euiThemeContext);
 
   return {
-    backgroundColor: backgroundColor,
-    color: makeHighContrastColor(euiTheme.colors.text)(backgroundColor),
-    inlineCodeColor: makeHighContrastColor(visColors[3])(backgroundColor),
-    selectedBackgroundColor: 'inherit',
-    commentColor: makeHighContrastColor(euiTheme.colors.subduedText)(
-      backgroundColor
-    ),
-    selectorTagColor: 'inherit',
-    stringColor: makeHighContrastColor(visColors[2])(backgroundColor),
-    tagColor: makeHighContrastColor(visColors[1])(backgroundColor),
-    nameColor: makeHighContrastColor(visColors[1])(backgroundColor),
-    numberColor: makeHighContrastColor(visColors[0])(backgroundColor),
-    keywordColor: makeHighContrastColor(visColors[3])(backgroundColor),
-    functionTitleColor: 'inherit',
-    typeColor: makeHighContrastColor(visColors[1])(backgroundColor),
-    attributeColor: 'inherit',
-    symbolColor: makeHighContrastColor(visColors[9])(backgroundColor),
-    paramsColor: 'inherit',
-    metaColor: makeHighContrastColor(euiTheme.colors.subduedText)(
-      backgroundColor
-    ),
-    titleColor: makeHighContrastColor(visColors[7])(backgroundColor),
-    sectionColor: makeHighContrastColor(visColors[9])(backgroundColor),
-    additionColor: makeHighContrastColor(visColors[0])(backgroundColor),
-    deletionColor: makeHighContrastColor(euiTheme.colors.danger)(
-      backgroundColor
-    ),
-    selectorClassColor: 'inherit',
-    selectorIdColor: 'inherit',
+    backgroundColor,
+    color,
+    inlineBackgroundColor: euiTheme.components.codeInlineBackground,
+    inlineCodeColor: euiTheme.components.codeInlineColor,
+    selectedBackgroundColor: euiTheme.components.codeBackgroundSelected,
+    commentColor: euiTheme.components.codeCommentColor,
+    selectorTagColor: euiTheme.components.codeSelectorColor,
+    stringColor: euiTheme.components.codeStringColor,
+    tagColor: euiTheme.components.codeTagColor,
+    nameColor: euiTheme.components.codeNameColor,
+    numberColor: euiTheme.components.codeNumberColor,
+    keywordColor: euiTheme.components.codeKeywordColor,
+    inlineCodeKeywordColor: euiTheme.components.codeInlineCodeKeywordColor,
+    functionTitleColor: euiTheme.components.codeFunctionTitleColor,
+    typeColor: euiTheme.components.codeTypeColor,
+    attributeColor: euiTheme.components.codeAttributeColor,
+    symbolColor: euiTheme.components.codeSymbolColor,
+    paramsColor: euiTheme.components.codeParamsColor,
+    metaColor: euiTheme.components.codeMetaColor,
+    titleColor: euiTheme.components.codeTitleColor,
+    sectionColor: euiTheme.components.codeSectionColor,
+    additionColor: euiTheme.components.codeAdditionColor,
+    deletionColor: euiTheme.components.codeDeletionColor,
+    selectorClassColor: euiTheme.components.codeSelectorClassColor,
+    selectorIdColor: euiTheme.components.codeSelectorIdColor,
 
     get tokensCss() {
       return `
   .token.punctuation:not(.interpolation-punctuation):not([class*='attr-']) {
-    opacity: .7;
+    opacity: ${highContrastMode ? '1' : '.7'};
   }
 
   .token.comment,

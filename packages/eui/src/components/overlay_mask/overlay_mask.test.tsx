@@ -45,7 +45,7 @@ describe('EuiOverlayMask', () => {
       baseElement.querySelector('.euiOverlayMask')!.className;
 
     expect(getClassName()).toMatchInlineSnapshot(
-      `"euiOverlayMask css-1hzbeld-euiOverlayMask-aboveHeader hello"`
+      `"euiOverlayMask css-9s0dmo-euiOverlayMask-aboveHeader hello"`
     );
 
     rerender(
@@ -54,7 +54,7 @@ describe('EuiOverlayMask', () => {
       </EuiOverlayMask>
     );
     expect(getClassName()).toMatchInlineSnapshot(
-      `"euiOverlayMask css-1j0pa91-euiOverlayMask-belowHeader world"`
+      `"euiOverlayMask css-1wv6ei5-euiOverlayMask-belowHeader world"`
     );
   });
 
@@ -88,7 +88,7 @@ describe('EuiOverlayMask', () => {
   // it while the component is still updating.
   // TODO: https://github.com/elastic/eui/issues/6998
   // Note - this needs to be the last test in the suite, otherwise subsequent overlay masks stop working
-  testOnReactVersion(['16', '17'])(
+  testOnReactVersion('17')(
     'throws if a non-string property value is passed',
     () => {
       // @ts-expect-error expected error

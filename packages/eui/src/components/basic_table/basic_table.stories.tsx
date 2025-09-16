@@ -76,7 +76,7 @@ for (let i = 0; i < 5; i++) {
     id: i + 1,
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
-    online: faker.datatype.boolean(),
+    online: i === 0 ? true : faker.datatype.boolean(),
     location: {
       city: faker.location.city(),
       country: faker.location.country(),
@@ -114,6 +114,9 @@ const columns: Array<EuiBasicTableColumn<User>> = [
   {
     field: 'location',
     name: 'Location',
+    nameTooltip: {
+      content: 'The city and country in which this person resides',
+    },
     truncateText: true,
     textOnly: true,
     render: (location: User['location']) => {
@@ -124,6 +127,9 @@ const columns: Array<EuiBasicTableColumn<User>> = [
     field: 'online',
     name: 'Online',
     dataType: 'boolean',
+    nameTooltip: {
+      content: 'Current online status',
+    },
     render: (online: User['online']) => {
       const color = online ? 'success' : 'danger';
       const label = online ? 'Online' : 'Offline';
@@ -242,6 +248,29 @@ export const Playground: Story = {
   render: (args: EuiBasicTableProps<User>) => <StatefulPlayground {...args} />,
 };
 
+export const MarkedRow: Story = {
+  ...Playground,
+  parameters: {
+    codeSnippet: {
+      snippet: `
+      <EuiBasicTable rowProps={(user: User) => ({
+        className: user.online ? 'euiTableRow--marked' : '',
+      })}  />`,
+    },
+    controls: {
+      include: ['rowProps', 'columns', 'items'],
+    },
+  },
+  args: {
+    ...Playground.args,
+    rowProps: (user: User) => ({
+      className: user.online ? 'euiTableRow--marked' : '',
+      onClick: () => {},
+    }),
+  },
+  render: (args: EuiBasicTableProps<User>) => <StatefulPlayground {...args} />,
+};
+
 export const ExpandedRow: Story = {
   parameters: {
     controls: {
@@ -317,6 +346,15 @@ export const ExpandedNestedTable: Story = {
         !selectable ? 'User is currently offline' : '',
       onSelectionChange: action('onSelectionChange'),
     },
+  },
+};
+
+export const HighContrastMobile: Story = {
+  tags: ['vrt-only'],
+  globals: { highContrastMode: true },
+  args: {
+    ...ExpandedRow.args,
+    responsiveBreakpoint: true,
   },
 };
 

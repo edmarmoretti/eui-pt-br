@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import { type ReactNode, JSX } from 'react';
 import { css, Global } from '@emotion/react';
 import { useThemeConfig, ErrorCauseBoundary } from '@docusaurus/theme-common';
 import {
@@ -15,7 +15,12 @@ import SearchBar from '@theme-original/SearchBar';
 import NavbarMobileSidebarToggle from '@theme-original/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme-original/Navbar/Logo';
 import NavbarSearch from '@theme-original/Navbar/Search';
-import { euiFocusRing, useEuiMemoizedStyles, UseEuiTheme } from '@elastic/eui';
+import {
+  euiFocusRing,
+  euiTextTruncate,
+  useEuiMemoizedStyles,
+  UseEuiTheme,
+} from '@elastic/eui';
 import {
   euiFormControlText,
   euiFormVariables,
@@ -24,13 +29,13 @@ import {
 import euiVersions from '@site/static/versions.json';
 
 import { VersionSwitcher } from '../../../components/version_switcher';
+import { ThemeSwitcher } from '../../../components/theme_switcher';
 
 const DOCS_PATH = '/docs';
 
 const placeHolderStyles = (content: string) => `
   &::-webkit-input-placeholder { ${content} }
   &::-moz-placeholder { ${content} }
-  &:-ms-input-placeholder { ${content} }
   &:-moz-placeholder { ${content} }
   &::placeholder { ${content} }
 `;
@@ -66,6 +71,10 @@ const getStyles = (euiThemeContext: UseEuiTheme) => {
 
       @media (min-width: 997px) {
         gap: ${euiTheme.size.l};
+      }
+
+      .navbar__link {
+        ${euiTextTruncate()}
       }
     `,
     navbarItemsRight: css`
@@ -121,6 +130,11 @@ const getStyles = (euiThemeContext: UseEuiTheme) => {
       }
     `,
     versionSwitcher: css`
+      @media (max-width: 996px) {
+        display: none;
+      }
+    `,
+    themeSwitcher: css`
       @media (max-width: 996px) {
         display: none;
       }
@@ -194,8 +208,8 @@ export default function NavbarContent(): JSX.Element {
 
   return (
     <>
-      {/* adding search styles globally to ensure they are available for usage on 
-      homepage as well without duplication. NOTE: swizzle/wrap does not work for 
+      {/* adding search styles globally to ensure they are available for usage on
+      homepage as well without duplication. NOTE: swizzle/wrap does not work for
       the plugin SearchBar component */}
       <Global styles={styles.search} />
       <NavbarContentLayout
@@ -218,6 +232,12 @@ export default function NavbarContent(): JSX.Element {
             )}
             <NavbarColorModeToggle className="colorModeToggle" />
             <NavbarItems items={rightItems} />
+
+            {isBrowser && (
+              <div css={styles.themeSwitcher}>
+                <ThemeSwitcher />
+              </div>
+            )}
           </>
         }
       />

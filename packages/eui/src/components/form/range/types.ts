@@ -63,7 +63,7 @@ export interface _SharedRangeDataStructures {
   tickInterval?: number;
   /**
    * Create colored indicators for certain intervals.
-   * An array of #EuiRangeLevel objects
+   * An array of {@link EuiRangeLevel} objects
    */
   levels?: EuiRangeLevel[];
 }
@@ -131,6 +131,7 @@ export interface _SharedRangeInputProps {
     | 'isOpen'
     | 'closePopover'
     | 'disableFocusTrap'
+    | 'ownFocus'
     | 'popoverScreenReaderText'
     | 'fullWidth'
   >;

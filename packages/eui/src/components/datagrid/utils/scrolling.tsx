@@ -16,9 +16,14 @@ import React, {
 } from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
 
+import { useEuiMemoizedStyles } from '../../../services';
+import { logicalStyles } from '../../../global_styling';
 import { DataGridCellPopoverContext } from '../body/cell';
 import { EuiDataGridStyle } from '../data_grid_types';
 import { DataGridFocusContext } from './focus';
+import { euiDataGridScrollBarStyles } from './scrolling.styles';
+
+const ACTIONS_MENU_HEIGHT = 21;
 
 interface ScrollCellIntoView {
   rowIndex: number;
@@ -32,6 +37,7 @@ interface Dependencies {
   footerRowHeight: number;
   visibleRowCount: number;
   hasStickyFooter: boolean;
+  canDragAndDropColumns?: boolean;
 }
 
 /**
@@ -80,6 +86,7 @@ export const useScrollCellIntoView = ({
   footerRowHeight,
   visibleRowCount,
   hasStickyFooter,
+  canDragAndDropColumns,
 }: Dependencies) => {
   const scrollCellIntoView = useCallback(
     // Note: in order for this UX to work correctly with react-window's APIs,
@@ -113,6 +120,12 @@ export const useScrollCellIntoView = ({
       }
       if (!cell) return; // If for some reason we can't find a valid cell, short-circuit
 
+      const isStickyHeader = rowIndex === -1;
+      const isStickyFooter = hasStickyFooter && rowIndex === visibleRowCount;
+      const isDraggableHeader = canDragAndDropColumns && isStickyHeader;
+      const isDraggableHeaderCell =
+        isDraggableHeader && cell.offsetLeft === 0 && colIndex !== 0;
+
       // We now manually adjust scroll positioning around the cell to ensure it's
       // fully in view on all sides. A couple of notes on this:
       // 1. We're avoiding relying on react-window's scrollToItem for this because it also
@@ -125,8 +138,14 @@ export const useScrollCellIntoView = ({
       let adjustedScrollTop;
       let adjustedScrollLeft;
 
+      // Draggable header columns are nested within EuiDraggables,
+      // and their offsetLeft needs to go up a wrapper as a result
+      const cellLeftPos = isDraggableHeaderCell
+        ? (cell.offsetParent as HTMLDivElement).offsetLeft
+        : cell.offsetLeft;
+
       // Check if the cell's right side is outside the current scrolling bounds
-      const cellRightPos = cell.offsetLeft + cell.offsetWidth;
+      const cellRightPos = cellLeftPos + cell.offsetWidth;
       const rightScrollBound = scrollLeft + outerGridRef.current.clientWidth; // Note: We specifically want clientWidth and not offsetWidth here to account for scrollbars
       const rightWidthOutOfView = cellRightPos - rightScrollBound;
       if (rightWidthOutOfView > 0) {
@@ -134,7 +153,6 @@ export const useScrollCellIntoView = ({
       }
 
       // Check if the cell's left side is outside the current scrolling bounds
-      const cellLeftPos = cell.offsetLeft;
       const leftScrollBound = adjustedScrollLeft ?? scrollLeft;
       const leftWidthOutOfView = leftScrollBound - cellLeftPos;
       if (leftWidthOutOfView > 0) {
@@ -145,9 +163,6 @@ export const useScrollCellIntoView = ({
 
       // Skip top/bottom scroll adjustments for sticky headers & footers
       // since they should always be in view vertically
-      const isStickyHeader = rowIndex === -1;
-      const isStickyFooter = hasStickyFooter && rowIndex === visibleRowCount;
-
       if (!isStickyHeader && !isStickyFooter) {
         const parentRow = cell.parentNode as HTMLDivElement;
 
@@ -167,7 +182,9 @@ export const useScrollCellIntoView = ({
         if (topHeightOutOfView > 0) {
           // Note: This overrides the bottom side being out of bounds, as we want to prefer
           // showing the top-left corner of items if a cell is larger than the grid container
-          adjustedScrollTop = cellTopPos - headerRowHeight;
+          // Additionally, add an offset for the actions menu
+          adjustedScrollTop =
+            cellTopPos - headerRowHeight - ACTIONS_MENU_HEIGHT;
         }
       }
 
@@ -188,6 +205,7 @@ export const useScrollCellIntoView = ({
       footerRowHeight,
       visibleRowCount,
       hasStickyFooter,
+      canDragAndDropColumns,
     ]
   );
 
@@ -227,6 +245,7 @@ export const useScrollBars = (
   // If the grid scrolls or has scrollbars, we add custom border overlays
   // (since borders are normally set by cells) to ensure our grid body has
   // ending borders regardless of scroll position
+  const styles = useEuiMemoizedStyles(euiDataGridScrollBarStyles);
   const scrollBorderOverlay = useMemo(() => {
     if (!hasHorizontalScroll && !hasVerticalScroll) {
       return null; // Nothing to render if the grid doesn't scroll
@@ -235,17 +254,27 @@ export const useScrollBars = (
       return null; // Nothing to render if the grid doesn't use borders
     }
     return (
-      <div className="euiDataGrid__scrollOverlay" role="presentation">
+      <div
+        css={styles.euiDataGrid__scrollOverlay}
+        className="euiDataGrid__scrollOverlay"
+        role="presentation"
+      >
         {scrollBarHeight > 0 && (
           <div
+            css={styles.euiDataGrid__scrollBarOverlayBottom}
             className="euiDataGrid__scrollBarOverlayBottom"
-            style={{ bottom: scrollBarHeight, right: 0 }}
+            style={logicalStyles({ bottom: scrollBarHeight })}
           />
         )}
         {scrollBarWidth > 0 && (
           <div
+            css={styles.euiDataGrid__scrollBarOverlayRight}
             className="euiDataGrid__scrollBarOverlayRight"
-            style={{ bottom: scrollBarHeight, right: scrollBarWidth }}
+            style={logicalStyles({
+              top: 0,
+              bottom: scrollBarHeight,
+              right: scrollBarWidth,
+            })}
           />
         )}
       </div>
@@ -256,6 +285,7 @@ export const useScrollBars = (
     scrollBarHeight,
     scrollBarWidth,
     borderStyle,
+    styles,
   ]);
 
   return {

@@ -7,20 +7,23 @@
  */
 
 import React, { forwardRef, useContext, useMemo } from 'react';
+import {
+  type EuiThemeColorModeStandard,
+  type EuiThemeHighContrastMode,
+  type EuiThemeModifications,
+  type EuiThemeComputed,
+  COLOR_MODES_STANDARD,
+} from '@elastic/eui-theme-common';
 
 import {
   EuiThemeContext,
   EuiModificationsContext,
   EuiColorModeContext,
+  EuiHighContrastModeContext,
   defaultComputedTheme,
   EuiNestedThemeContext,
 } from './context';
 import { emitEuiProviderWarning } from './warning';
-import {
-  EuiThemeColorModeStandard,
-  EuiThemeModifications,
-  EuiThemeComputed,
-} from './types';
 
 const providerMessage = `\`EuiProvider\` is missing which can result in negative effects.
 Wrap your component in \`EuiProvider\`: https://ela.st/euiprovider.`;
@@ -28,15 +31,18 @@ Wrap your component in \`EuiProvider\`: https://ela.st/euiprovider.`;
 /**
  * Hook for function components
  */
+
 export interface UseEuiTheme<T extends {} = {}> {
   euiTheme: EuiThemeComputed<T>;
   colorMode: EuiThemeColorModeStandard;
+  highContrastMode: EuiThemeHighContrastMode;
   modifications: EuiThemeModifications<T>;
 }
 
 export const useEuiTheme = <T extends {} = {}>(): UseEuiTheme<T> => {
   const theme = useContext(EuiThemeContext);
   const colorMode = useContext(EuiColorModeContext);
+  const highContrastMode = useContext(EuiHighContrastModeContext);
   const modifications = useContext(EuiModificationsContext);
 
   const isFallback = theme === defaultComputedTheme;
@@ -48,9 +54,10 @@ export const useEuiTheme = <T extends {} = {}>(): UseEuiTheme<T> => {
     () => ({
       euiTheme: theme as EuiThemeComputed<T>,
       colorMode,
+      highContrastMode,
       modifications: modifications as EuiThemeModifications<T>,
     }),
-    [theme, colorMode, modifications]
+    [theme, colorMode, highContrastMode, modifications]
   );
 
   return assembledTheme;
@@ -115,4 +122,14 @@ export const useEuiThemeCSSVariables = () => {
     setNearestThemeCSSVariables,
     themeCSSVariables,
   };
+};
+
+/**
+ * Checks whether the current active `colorMode` is set to `DARK`;
+ * In case of nested providers this returns the value of the nearest provider context.
+ */
+export const useIsDarkMode = () => {
+  const { colorMode } = useEuiTheme();
+
+  return colorMode === COLOR_MODES_STANDARD.dark;
 };

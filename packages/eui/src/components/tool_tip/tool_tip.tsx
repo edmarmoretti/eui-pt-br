@@ -17,6 +17,7 @@ import classNames from 'classnames';
 
 import { CommonProps } from '../common';
 import { findPopoverPosition, htmlIdGenerator, keys } from '../../services';
+import { type EuiPopoverPosition } from '../../services/popover';
 import { enqueueStateChange } from '../../services/react';
 import { EuiResizeObserver } from '../observer/resize_observer';
 import { EuiPortal } from '../portal';
@@ -30,6 +31,7 @@ export const POSITIONS = ['top', 'right', 'bottom', 'left'] as const;
 const DISPLAYS = ['inlineBlock', 'block'] as const;
 
 export type ToolTipDelay = 'regular' | 'long';
+export const DEFAULT_TOOLTIP_OFFSET = 16;
 
 const delayToMsMap: { [key in ToolTipDelay]: number } = {
   regular: 250,
@@ -105,11 +107,26 @@ export interface EuiToolTipProps extends CommonProps {
    * When nesting an `EuiTooltip` in a scrollable container, `repositionOnScroll` should be `true`
    */
   repositionOnScroll?: boolean;
+
+  /**
+   * Disables the tooltip content being read by screen readers when focusing the trigger element.
+   * Do not use when the trigger `aria-label` and tooltip `content` can be rephrased to be standalone
+   * information (action & additional information).
+   * Enable this prop only when the trigger has a descriptive label that either duplicates or includes
+   * the tooltip content and would result in repetitive output.
+   * @default false
+   */
+  disableScreenReaderOutput?: boolean;
   /**
    * If supplied, called when mouse movement causes the tool tip to be
    * hidden.
    */
   onMouseOut?: (event: ReactMouseEvent<HTMLSpanElement, MouseEvent>) => void;
+
+  /**
+   * Offset in pixels from the anchor. Defaults to 16.
+   */
+  offset?: number;
 }
 
 interface State {
@@ -117,7 +134,7 @@ interface State {
   hasFocus: boolean;
   calculatedPosition: ToolTipPositions;
   toolTipStyles: ToolTipStyles;
-  arrowStyles: undefined | { left: number; top: number };
+  arrowStyles?: Record<EuiPopoverPosition, number | string>;
   id: string;
 }
 
@@ -140,6 +157,7 @@ export class EuiToolTip extends Component<EuiToolTipProps, State> {
     position: 'top',
     delay: 'regular',
     display: 'inlineBlock',
+    disableScreenReaderOutput: false,
   };
 
   clearAnimationTimeout = () => {
@@ -208,6 +226,7 @@ export class EuiToolTip extends Component<EuiToolTipProps, State> {
 
   positionToolTip = () => {
     const requestedPosition = this.props.position;
+    const offset = this.props.offset ?? DEFAULT_TOOLTIP_OFFSET;
 
     if (!this.anchor || !this.popover) {
       return;
@@ -217,7 +236,7 @@ export class EuiToolTip extends Component<EuiToolTipProps, State> {
       anchor: this.anchor,
       popover: this.popover,
       position: requestedPosition,
-      offset: 16, // offset popover 16px from the anchor
+      offset,
       arrowConfig: {
         arrowWidth: 12,
         arrowBuffer: 4,
@@ -280,6 +299,10 @@ export class EuiToolTip extends Component<EuiToolTipProps, State> {
 
   onEscapeKey = (event: React.KeyboardEvent<HTMLSpanElement>) => {
     if (event.key === keys.ESCAPE) {
+      // when the tooltip is only visual, we don't want it to add an additional key stop
+      if (!this.props.disableScreenReaderOutput) {
+        if (this.state.visible) event.stopPropagation();
+      }
       this.setState({ hasFocus: false }); // Allows mousing over back into the tooltip to work correctly
       this.hideToolTip();
     }
@@ -314,6 +337,7 @@ export class EuiToolTip extends Component<EuiToolTipProps, State> {
       delay,
       display,
       repositionOnScroll,
+      disableScreenReaderOutput = false,
       ...rest
     } = this.props;
 
@@ -333,7 +357,8 @@ export class EuiToolTip extends Component<EuiToolTipProps, State> {
           onKeyDown={this.onEscapeKey}
           onMouseOver={this.showToolTip}
           onMouseOut={this.onMouseOut}
-          id={id}
+          // `id` defines if the trigger and tooltip are automatically linked via `aria-describedby`.
+          id={!disableScreenReaderOutput ? id : undefined}
           className={anchorClasses}
           display={display!}
           isVisible={visible}

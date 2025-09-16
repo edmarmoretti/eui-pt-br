@@ -22,21 +22,12 @@ import {
   EuiDataGridRowHeightOption,
   EuiDataGridRowHeightsOptions,
   EuiDataGridScrollAnchorRow,
-  EuiDataGridStyle,
-  EuiDataGridStyleCellPaddings,
   ImperativeGridApi,
 } from '../data_grid_types';
 import { DataGridSortedContext } from './sorting';
 
-// TODO: Once JS variables are available, use them here instead of hard-coded maps
-export const cellPaddingsMap: Record<EuiDataGridStyleCellPaddings, number> = {
-  s: 4,
-  m: 6,
-  l: 8,
-};
-
-export const AUTO_HEIGHT = 'auto';
-export const DEFAULT_ROW_HEIGHT = 34;
+const AUTO_HEIGHT = 'auto';
+const DEFAULT_ROW_HEIGHT = 34;
 
 export type RowHeightUtilsType = RowHeightUtils | RowHeightVirtualizationUtils;
 
@@ -62,7 +53,7 @@ export class RowHeightUtils {
     heightOption: EuiDataGridRowHeightOption,
     defaultHeight: number,
     rowIndex?: number,
-    isRowHeightOverride?: boolean
+    rowHeightsOptions?: EuiDataGridRowHeightsOptions
   ) {
     if (isObject(heightOption) && heightOption.height) {
       return Math.max(heightOption.height, defaultHeight);
@@ -73,8 +64,13 @@ export class RowHeightUtils {
     }
 
     if (isObject(heightOption) && heightOption.lineCount) {
-      if (isRowHeightOverride) {
-        return this.getRowHeight(rowIndex!) || defaultHeight; // lineCount overrides are stored in the heights cache
+      const { autoBelowLineCount } = rowHeightsOptions || {}; // uses auto height cache
+      const isRowHeightOverride = // lineCount overrides are stored in the heights cache
+        rowIndex != null &&
+        this.isRowHeightOverride(rowIndex, rowHeightsOptions);
+
+      if (autoBelowLineCount || isRowHeightOverride) {
+        return this.getRowHeight(rowIndex!) || defaultHeight;
       } else {
         return defaultHeight; // default lineCount height is set in minRowHeight state in grid_row_body
       }
@@ -88,25 +84,6 @@ export class RowHeightUtils {
   }
 
   /**
-   * Styles utils
-   */
-
-  private styles: {
-    paddingTop: number;
-    paddingBottom: number;
-  } = {
-    paddingTop: 0,
-    paddingBottom: 0,
-  };
-
-  cacheStyles(gridStyles: EuiDataGridStyle) {
-    this.styles = {
-      paddingTop: cellPaddingsMap[gridStyles.cellPadding || 'm'],
-      paddingBottom: cellPaddingsMap[gridStyles.cellPadding || 'm'],
-    };
-  }
-
-  /**
    * Height types
    */
 
@@ -117,8 +94,9 @@ export class RowHeightUtils {
     if (option === AUTO_HEIGHT) {
       return 'auto';
     }
-    if (this.getLineCount(option) != null) {
-      return 'lineCount';
+    const lineCount = this.getLineCount(option);
+    if (lineCount != null) {
+      return lineCount > 1 ? 'lineCount' : 'default';
     }
     return 'numerical';
   };
@@ -131,18 +109,23 @@ export class RowHeightUtils {
     return isObject(option) ? option.lineCount : undefined;
   }
 
-  calculateHeightForLineCount(
-    cellRef: HTMLElement,
-    lineCount: number,
-    excludePadding?: boolean
-  ) {
+  calculateHeightForLineCount(cellRef: HTMLElement, lineCount: number) {
     const computedStyles = window.getComputedStyle(cellRef, null);
     const lineHeight = parseInt(computedStyles.lineHeight, 10);
     const contentHeight = Math.ceil(lineCount * lineHeight);
+    const padding = parseInt(computedStyles.paddingTop, 10);
 
-    return excludePadding
-      ? contentHeight
-      : contentHeight + this.styles.paddingTop + this.styles.paddingBottom;
+    // Assumes both padding-top and bottom are the same
+    return contentHeight + padding * 2;
+  }
+
+  isAutoBelowLineCount(
+    options?: EuiDataGridRowHeightsOptions,
+    option?: EuiDataGridRowHeightOption
+  ) {
+    if (!options?.autoBelowLineCount) return false;
+    if ((this.getLineCount(option) ?? 0) > 1) return true;
+    return false;
   }
 
   /**
@@ -156,6 +139,9 @@ export class RowHeightUtils {
     const height = this.getRowHeightOption(rowIndex, rowHeightsOptions);
 
     if (height === AUTO_HEIGHT) {
+      return true;
+    }
+    if (this.isAutoBelowLineCount(rowHeightsOptions, height)) {
       return true;
     }
     return false;
@@ -330,7 +316,6 @@ export class RowHeightVirtualizationUtils extends RowHeightUtils {
 export const useRowHeightUtils = ({
   virtualization,
   rowHeightsOptions,
-  gridStyles,
   columns,
 }: {
   virtualization?:
@@ -341,7 +326,6 @@ export const useRowHeightUtils = ({
         gridItemsRenderedRef: MutableRefObject<GridOnItemsRenderedProps | null>;
       };
   rowHeightsOptions?: EuiDataGridRowHeightsOptions;
-  gridStyles: EuiDataGridStyle;
   columns: EuiDataGridColumn[];
 }) => {
   const forceRenderRef = useLatest(useForceRender());
@@ -376,13 +360,6 @@ export const useRowHeightUtils = ({
     rowHeightUtils,
     forceRenderRef,
   ]);
-
-  // Re-cache styles whenever grid density changes
-  useEffect(() => {
-    rowHeightUtils.cacheStyles({
-      cellPadding: gridStyles.cellPadding,
-    });
-  }, [gridStyles.cellPadding, rowHeightUtils]);
 
   // Update row heights map to remove hidden columns whenever orderedVisibleColumns change
   useEffect(() => {
@@ -431,7 +408,7 @@ export const useDefaultRowHeight = ({
           rowHeightOption,
           minRowHeight,
           correctRowIndex,
-          rowHeightUtils.isRowHeightOverride(correctRowIndex, rowHeightsOptions)
+          rowHeightsOptions
         );
       }
 

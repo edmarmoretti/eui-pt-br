@@ -8,7 +8,7 @@
 
 import { css } from '@emotion/react';
 
-import { UseEuiTheme, transparentize } from '../../services';
+import { UseEuiTheme } from '../../services';
 import {
   logicalCSS,
   logicalShorthandCSS,
@@ -26,7 +26,7 @@ export const euiFilterSelectItemStyles = (euiThemeContext: UseEuiTheme) => {
     text-decoration: underline;
 
     &:disabled {
-      background-color: ${transparentize(euiTheme.colors.disabled, 0.1)};
+      background-color: ${euiTheme.components.filterSelectItemBackgroundFocusDisabled};
     }
   `;
 
@@ -42,10 +42,10 @@ export const euiFilterSelectItemStyles = (euiThemeContext: UseEuiTheme) => {
       ${euiFontSize(euiThemeContext, 's')}
       ${logicalTextAlignCSS('left')}
 
-      color: ${euiTheme.colors.text};
+      color: ${euiTheme.colors.textParagraph};
       ${logicalCSS(
         'border-bottom',
-        `${euiTheme.border.width.thin} solid ${euiTheme.colors.lightestShade}`
+        `${euiTheme.border.width.thin} solid ${euiTheme.colors.borderBaseSubdued}`
       )}
 
       &:hover {
@@ -60,7 +60,7 @@ export const euiFilterSelectItemStyles = (euiThemeContext: UseEuiTheme) => {
       &:disabled {
         cursor: not-allowed;
         text-decoration: none;
-        color: ${euiTheme.colors.disabledText};
+        color: ${euiTheme.colors.textDisabled};
       }
     `,
     isFocused: css`

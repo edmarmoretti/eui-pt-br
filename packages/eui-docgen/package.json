@@ -5,7 +5,8 @@
   "scripts": {
     "clear": "rimraf dist/ lib/",
     "generate": "ts-node src/main.ts",
-    "build": "tsc && yarn generate"
+    "build": "tsc && yarn generate && yarn typedoc",
+    "typedoc": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -14,13 +15,15 @@
   },
   "private": true,
   "dependencies": {
+    "@elastic/eui": "workspace:^",
     "glob": "^11.0.0",
     "react-docgen-typescript": "^2.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "~5.5.4"
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "typedoc": "^0.28.3"
   },
   "files": [
     "dist",

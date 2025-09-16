@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, JSX } from 'react';
 import { css } from '@emotion/react';
-import { useDocsSidebar } from '@docusaurus/theme-common/internal';
+import { useDocsSidebar } from '@docusaurus/plugin-content-docs/client';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import BackToTopButton from '@theme-original/BackToTopButton';
 import type { Props } from '@theme-original/DocRoot/Layout';
@@ -40,7 +40,7 @@ export default function DocRootLayout({ children }: Props): JSX.Element {
           window.location.hash.substring(1),
         );
         element?.scrollIntoView(true);
-      }, 0);
+      }, 100);
     }
   }, [isBrowser]);
 

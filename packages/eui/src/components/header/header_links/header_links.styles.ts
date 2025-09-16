@@ -22,6 +22,9 @@ export const euiHeaderLinksStyles = ({ euiTheme }: UseEuiTheme) => {
       align-items: center;
     `,
     gutterSizes: {
+      xxs: css`
+        gap: ${euiTheme.size.xs};
+      `,
       xs: css`
         gap: ${euiTheme.size.s};
       `,
@@ -39,7 +42,6 @@ export const euiHeaderLinksStyles = ({ euiTheme }: UseEuiTheme) => {
       .euiHeaderLink {
         display: block;
         ${logicalCSS('width', '100%')}
-        padding: ${euiTheme.size.s};
 
         /* EuiButtons normally center, which makes sense. In mobile though we want
          * them to align left. This is a safe hack given the specificity. */
